@@ -79,7 +79,7 @@ func mainRun() func(cmd *cobra.Command, args []string) {
 			server.WithPrefixes([]string{global.PrefixAPIV2}),
 			server.WithDeployMode(version.DeployMode()),
 		}
-		if version.DeployMode() != global.DeployModeTencentFree {
+		if global.GetEnableLicenseCheckBool() && version.DeployMode() != global.DeployModeTencentFree {
 			opts = append(opts, server.WithMiddleware(mds.LicenseCheck(
 				//corekg api
 				"corekg.CheckLicense",

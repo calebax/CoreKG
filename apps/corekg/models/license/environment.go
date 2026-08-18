@@ -65,6 +65,33 @@ func (k *KubernetesEnvironment) GetRawLicense(ctx context.Context) (string, erro
 
 }
 
+// PhysicalEnvironment 实现了在物理机（非 K8s）环境中获取数据
+type PhysicalEnvironment struct {
+	LicensePath string
+}
+
+func (p *PhysicalEnvironment) GetUID(ctx context.Context) (string, error) {
+	// TODO: 生成物理机的稳定唯一标识，暂以占位值返回，避免启动报错。
+	return "physical-uid", nil
+}
+
+// GetRawLicense 优先从 core_settings 读取，未配置时回退到本地 license 文件
+func (p *PhysicalEnvironment) GetRawLicense(ctx context.Context) (string, error) {
+	logs.DebugContextf(ctx, "Get license from core_setting corekg:raw_license")
+	lic, err := settings.GetValue("corekg", "raw_license")
+	if err == nil {
+		return lic, nil
+	}
+	logs.WarnContextf(ctx, "Get coresettings'RawLicense error: %v", err)
+	logs.DebugContextf(ctx, "GetRawLicense from %v", p.LicensePath)
+	bts, err := os.ReadFile(p.LicensePath)
+	if err != nil {
+		logs.ErrorContextf(ctx, "Failed to read license file %s: %v", p.LicensePath, err)
+		return "", fmt.Errorf("failed to read license file %s: %w", p.LicensePath, err)
+	}
+	return string(bts), nil
+}
+
 // NewEnvironment 根据环境类型创建对应的 Environment 实例
 func NewEnvironment(envType EnvType) (Environment, error) {
 	switch envType {
@@ -72,7 +99,15 @@ func NewEnvironment(envType EnvType) (Environment, error) {
 		return &KubernetesEnvironment{
 			LicensePath: "/etc/sys/license/license.dat",
 		}, nil
+	case EnvTypePhysical:
+		return &PhysicalEnvironment{
+			LicensePath: "/etc/sys/license/license.dat",
+		}, nil
 	default:
-		return nil, fmt.Errorf("unknown environment type: %s", envType)
+		// 未明确指定环境类型（如本地调试）时回退到物理机环境，避免未知环境类型报错。
+		logs.Warnf("unknown environment type %q, fallback to physical", envType)
+		return &PhysicalEnvironment{
+			LicensePath: "/etc/sys/license/license.dat",
+		}, nil
 	}
 }
