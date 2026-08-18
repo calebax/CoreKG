@@ -1,10 +1,10 @@
 # core_setting.yaml 样例：CoreKG 系统设置项（core_settings 表）。
 # 由 keinit 的 update-setting / init-mysql 通过 --setting-file 读取并 upsert 到 core_settings 表。
 # 用法：cp core_setting.yaml.example core_setting.yaml；按需修改占位值（change-me）。
-# 默认连接信息与 docker-compose.yml.example 的本地默认值一致：
+# 默认连接信息与 docker-compose.yml 的本地默认值一致：
 #   Redis localhost:6381；ES elastic/123456@localhost:9202；MinIO minioadmin/123456@localhost:9002；
 #   Nebula root/123456@localhost:9669；MySQL root/123456@localhost:3308。
-# 密钥类占位值均为本地开发默认值，与 docker-compose.yml.example 保持一致，请勿用于生产。
+# 密钥类占位值均为本地开发默认值，与 docker-compose.yml 保持一致，请勿用于生产。
 
 - group: core
   key: redis

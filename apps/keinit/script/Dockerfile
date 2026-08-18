@@ -31,7 +31,7 @@ COPY ./scripts/mysqlcoze /app/scripts/mysqlcoze
 COPY ./scripts/es /app/scripts/es
 COPY ./scripts/config /app/scripts/config
 # 原私有镜像 minio-init 初始化脚本改为由 docker-compose 中的 minio/mc init 容器完成。
-# 见仓库根 docker-compose.yml.example 的 minio-init 服务。
+# 见仓库根 docker-compose.yml 的 minio-init 服务。
 WORKDIR /app/
 
 ENTRYPOINT ["/usr/local/bin/keinit"]

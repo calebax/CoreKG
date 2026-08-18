@@ -20,13 +20,10 @@
 ## 2. 快速启动
 
 ```bash
-# 1) 生成本地 compose 文件（已由仓库提供 docker-compose.yml / .example）
-cp docker-compose.yml.example docker-compose.yml
-
-# 2) 启动全部基础依赖
+# 1) 启动全部基础依赖（本仓库已提供固定默认值的 docker-compose.yml）
 docker compose up -d
 
-# 3) 等待 minio-init 完成 bucket 初始化后确认状态
+# 2) 等待 minio-init 完成 bucket 初始化后确认状态
 docker compose ps
 ```
 

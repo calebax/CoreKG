@@ -55,7 +55,6 @@ make push-image APP=keapi BUILD_PLATFORMS='linux/amd64,linux/arm64' BUILDER=core
 ### 本地依赖（MySQL / ES / Redis / MinIO / NATS）
 
 ```bash
-cp docker-compose.yml.example docker-compose.yml
 docker compose up -d
 ```
 

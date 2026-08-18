@@ -138,8 +138,8 @@ release-windows:
 	cd bundles/${APP_VERSION} && zip dist_windows.zip main.exe
 	qshell rput -w ckeyer ${APP}/${APP_VERSION}/dist_windows.zip ./bundles/${APP_VERSION}/dist_windows.zip
 
-# 本地开发依赖：优先使用 docker compose（见 docker-compose.yml.example）。
-# 以下 target 仅作兼容保留，密码等默认值与 docker-compose.yml.example 保持一致。
+# 本地开发依赖：优先使用 docker compose（见根目录 docker-compose.yml）。
+# 以下 target 仅作兼容保留，密码等默认值与 docker-compose.yml 保持一致。
 dev-mysql:
 	docker compose up -d mysql
 

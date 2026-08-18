@@ -1,9 +1,9 @@
-# CoreKG 本地开发依赖编排示例。
+# CoreKG 本地开发依赖编排。
 # 用法：
-#   cp docker-compose.yml.example docker-compose.yml
 #   docker compose up -d
+#   docker compose ps
 #
-# 生产环境请勿使用本文件；所有凭据均为本地开发默认值（欢迎直接使用）。
+# 生产环境请勿使用本文件；所有凭据均为本地开发默认值，私有化部署请通过 Helm values 覆盖。
 #
 # 说明：
 #   - 为规避宿主机上可能已占用的默认端口，宿主机端口在容器默认端口基础上统一 +2：
@@ -51,12 +51,14 @@ services:
       - es_data:/usr/share/elasticsearch/data
       - es_plugins:/usr/share/elasticsearch/plugins
 
-  # ES 初始化：在 ES 启动前安装 IK 分词插件（ik_max_word / ik_smart）
+  # ES 初始化：在 ES 启动前幂等安装 IK 分词插件（ik_max_word / ik_smart）。
+  # 使用仓库 scripts/init-image/ 构建的统一初始化镜像（corekg-init:latest）。
+  #   构建：docker build -t corekg-init:latest -f scripts/init-image/Dockerfile scripts/init-image
+  # 插件通过 es_plugins 命名卷持久化，重启后 es-init 会检测到已安装而直接成功退出。
   es-init:
-    image: elasticsearch:8.18.1
+    image: corekg-init:latest
     container_name: corekg-es-init
-    entrypoint: elasticsearch-plugin
-    command: ["install", "--batch", "https://get.infini.cloud/elasticsearch/analysis-ik/8.18.1"]
+    command: ["es-init"]
     volumes:
       - es_plugins:/usr/share/elasticsearch/plugins
     restart: "no"

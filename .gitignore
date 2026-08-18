@@ -127,8 +127,8 @@ clients/**/config/*.yml
 apps/pipeline/config/*
 !apps/pipeline/config/*.example
 
-# 本地编排文件（提供 docker-compose.yml.example）
-docker-compose.yml
+# 本地编排文件：docker-compose.yml 为固定默认值，直接入库；
+# 其余 compose 文件名变体（非本仓库约定）保持忽略，避免误提交。
 docker-compose.yaml
 docker-compose.*.yml
 docker-compose.*.yaml

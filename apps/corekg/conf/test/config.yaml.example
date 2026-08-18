@@ -1,7 +1,7 @@
 # CoreKG 聚合服务本地开发配置示例。
 # 使用方式：
 #   1. cp config.yaml.example config.yaml
-#   2. 启动本地依赖（见仓库根 docker-compose.yml.example）：docker compose up -d
+#   2. 启动本地依赖（见仓库根 docker-compose.yml）：docker compose up -d
 #   3. 按需修改 config.yaml 中标记为 change-me 的密钥
 #
 # 所有真实密钥一律不要提交；config.yaml 已被 .gitignore 忽略。
