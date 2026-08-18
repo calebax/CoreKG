@@ -12,7 +12,7 @@
 ### 开发、测试环境
 
 * 测试域名 example.com
-* 生产域名 yygu.cn
+* 生产域名（自定）
 
 **获取代码后再仓库目录执行`git config pull.rebase true`**
 
@@ -22,7 +22,7 @@
 
 所有含密钥/连接串的运行配置一律**不入库**，仓库仅提供 `*.example` 模板：
 
-- Go 服务：`apps/<app>/conf/<env>/config.yaml.example`、`code_gen.yaml.example`
+- Go 服务：`apps/<app>/conf/<env>/config.yaml.example`
 - 前端：`frontend/corekg/.env.development.example`、`.env.production.example`
 - TS worker：`apps/worker/.env.example`
 - Python pipeline：`apps/pipeline/config/*.yaml.example`
@@ -35,6 +35,23 @@ cp apps/corekg/conf/test/config.yaml.example apps/corekg/conf/test/config.yaml
 make run APP=corekg ENV=test
 ```
 
+### 构建多架构（amd64 / arm64）镜像
+
+默认单平台（`linux/amd64`）构建，保持向后兼容。需要同时产出两种架构时，通过 `BUILD_PLATFORMS` 指定并用 buildx 构建：
+
+```bash
+# 1) 准备 docker-container driver 的 buildx builder（默认 docker driver 不支持多平台）
+docker buildx create --name corekg-multi --driver docker-container --platform linux/amd64,linux/arm64
+
+# 2) 多架构构建并推送（需具备 buildx 与目标 registry 的推送权限）
+make push-image APP=keapi BUILD_PLATFORMS='linux/amd64,linux/arm64' BUILDER=corekg-multi
+```
+
+- 单平台：仍走原 `docker build --platform`，行为不变。
+- 多平台：`BUILD_PLATFORMS` 含逗号时自动切到 `docker buildx build ... --platform <list> --push`。
+- 多平台要求 buildx builder 使用 `docker-container` driver（否则报 `Multi-platform build is not supported for the docker driver`）；通过 `BUILDER` 指定 builder。
+- 应用 Go 二进制的架构由各应用 `script/Dockerfile` 中的 `ARG TARGETARCH` + `GOOS=${TARGETOS} GOARCH=${TARGETARCH}` 决定（已统一），无需手工指定。
+
 ### 本地依赖（MySQL / ES / Redis / MinIO / NATS）
 
 ```bash
@@ -43,6 +60,27 @@ docker compose up -d
 ```
 
 默认连接信息与各 `*.example` 中的本地默认值一致（MySQL `corekg/corekg_dev@localhost:3306/corekg`；ES `elastic/change-me@localhost:9200`；Redis `localhost:6379`；MinIO `minioadmin/change-me@localhost:9000`）。生产部署请勿使用这些默认值。
+
+**全部使用 Docker Hub 官方 multi-arch 镜像**（`mysql`、`elasticsearch`、`redis`、`minio/minio`、`minio/mc`、`nats`），在 `amd64` 与 `arm64` 机器上 `docker compose up` 会自动拉取对应架构，无需维护内网镜像源。可验证：
+
+```bash
+# 确认官方 minio 同时发布 amd64 与 arm64
+docker manifest inspect minio/minio:latest | grep '"architecture"'
+# 起 minio 并等待 bucket 初始化完成（minio-init 会自动创建 corekg-bucket）
+docker compose up -d minio minio-init
+docker compose ps
+```
+
+**NATS 是本项目唯一的消息中间件**：既承担知识库异步任务分发（`ketask`/`kecore`/`keapp` 的 JetStream 任务系统），也是 `workflow` 的事件总线（`workflow.mq.type: nats`）。无需额外部署 NSQ/Kafka/Pulsar/RocketMQ/RabbitMQ。
+
+启用 `workflow` 应用时，其 `config.yaml` 通过进程环境变量（`${VAR}`）读取连接信息。可准备一个 `.env` 并先 source 进当前 shell：
+
+```bash
+cp .env.example .env
+# 按需修改连接信息
+set -a; . .env; set +a
+make run APP=workflow ENV=test
+```
 
 * **API文档**:
 * Account: http://tapi.ckeyer.com/v2/account.docs/index.html#/
@@ -248,7 +286,7 @@ Redis
 docker run -d --name=redisgraph -v /data/redisgraph:/data -p 6380:6379 redislabs/redisgraph
 ```
 
-# 私有化
+# 数据库迁移脚本规范
 
 ## 脚本规范
 

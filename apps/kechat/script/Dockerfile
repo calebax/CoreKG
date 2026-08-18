@@ -1,4 +1,9 @@
-FROM golang:1.24 AS building
+ARG BUILDER_IMAGE=golang:1.24
+ARG RUNTIME_IMAGE=debian:bookworm-slim
+ARG TARGETOS=linux
+ARG TARGETARCH
+
+FROM ${BUILDER_IMAGE} AS building
 
 ENV APP=kechat
 ENV CGO_ENABLED=0
@@ -9,10 +14,10 @@ ENV CGO_ENABLED=0
 COPY . /go/src/roc
 
 WORKDIR /go/src/roc
-RUN make local
+RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} make local
 
 # FROM alpine:3.17
-FROM debian:bookworm-slim
+FROM ${RUNTIME_IMAGE}
 
 
 COPY --from=building /go/src/roc/bundles/kechat /usr/local/bin/kechat

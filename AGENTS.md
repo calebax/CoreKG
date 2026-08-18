@@ -4,7 +4,7 @@ CoreKG（又名 `roc`）— Go 单体仓库，知识库 / RAG 对话服务。知
 
 ## 关键事实
 
-- **Go module 路径为 `github.com/insmtx/corekg`**（module 后缀与目录名 `corekg` 一致）。所有内部 import 使用 `github.com/insmtx/corekg/...` 前缀。Git remote 仍为 `git.yygu.cn:corekg/roc.git`（未随 module 重命名变更）。
+- **Go module 路径为 `github.com/insmtx/corekg`**（module 后缀与目录名 `corekg` 一致）。所有内部 import 使用 `github.com/insmtx/corekg/...` 前缀。
 - **单 Go module**（一个 `go.mod`，无 workspace）。多应用单体仓库，非多 module。
 - **依赖已 vendor**（`vendor/` 已提交）。构建使用 vendor 模式。不要随意执行 `go get`/`go mod tidy`；若修改依赖，需执行 `go mod tidy && go mod vendor` 并提交 `vendor/`。
 - 克隆仓库后执行 `git config pull.rebase true`（README 要求）。
@@ -36,9 +36,6 @@ CoreKG（又名 `roc`）— Go 单体仓库，知识库 / RAG 对话服务。知
 - 构建/推送镜像：`make push-image APP=keapi`（CI 使用）
 - 测试：`make test` = `go test -v ./...`。建议定向运行，如 `go test ./apps/keapi/...`。
 
-### 代码生成（私有工具）
-
-`make codegen APP=<app> MODE=api,module,model` 使用私有仓库 `git.yygu.cn/pkg/yggocli` 的 `yggocli`。自动配置 `GOPRIVATE=git.yygu.cn` 和 SSH `insteadOf` 重写，需要 `apps/<app>/conf/<env>/code_gen.yaml`（含 `mysql_dsn`）。需 SSH 访问 git.yygu.cn，否则失败。
 
 ## 测试注意事项
 

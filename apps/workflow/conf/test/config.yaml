@@ -48,21 +48,15 @@ workflow:
       region: ""
       bucket_endpoint: ""
   mq:
-    type: nsq
-    name_server: "${MQ_NAME_SERVER}"
-    rmq:
-      access_key: ""
-      secret_key: ""
-    pulsar:
-      service_url: ""
-      jwt_token: ""
+    type: nats
+    name_server: "${NATS_URL}"
     nats:
       jwt_token: ""
       nkey_seed: ""
       username: ""
       password: ""
       token: ""
-      use_jetstream: false
+      use_jetstream: true
   upload:
     component_type: storage
     imagex:
