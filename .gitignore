@@ -103,6 +103,10 @@ cmd/
 apps/*/conf/*/config.yaml
 apps/*/conf/*/code_gen.yaml
 
+# keinit 系统设置项（core_settings 表）：真实值不入库，仅提交 *.example
+apps/*/conf/*/core_setting.yaml
+config/core_setting.yaml
+
 # 客户端运行配置（如 clients/task_worker/config/*.yaml）
 clients/**/config/*.yaml
 clients/**/config/*.yml

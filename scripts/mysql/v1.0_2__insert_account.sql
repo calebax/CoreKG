@@ -1,6 +1,6 @@
 INSERT INTO account_api_key ( id, created_at, updated_at, deleted_at, uin, company_id, name, api_key, purpose, status, expired_at)
 VALUES
-	( 1, '2025-04-24 10:48:50.029', '2025-04-24 10:48:50.029', NULL, 1, 1, 'prod', '@yg_AGENT_MODEL_APIKEY', 'prod', 'normal', NULL);
+	( 1, '2025-04-24 10:48:50.029', '2025-04-24 10:48:50.029', NULL, 1, 1, 'prod', @yg_AGENT_MODEL_APIKEY, 'prod', 'normal', NULL);
 
 INSERT INTO account_privilege ( id, created_at, updated_at, deleted_at, description, api, action, action_path, parent_id, type, company_id )
 VALUES
@@ -33,7 +33,7 @@ INSERT INTO admin_login_setting (
   NOW(),              
   NOW(),               
   NULL,               
-  'CHANGE_ME_HOST:30000',      
+  CONCAT(@yg_BASE_HOST, ':30000'),      
   NULL,            
   'prod',         
   0,                    
@@ -49,10 +49,11 @@ INSERT INTO admin_login_setting (
   'yygu',       
   'wechat_web_oauth',    
   1,                    
-  'CHANGE_ME_HOST:30000'       
+  CONCAT(@yg_BASE_HOST, ':30000')       
 );
 
-INSERT INTO user (id, created_at, updated_at, deleted_at, identify, name, bio, avatar_url, email, phone, password, github_id, work_wechat_user_id, wechat_union_id, wechat_web_open_id) VALUES (1, '2024-08-02 14:06:58.225', '2025-07-11 15:20:41.480', NULL, 'admin', 'admin', '', 'https://thirdwx.qlogo.cn/mmopen/vi_32/oAdEUk0YiaJaibAFvFwewct8YggbYiajeahTjliaP5AQb2YwxYs1kW6Cmib9oVonfGtibb2zQADibq0HiaWYgHmMAPFAgmliarWwfM0vcMKRZQ7FfOHg/132', 'author@example.com', '13800000000', 'CHANGE_ME_PASSWORD_HASH', NULL, NULL, 'zzzzzzz', 'zzzzz');
+INSERT INTO user (id, created_at, updated_at, deleted_at, identify, name, bio, avatar_url, email, phone, password, github_id, work_wechat_user_id, wechat_union_id, wechat_web_open_id) VALUES (1, '2024-08-02 14:06:58.225', '2025-07-11 15:20:41.480', NULL, 'admin', 'admin', '', 'https://thirdwx.qlogo.cn/mmopen/vi_32/oAdEUk0YiaJaibAFvFwewct8YggbYiajeahTjliaP5AQb2YwxYs1kW6Cmib9oVonfGtibb2zQADibq0HiaWYgHmMAPFAgmliarWwfM0vcMKRZQ7FfOHg/132', 'author@example.com', '13800000000', @yg_ADMIN_PASSWORD_HASH, NULL, NULL, 'zzzzzzz', 'zzzzz');
+
 
 
 INSERT INTO user_identification 

@@ -27,7 +27,7 @@ func initMysqlEnvCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&sqlDir, "sql-dir", "s", "./scripts/mysql", "sql dir path.")
-	cmd.Flags().StringVarP(&cozeSqlDir, "coze-sql-dir", "c", "./scripts/mysqlcoze", "coze sql dir path.")
+	cmd.Flags().StringVarP(&cozeSqlDir, "coze-sql-dir", "o", "./scripts/mysqlcoze", "coze sql dir path.")
 	return cmd
 }
 
@@ -65,6 +65,12 @@ func initMysqlEnv(ctx context.Context) error {
 		logs.ErrorContextf(ctx, "connect mysql failed: %s", err)
 		return err
 	}
+
+	if _, err := initDatabase(ctx, cfg); err != nil {
+		logs.ErrorContextf(ctx, "init database tables failed: %s", err)
+		return err
+	}
+	logs.InfoContextf(ctx, "init database tables success")
 
 	err = mysql.InitMysqlData(ctx, dbtools.Core(), sqlDir, envs)
 	if err != nil {

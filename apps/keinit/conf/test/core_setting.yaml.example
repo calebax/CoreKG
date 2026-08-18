@@ -1,0 +1,83 @@
+# core_setting.yaml 样例：CoreKG 系统设置项（core_settings 表）。
+# 由 keinit 的 update-setting / init-mysql 通过 --setting-file 读取并 upsert 到 core_settings 表。
+# 用法：cp core_setting.yaml.example core_setting.yaml；按需修改占位值（change-me）。
+# 默认连接信息与 docker-compose.yml.example 的本地默认值一致：
+#   Redis localhost:6379；ES elastic/change-me@localhost:9200；MinIO minioadmin/change-me@localhost:9000。
+# 所有含密钥/连接串的值一律不写入真实值，仅以 change-me 占位。
+
+- group: core
+  key: redis
+  name: Redis
+  describe: Redis 配置
+  value_type: yaml
+  value: "addr: localhost:6379\r\npassword: \"\"\r\ndb: 1"
+
+- group: knowledge
+  key: redis
+  name: Redis
+  describe: 知识库 Redis 配置
+  value_type: yaml
+  value: "addr: localhost:6379\r\npassword: \"\"\r\ndb: 4\r\n"
+
+- group: core
+  key: cos-ke
+  name: 知识存储
+  describe: 知识库文件对象存储（MinIO）配置
+  value_type: yaml
+  value: "purpose: forest-file\r\npresigned_timeout: \"24h\"\r\ns3:\r\n  end_point: http://localhost:9000\r\n  access_key_id: minioadmin\r\n  secret_access_key: change-me\r\n  region: minio\r\n  bucket: corekg-bucket\r\n  use_path_style: true\r\n\r\n"
+
+- group: knowledge
+  key: es
+  name: ES 配置
+  describe: Elasticsearch 连接配置
+  value_type: yaml
+  value: "addresses:\r\n  - http://localhost:9200\r\nusername: elastic\r\npassword: change-me\r\nmax_retries: 3\r\nslow_threshold: 3s"
+
+- group: knowledge
+  key: llm_image_parse
+  name: LLM 多模态解析
+  describe: 多模态（视觉）模型配置，用于图片/文件解析
+  value_type: yaml
+  value: "api_key: change-me\r\nbase_url: https://change-me/v1/chat/completions\r\nmodel_name: \"qwen2.5-vl-72b-instruct\""
+
+- group: knowledge
+  key: nebula
+  name: 图数据库配置
+  describe: Nebula Graph 连接配置
+  value_type: yaml
+  value: "address: \"nebula-graphd-0.nebula-graphd\"\r\nport: 9669\r\nusername: \"root\"\r\npassword: \"change-me\"\r\nprefix: \"know\""
+
+- group: knowledge
+  key: embedding
+  name: Embedding 模型配置
+  describe: 向量化模型配置
+  value_type: yaml
+  value: "url: https://change-me/v1/embeddings\r\nkey: \"change-me\"\r\nmodel_name: \"embedding\""
+
+- group: knowledge
+  key: convert_pdf
+  name: 文件转 PDF
+  describe: 文件格式转换服务配置
+  value_type: yaml
+  value: "default:\n  url: \"http://change-me/forms/libreoffice/convert\"\n  api_key: \"\"\n  file_field: \"files\"\n  response_is_file: true\n  file_url_field: \"\"\nofd:\n  url: \"http://change-me/forms/ofd/convert\"\n  api_key: \"\"\n  file_field: \"file\"\n  response_is_file: false\n  file_url_field: \"response.pdf_url\""
+
+- group: core
+  key: cos-cu-image
+  name: 头像存储
+  describe: 用户头像对象存储配置
+  value_type: yaml
+  value: "purpose: cu-image\r\npresigned_timeout: \"24h\"\r\ns3:\r\n  end_point: http://localhost:9000\r\n  access_key_id: minioadmin\r\n  secret_access_key: change-me\r\n  region: minio\r\n  bucket: corekg-bucket\r\n  use_path_style: true\r\n\r\n"
+
+- group: core
+  key: cos-yg-chat
+  name: 轻应用头像存储
+  describe: 轻应用头像对象存储配置
+  value_type: yaml
+  value: "purpose: yg-chat\r\npresigned_timeout: \"24h\"\r\ns3:\r\n  end_point: http://localhost:9000\r\n  access_key_id: minioadmin\r\n  secret_access_key: change-me\r\n  region: minio\r\n  bucket: corekg-bucket\r\n  use_path_style: true\r\n\r\n"
+
+- group: knowledge
+  key: mysql_excel_instance
+  name: Excel 问答 MySQL 实例
+  describe: Excel 问答连接的外部 MySQL 实例信息
+  value_type: yaml
+  value: "host: localhost\r\nport: 3306\r\nusername: root\r\npassword: change-me\r\ncharset: utf8mb4\r\n"

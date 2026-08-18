@@ -1,5 +1,4 @@
 SET NAMES utf8mb4;
-CREATE DATABASE IF NOT EXISTS opencoze COLLATE utf8mb4_unicode_ci;
 -- Create 'agent_to_database' table
 CREATE TABLE IF NOT EXISTS `agent_to_database` (
   `id` bigint unsigned NOT NULL COMMENT 'ID',

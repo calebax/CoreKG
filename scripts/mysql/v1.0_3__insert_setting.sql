@@ -219,7 +219,7 @@ VALUES
     '图数据库配置',
     '图数据库配置',
     'yaml',
-    'address: \"nebula-graphd-0.nebula-graphd"\r\nport: 9669\r\nusername: \"root\"\r\npassword: \"nebula\"\r\nprefix: \"know\"',
+    'address: \"nebula-graphd-0.nebula-graphd\"\r\nport: 9669\r\nusername: \"root\"\r\npassword: \"nebula\"\r\nprefix: \"know\"',
     '{}',
     NOW(),
     NOW()

@@ -28,23 +28,6 @@ func initDatabase(ctx context.Context, cfg *config.CoreConfig) (*gorm.DB, error)
 	db := dbutil.Core()
 	db.Logger = logs.GetGorm("gorm")
 
-	// 删除已有索引
-	sql := `SET @idx_name := (
-    SELECT COUNT(*)
-    FROM information_schema.statistics
-    WHERE table_schema = DATABASE()
-      AND table_name = 'chat_agent'
-      AND index_name = 'name'
-);
-
-SET @sql := IF(@idx_name > 0, 'ALTER TABLE chat_agent DROP INDEX name;', 'SELECT 1;');
-PREPARE stmt FROM @sql;
-EXECUTE stmt;
-DEALLOCATE PREPARE stmt;`
-	if err := dbutil.Core().Exec(sql).Error; err != nil {
-		logs.ErrorContextf(ctx, "[main] drop index failed, %s", err)
-	}
-
 	// err = redispool.InitRedis("knowledge", "redis")
 	// if err != nil {
 	// 	logs.Errorf("[main] connect redis failed, %s", err)

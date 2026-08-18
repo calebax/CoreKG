@@ -63,4 +63,7 @@ SET @yg_MYSQL_USER = '{{ .MYSQL_USER }}';
 -- MySQL 密码，例如 123456
 SET @yg_MYSQL_PASSWORD = '{{ .MYSQL_PASSWORD }}';
 
+-- admin 用户密码 hash（bcrypt），例如 CHANGE_ME
+SET @yg_ADMIN_PASSWORD_HASH = '{{ .ADMIN_PASSWORD_HASH }}';
+
 

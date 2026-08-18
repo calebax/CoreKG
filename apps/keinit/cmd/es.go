@@ -8,6 +8,9 @@ import (
 	"github.com/insmtx/corekg/apps/keinit/models/es"
 	"github.com/insmtx/corekg/apps/kesearch/models/essearch"
 	"github.com/spf13/cobra"
+	"github.com/ygpkg/yg-go/config"
+	dbtools "github.com/ygpkg/yg-go/dbtools/v2"
+	_ "github.com/ygpkg/yg-go/dbtools/v2/mysqldrv"
 	"github.com/ygpkg/yg-go/logs"
 )
 
@@ -32,6 +35,16 @@ func initES(ctx context.Context) error {
 		escli *elasticsearch.Client
 		err   error
 	)
+
+	cfg := config.Conf()
+	if cfg.MainConf.DatabaseConns == nil {
+		logs.ErrorContextf(ctx, "mysql config is empty")
+		return nil
+	}
+	if err := dbtools.InitMultiDBConn(cfg.MainConf.DatabaseConns); err != nil {
+		logs.ErrorContextf(ctx, "connect mysql failed, %s", err)
+		return err
+	}
 
 	for {
 		escli, err = essearch.InitESClient(ctx)

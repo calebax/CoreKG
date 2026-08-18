@@ -20,3 +20,4 @@ MYSQL_PORT=ygvar_mysql_port
 MYSQL_USER=ygvar_mysql_user
 MYSQL_PASSWORD=ygvar_mysql_password
 AGENT_MODEL_APIKEY=yg_LLM_EMBEDDING_MODEL_NAME
+ADMIN_PASSWORD_HASH=ygvar_admin_password_hash
