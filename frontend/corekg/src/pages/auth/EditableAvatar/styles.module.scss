@@ -1,0 +1,27 @@
+.agentAvator {
+  position: relative;
+  overflow: hidden;
+  border-radius: 9999px;
+
+  &Mask {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #6c6464;
+    z-index: 10;
+    transition: 0.3s all ease;
+    color: rgba(247, 247, 247, 1);
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  &:hover &Mask {
+    opacity: 1;
+  }
+}

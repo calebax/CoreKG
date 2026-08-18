@@ -1,0 +1,14 @@
+.property {
+  .operator {
+    visibility: hidden;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: #f8f9fd;
+
+    .operator {
+      visibility: visible;
+    }
+  }
+}

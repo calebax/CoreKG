@@ -1,0 +1,7 @@
+package global
+
+var DisableThinkingModelKeywords = []string{
+	"Qwen3-5-35B-A3B",
+	"Qwen3.5-35B-A3B",
+	"Qwen3.6-35B-A3B",
+}

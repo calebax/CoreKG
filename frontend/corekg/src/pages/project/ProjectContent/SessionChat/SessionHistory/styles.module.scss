@@ -1,0 +1,44 @@
+.item {
+  .op {
+    visibility: hidden;
+  }
+  &:hover {
+    background-color: #9194971a;
+    .op {
+      visibility: visible;
+    }
+  }
+  &Active {
+    background-color: #91949733;
+  }
+}
+
+.loadingName {
+  position: relative;
+  display: block;
+  width: 96px;
+  height: 14px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #edf0f5;
+
+  &::after {
+    position: absolute;
+    inset: 0;
+    content: '';
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.9) 45%,
+      transparent 100%
+    );
+    transform: translateX(-100%);
+    animation: session-name-loading 1.2s ease-in-out infinite;
+  }
+}
+
+@keyframes session-name-loading {
+  100% {
+    transform: translateX(100%);
+  }
+}

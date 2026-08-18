@@ -1,0 +1,4 @@
+SET NAMES utf8mb4;
+
+ALTER TABLE ke_forest_graph ADD COLUMN avatar_url VARCHAR(511) NOT NULL DEFAULT '' COMMENT '知识图谱头像';
+ALTER TABLE ke_article ADD COLUMN avatar_url VARCHAR(511) NOT NULL DEFAULT '' COMMENT '文章头像';

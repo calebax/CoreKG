@@ -1,0 +1,2831 @@
+[
+  {
+    "number": 1,
+    "nodes": [
+      {
+        "id": "system_01",
+        "labels": [
+          "System"
+        ],
+        "properties": {
+          "name": "动力电池系统(CATL)"
+        }
+      },
+      {
+        "id": "DTC_001",
+        "labels": [
+          "DTC"
+        ],
+        "properties": {
+          "code": "P16E016",
+          "description": "单体欠压1级",
+          "domain": "P",
+          "severityLevel": 4
+        }
+      },
+      {
+        "id": "DTC_002",
+        "labels": [
+          "DTC"
+        ],
+        "properties": {
+          "code": "U011287",
+          "description": "IPS报文丢失",
+          "domain": "U",
+          "severityLevel": 4
+        }
+      },
+      {
+        "id": "cause_001",
+        "labels": [
+          "Cause"
+        ],
+        "properties": {
+          "description": "动力电池馈电",
+          "category": "Hardware"
+        }
+      },
+      {
+        "id": "cause_002",
+        "labels": [
+          "Cause"
+        ],
+        "properties": {
+          "description": "动力电池过度放电",
+          "category": "Hardware"
+        }
+      },
+      {
+        "id": "cause_003",
+        "labels": [
+          "Cause"
+        ],
+        "properties": {
+          "description": "动力电池故障",
+          "category": "Hardware"
+        }
+      },
+      {
+        "id": "cause_004",
+        "labels": [
+          "Cause"
+        ],
+        "properties": {
+          "description": "针脚或者线束连接错误",
+          "category": "Wiring"
+        }
+      },
+      {
+        "id": "cause_005",
+        "labels": [
+          "Cause"
+        ],
+        "properties": {
+          "description": "电磁干扰",
+          "category": "Environmental"
+        }
+      },
+      {
+        "id": "cause_006",
+        "labels": [
+          "Cause"
+        ],
+        "properties": {
+          "description": "车载充电机故障",
+          "category": "Hardware"
+        }
+      },
+      {
+        "id": "cause_007",
+        "labels": [
+          "Cause"
+        ],
+        "properties": {
+          "description": "动力锂电池内部BMS故障",
+          "category": "Software"
+        }
+      },
+      {
+        "id": "P16E016_01",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "P16E016",
+          "stepNumber": 1,
+          "stepName": "检查动力电池电压",
+          "steps": "a.检查动力电池电压是否正常。检查结果是否正常？ 是 >> 去步骤 2。 否 >> 对动力电池进行充电。",
+          "requiredTools": ""
+        }
+      },
+      {
+        "id": "P16E016_02",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "P16E016",
+          "stepNumber": 2,
+          "stepName": "检查模组电压",
+          "steps": "a. 电源状态“OFF”，连接诊断仪。 b. 电源状态“ON”。 c. 用诊断仪读取动力电池模组电压，检查模组电 压是否正常。 检查结果是否正常？ 是 >> 去步骤 3。 否 >> 对模组单独充电或更换新模组，并调整新 模组 SOC 和其他模组一致。",
+          "requiredTools": "诊断仪"
+        }
+      },
+      {
+        "id": "P16E016_03",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "P16E016",
+          "stepNumber": 3,
+          "stepName": "更换动力电池",
+          "steps": "a. 更换动力电池，检查故障是否排除。 检查结果是否正常？ 是 >> 故障排除。 否 >> 从其他故障查找原因。",
+          "requiredTools": ""
+        }
+      },
+      {
+        "id": "U011287_01",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "U011287",
+          "stepNumber": 1,
+          "stepName": "检查电磁干扰",
+          "steps": "a. 电源状态“OFF”，断开蓄电池负极。 b. 断开维修开关。 c. 检查低压线束是否靠近高压元器件和高压线 束。 检查结果是否正常？ 是 >> 去步骤 2。 否 >> 使低压线束远离高压元器件和高压线束。",
+          "requiredTools": ""
+        }
+      },
+      {
+        "id": "U011287_02",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "U011287",
+          "stepNumber": 2,
+          "stepName": " 检查 ECAN 总线线束",
+          "steps": "a. 电源状态“OFF”，断开蓄电池负极。 b. 断开动力电池低压线束接插件 FB18，车载充 电机低压线束接插件 FB57。 c. 用数字万用表测量 FB18 的 5/7 号针脚与 FB57 的 4/5 号针脚之间的电阻。 标准电阻值：＜ 1Ω 检查结果是否正常？ 是 >> 去步骤 3。 否 >> 维修或更换 ECAN 总线线束。",
+          "requiredTools": "数字万用表"
+        }
+      },
+      {
+        "id": "U011287_03",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "U011287",
+          "stepNumber": 3,
+          "stepName": "检查慢充系统",
+          "steps": "a. 检查慢充系统是否正常。 检查结果是否正常？ 是 >> 去步骤 4。 否 >> 维修或更换故障部件。",
+          "requiredTools": ""
+        }
+      },
+      {
+        "id": "U011287_04",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "U011287",
+          "stepNumber": 4,
+          "stepName": "更换动力电池",
+          "steps": "a. 更换动力电池，检查故障是否排除。 检查结果是否正常？ 是 >> 故障排除。 否 >> 从其他故障查找原因。",
+          "requiredTools": ""
+        }
+      },
+      {
+        "id": "path_01",
+        "labels": [
+          "SolutionPath"
+        ],
+        "properties": {
+          "coverDTC": "P16E016",
+          "referencePath": "动力电池系统(CATL)>故障码诊断与操作>P16E016/P16E116/P16E216-故障诊断",
+          "summary": "主要检查动力电池电压及模组电压，必要时更换动力电池"
+        }
+      },
+      {
+        "id": "path_02",
+        "labels": [
+          "SolutionPath"
+        ],
+        "properties": {
+          "coverDTC": "U011287",
+          "referencePath": "动力电池系统(CATL)>故障码诊断与操作>U011287-故障诊断",
+          "summary": "针对U011287进行ECAN总线线束和慢充系统检查"
+        }
+      },
+      {
+        "id": "diagram_4.1",
+        "labels": [
+          "DiagramMain"
+        ],
+        "properties": {
+          "title": "电池管理及快充系统",
+          "relatedSystem": "系统电路图",
+          "relatedECU": "动力电池",
+          "model": [
+            "FB18",
+            "BH02",
+            "FS01"
+          ],
+          "includedInterface": [
+            {
+              "电源": "FB18-9",
+              "IG1电源": "FB18-18",
+              "CC2检测": "FB18-12",
+              "快充唤醒": "FB18-13",
+              "快充CAN-L": "FB18-14",
+              "快充CAN-H": "FB18-17",
+              "快充负": "FS01-1",
+              "快充正": "FS01-2",
+              "接地": "FS18-8",
+              "ECAN-H": "FS18-7",
+              "ECAN-L": "FS18-5",
+              "BMCAN-H": "FS18-4",
+              "BMCAN-L": "FS18-3",
+              "紧急下电信号": "FS18-15",
+              "总负": "BH02-2",
+              "总正": "BH02-1"
+            }
+          ]
+        }
+      },
+      {
+        "id": "diagramchild_01",
+        "labels": [
+          "DiagramChild"
+        ],
+        "properties": {
+          "title": "PDU",
+          "connectECU": "动力电池",
+          "model": "BH01",
+          "pin": [
+            {
+              "2": "O 50",
+              "1": "O 50"
+            }
+          ]
+        }
+      },
+      {
+        "id": "diagramchild_02",
+        "labels": [
+          "DiagramChild"
+        ],
+        "properties": {
+          "title": "整车控制器",
+          "connectECU": "动力电池",
+          "model": "FB37",
+          "pin": [
+            {
+              "14": "Y 0.5"
+            }
+          ]
+        }
+      },
+      {
+        "id": "diagramchild_03",
+        "labels": [
+          "DiagramChild"
+        ],
+        "properties": {
+          "title": "诊断接口",
+          "connectECU": "动力电池",
+          "model": "FB10",
+          "pin": [
+            {
+              "8": "Y 0.35",
+              "7": "G 0.35"
+            }
+          ]
+        }
+      },
+      {
+        "id": "diagramchild_04",
+        "labels": [
+          "DiagramChild"
+        ],
+        "properties": {
+          "title": "ECAN系统",
+          "connectECU": "动力电池",
+          "model": "",
+          "pin": [
+            {
+              "1": "O 0.35",
+              "2": "G 0.35"
+            }
+          ]
+        }
+      },
+      {
+        "id": "diagramchild_05",
+        "labels": [
+          "DiagramChild"
+        ],
+        "properties": {
+          "title": "快充插座",
+          "connectECU": "动力电池",
+          "model": "FS02",
+          "pin": [
+            {
+              "2": "N 0.5",
+              "9": "R 0.5",
+              "1": "G 0.35",
+              "3": "U 0.35",
+              "4": "O 70",
+              "6": "O 70"
+            }
+          ]
+        }
+      },
+      {
+        "id": "manual_01",
+        "labels": [
+          "MaintenanceManual"
+        ],
+        "properties": {
+          "title": "动力电池机系统",
+          "chapternumber": "3.1.5",
+          "fileID": "1152"
+        }
+      }
+    ],
+    "relations": [
+      {
+        "id": "rel_001",
+        "type": "reportsDTC",
+        "startNode": "system_01",
+        "endNode": "DTC_001",
+        "properties": {}
+      },
+      {
+        "id": "rel_002",
+        "type": "reportsDTC",
+        "startNode": "system_01",
+        "endNode": "DTC_002",
+        "properties": {}
+      },
+      {
+        "id": "rel_003",
+        "type": "hasRelatedDiagram",
+        "startNode": "system_01",
+        "endNode": "diagram_4.1",
+        "properties": {}
+      },
+      {
+        "id": "rel_004",
+        "type": "hasMaintenanceProcedure",
+        "startNode": "system_01",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_005",
+        "type": "isReportedByECU",
+        "startNode": "DTC_001",
+        "endNode": "system_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_006",
+        "type": "isReportedByECU",
+        "startNode": "DTC_002",
+        "endNode": "system_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_007",
+        "type": "triggersDTC",
+        "startNode": "cause_001",
+        "endNode": "DTC_001",
+        "properties": {}
+      },
+      {
+        "id": "rel_008",
+        "type": "triggersDTC",
+        "startNode": "cause_002",
+        "endNode": "DTC_001",
+        "properties": {}
+      },
+      {
+        "id": "rel_009",
+        "type": "triggersDTC",
+        "startNode": "cause_003",
+        "endNode": "DTC_001",
+        "properties": {}
+      },
+      {
+        "id": "rel_010",
+        "type": "triggersDTC",
+        "startNode": "cause_004",
+        "endNode": "DTC_002",
+        "properties": {}
+      },
+      {
+        "id": "rel_011",
+        "type": "triggersDTC",
+        "startNode": "cause_005",
+        "endNode": "DTC_002",
+        "properties": {}
+      },
+      {
+        "id": "rel_012",
+        "type": "triggersDTC",
+        "startNode": "cause_006",
+        "endNode": "DTC_002",
+        "properties": {}
+      },
+      {
+        "id": "rel_013",
+        "type": "triggersDTC",
+        "startNode": "cause_007",
+        "endNode": "DTC_002",
+        "properties": {}
+      },
+      {
+        "id": "rel_014",
+        "type": "recommendsSolution",
+        "startNode": "DTC_001",
+        "endNode": "path_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_015",
+        "type": "recommendsSolution",
+        "startNode": "DTC_002",
+        "endNode": "path_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_016",
+        "type": "includesCheckStep",
+        "startNode": "path_01",
+        "endNode": "P16E016_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_017",
+        "type": "includesCheckStep",
+        "startNode": "path_01",
+        "endNode": "P16E016_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_018",
+        "type": "includesCheckStep",
+        "startNode": "path_01",
+        "endNode": "P16E016_03",
+        "properties": {}
+      },
+      {
+        "id": "rel_019",
+        "type": "includesCheckStep",
+        "startNode": "path_02",
+        "endNode": "U011287_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_020",
+        "type": "includesCheckStep",
+        "startNode": "path_02",
+        "endNode": "U011287_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_021",
+        "type": "includesCheckStep",
+        "startNode": "path_02",
+        "endNode": "U011287_03",
+        "properties": {}
+      },
+      {
+        "id": "rel_022",
+        "type": "includesCheckStep",
+        "startNode": "path_02",
+        "endNode": "U011287_04",
+        "properties": {}
+      },
+      {
+        "id": "rel_023",
+        "type": "hasSolutionPath",
+        "startNode": "cause_001",
+        "endNode": "path_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_024",
+        "type": "hasSolutionPath",
+        "startNode": "cause_002",
+        "endNode": "path_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_025",
+        "type": "hasSolutionPath",
+        "startNode": "cause_003",
+        "endNode": "path_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_026",
+        "type": "hasSolutionPath",
+        "startNode": "cause_004",
+        "endNode": "path_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_027",
+        "type": "hasSolutionPath",
+        "startNode": "cause_005",
+        "endNode": "path_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_028",
+        "type": "hasSolutionPath",
+        "startNode": "cause_006",
+        "endNode": "path_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_029",
+        "type": "hasSolutionPath",
+        "startNode": "cause_007",
+        "endNode": "path_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_030",
+        "type": "referencesDiagram",
+        "startNode": "U011287_02",
+        "endNode": "diagram_4.1",
+        "properties": {}
+      },
+      {
+        "id": "rel_031",
+        "type": "connectDiagramChild",
+        "startNode": "diagram_4.1",
+        "endNode": "diagramchild_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_032",
+        "type": "connectDiagramChild",
+        "startNode": "diagram_4.1",
+        "endNode": "diagramchild_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_033",
+        "type": "connectDiagramChild",
+        "startNode": "diagram_4.1",
+        "endNode": "diagramchild_03",
+        "properties": {}
+      },
+      {
+        "id": "rel_034",
+        "type": "connectDiagramChild",
+        "startNode": "diagram_4.1",
+        "endNode": "diagramchild_04",
+        "properties": {}
+      },
+      {
+        "id": "rel_035",
+        "type": "connectDiagramChild",
+        "startNode": "diagram_4.1",
+        "endNode": "diagramchild_05",
+        "properties": {}
+      },
+      {
+        "id": "rel_036",
+        "type": "referencesManual",
+        "startNode": "P16E016_01",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_037",
+        "type": "referencesManual",
+        "startNode": "P16E016_02",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_038",
+        "type": "referencesManual",
+        "startNode": "P16E016_03",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_039",
+        "type": "referencesManual",
+        "startNode": "U011287_01",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_040",
+        "type": "referencesManual",
+        "startNode": "U011287_02",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_041",
+        "type": "referencesManual",
+        "startNode": "U011287_03",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_042",
+        "type": "referencesManual",
+        "startNode": "U011287_04",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_043",
+        "type": "followsAfter",
+        "startNode": "P16E016_01",
+        "endNode": "P16E016_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_044",
+        "type": "followsAfter",
+        "startNode": "P16E016_02",
+        "endNode": "P16E016_03",
+        "properties": {}
+      },
+      {
+        "id": "rel_045",
+        "type": "followsAfter",
+        "startNode": "U011287_01",
+        "endNode": "U011287_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_046",
+        "type": "followsAfter",
+        "startNode": "U011287_02",
+        "endNode": "U011287_03",
+        "properties": {}
+      },
+      {
+        "id": "rel_047",
+        "type": "followsAfter",
+        "startNode": "U011287_03",
+        "endNode": "U011287_04",
+        "properties": {}
+      }
+    ]
+  },
+  {
+    "number": 2,
+    "nodes": [
+      {
+        "id": "system_01",
+        "labels": [
+          "System"
+        ],
+        "properties": {
+          "name": "空调控制面板"
+        }
+      },
+      {
+        "id": "DTC_001",
+        "labels": [
+          "DTC"
+        ],
+        "properties": {
+          "code": "U007388",
+          "description": "通信错误",
+          "domain": "U",
+          "severityLevel": 4
+        }
+      },
+      {
+        "id": "cause_001",
+        "labels": [
+          "Cause"
+        ],
+        "properties": {
+          "description": "空调面板控制器损坏",
+          "category": "Software"
+        }
+      },
+      {
+        "id": "cause_002",
+        "labels": [
+          "Cause"
+        ],
+        "properties": {
+          "description": "CAN 线受到干扰或损坏出现异常",
+          "category": "wiring"
+        }
+      },
+      {
+        "id": "U007388_01",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "U007388",
+          "stepNumber": 1,
+          "stepName": "检查空调控制面板通讯线束",
+          "steps": "a. 电源状态“OFF”。 b. 断开空调控制面板接插件 IP87。 c. 用数字万用表测量 IP87 的 3 号针脚与 4 号针 脚之间的电阻。 标准电阻值：约 60Ω 检查结果是否正常？ 是 >> 更换空调控制面板。 否 >> 维修或更换空调控制面板通讯线束。",
+          "requiredTools": "数字万用表"
+        }
+      },
+      {
+        "id": "path_01",
+        "labels": [
+          "SolutionPath"
+        ],
+        "properties": {
+          "coverDTC": "U007388",
+          "referencePath": "空调控制面板 > 故障码诊断与操作>U007388/U007480-故障诊断",
+          "summary": "主要检查空调线束和控制面板"
+        }
+      },
+      {
+        "id": "manual_01",
+        "labels": [
+          "MaintenanceManual"
+        ],
+        "properties": {
+          "title": "空调控制面板总成",
+          "chapternumber": "4.1.5.2",
+          "fileID": "1367"
+        }
+      }
+    ],
+    "relations": [
+      {
+        "id": "rel_001",
+        "type": "reportsDTC",
+        "startNode": "system_01",
+        "endNode": "DTC_001",
+        "properties": {}
+      },
+      {
+        "id": "rel_004",
+        "type": "hasMaintenanceProcedure",
+        "startNode": "system_01",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_005",
+        "type": "isReportedByECU",
+        "startNode": "DTC_001",
+        "endNode": "system_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_007",
+        "type": "triggersDTC",
+        "startNode": "cause_001",
+        "endNode": "DTC_001",
+        "properties": {}
+      },
+      {
+        "id": "rel_008",
+        "type": "triggersDTC",
+        "startNode": "cause_002",
+        "endNode": "DTC_001",
+        "properties": {}
+      },
+      {
+        "id": "rel_014",
+        "type": "recommendsSolution",
+        "startNode": "DTC_001",
+        "endNode": "path_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_016",
+        "type": "includesCheckStep",
+        "startNode": "path_01",
+        "endNode": "U007388_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_023",
+        "type": "hasSolutionPath",
+        "startNode": "cause_001",
+        "endNode": "path_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_036",
+        "type": "referencesManual",
+        "startNode": "U007388_01",
+        "endNode": "manual_01",
+        "properties": {}
+      }
+    ]
+  },
+  {
+    "number": 3,
+    "nodes": [
+      {
+        "id": "system_01",
+        "labels": [
+          "System"
+        ],
+        "properties": {
+          "name": "动力电池系统(CATL)"
+        }
+      },
+      {
+        "id": "system_02",
+        "labels": [
+          "System"
+        ],
+        "properties": {
+          "name": "电机控制器(日电产)"
+        }
+      },
+      {
+        "id": "DTC_001",
+        "labels": [
+          "DTC"
+        ],
+        "properties": {
+          "code": "P164001",
+          "description": "电芯电压采样线掉线",
+          "domain": "P",
+          "severityLevel": 4
+        }
+      },
+      {
+        "id": "DTC_002",
+        "labels": [
+          "DTC"
+        ],
+        "properties": {
+          "code": "P181812",
+          "description": "电流 AD 采样对 VCC 短路 (U相)",
+          "domain": "P",
+          "severityLevel": 4
+        }
+      },
+      {
+        "id": "cause_001",
+        "labels": [
+          "Cause"
+        ],
+        "properties": {
+          "description": "采样线开路",
+          "category": "wiring"
+        }
+      },
+      {
+        "id": "cause_002",
+        "labels": [
+          "Cause"
+        ],
+        "properties": {
+          "description": "U相电流传感器电路故障",
+          "category": "wiring"
+        }
+      },
+      {
+        "id": "P164001_01",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "P164001",
+          "stepNumber": 1,
+          "stepName": "上电检查",
+          "steps": "a. 电源状态“OFF”。 b. 重新启动车辆，检查车辆是否正常。 检查结果是否正常？ 是 >> 故障排除。 否 >> 去步骤 2。",
+          "requiredTools": ""
+        }
+      },
+      {
+        "id": "P164001_02",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "P164001",
+          "stepNumber": 2,
+          "stepName": "更换动力电池",
+          "steps": "a. 更换动力电池，检查故障是否排除。 检查结果是否正常？ 是 >> 故障排除。 否 >> 从其他故障查找原因。",
+          "requiredTools": ""
+        }
+      },
+      {
+        "id": "P181812_01",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "P181812",
+          "stepNumber": 1,
+          "stepName": "上电检查",
+          "steps": "a. 电源状态“OFF”。 b. 重新启动车辆，检查车辆是否正常。 检查结果是否正常？ 是 >> 故障排除。 否 >> 去步骤 2。",
+          "requiredTools": ""
+        }
+      },
+      {
+        "id": "P181812_02",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "P181812",
+          "stepNumber": 2,
+          "stepName": " 更换电机控制器",
+          "steps": "a. 更换电机控制器，检查故障是否排除。 检查结果是否正常？ 是 >> 故障排除。 否 >> 从其他故障查找原因。",
+          "requiredTools": ""
+        }
+      },
+      {
+        "id": "path_01",
+        "labels": [
+          "SolutionPath"
+        ],
+        "properties": {
+          "coverDTC": "P164001",
+          "referencePath": "动力电池系统(CATL)>故障码诊断与操作>P164001/P16101C/P164302/P164062/P161228/P164502/P164602/P164702/P16E806/P168092/P168192/P161028/P168300/P168400-故障诊断",
+          "summary": "进行上电检查，必要时更换动力电池"
+        }
+      },
+      {
+        "id": "path_02",
+        "labels": [
+          "SolutionPath"
+        ],
+        "properties": {
+          "coverDTC": "P181812",
+          "referencePath": "电机控制器（日电产）> 故障码诊断与操作 >P181812/P181811/P181813/P181912/P181911/P181913/P181A12/P181A11/P181A13/P181828/P181928/P181A28/P181B01/P181612/P181611/P182412/P182411-故障诊断",
+          "summary": "进行上电检查，必要时更换电机控制器"
+        }
+      },
+      {
+        "id": "manual_01",
+        "labels": [
+          "MaintenanceManual"
+        ],
+        "properties": {
+          "title": "动力电池机系统",
+          "chapternumber": "3.1.5",
+          "fileID": "1152"
+        }
+      },
+      {
+        "id": "manual_02",
+        "labels": [
+          "MaintenanceManual"
+        ],
+        "properties": {
+          "title": "电机控制器",
+          "chapternumber": "3.3.5.1",
+          "fileID": "1154"
+        }
+      }
+    ],
+    "relations": [
+      {
+        "id": "rel_001",
+        "type": "reportsDTC",
+        "startNode": "system_01",
+        "endNode": "DTC_001",
+        "properties": {}
+      },
+      {
+        "id": "rel_002",
+        "type": "reportsDTC",
+        "startNode": "system_02",
+        "endNode": "DTC_002",
+        "properties": {}
+      },
+      {
+        "id": "rel_003",
+        "type": "hasMaintenanceProcedure",
+        "startNode": "system_01",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_004",
+        "type": "hasMaintenanceProcedure",
+        "startNode": "system_02",
+        "endNode": "manual_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_005",
+        "type": "isReportedByECU",
+        "startNode": "DTC_001",
+        "endNode": "system_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_006",
+        "type": "isReportedByECU",
+        "startNode": "DTC_002",
+        "endNode": "system_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_007",
+        "type": "triggersDTC",
+        "startNode": "cause_001",
+        "endNode": "DTC_001",
+        "properties": {}
+      },
+      {
+        "id": "rel_008",
+        "type": "triggersDTC",
+        "startNode": "cause_002",
+        "endNode": "DTC_002",
+        "properties": {}
+      },
+      {
+        "id": "rel_014",
+        "type": "recommendsSolution",
+        "startNode": "DTC_001",
+        "endNode": "path_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_015",
+        "type": "recommendsSolution",
+        "startNode": "DTC_002",
+        "endNode": "path_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_016",
+        "type": "includesCheckStep",
+        "startNode": "path_01",
+        "endNode": "P164001_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_017",
+        "type": "includesCheckStep",
+        "startNode": "path_01",
+        "endNode": "P164001_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_018",
+        "type": "includesCheckStep",
+        "startNode": "path_02",
+        "endNode": "P181812_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_019",
+        "type": "includesCheckStep",
+        "startNode": "path_02",
+        "endNode": "P181812_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_023",
+        "type": "hasSolutionPath",
+        "startNode": "cause_001",
+        "endNode": "path_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_024",
+        "type": "hasSolutionPath",
+        "startNode": "cause_002",
+        "endNode": "path_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_036",
+        "type": "referencesManual",
+        "startNode": "P164001_01",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_037",
+        "type": "referencesManual",
+        "startNode": "P181812_01",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_043",
+        "type": "followsAfter",
+        "startNode": "P164001_01",
+        "endNode": "P164001_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_044",
+        "type": "followsAfter",
+        "startNode": "P181812_01",
+        "endNode": "P181812_02",
+        "properties": {}
+      }
+    ]
+  },
+  {
+    "number": 4,
+    "nodes": [
+      {
+        "id": "system_01",
+        "labels": [
+          "System"
+        ],
+        "properties": {
+          "name": "空调控制器"
+        }
+      },
+      {
+        "id": "DTC_001",
+        "labels": [
+          "DTC"
+        ],
+        "properties": {
+          "code": "B1C0016",
+          "description": "系统电源电压过低",
+          "domain": "B",
+          "severityLevel": 3
+        }
+      },
+      {
+        "id": "cause_001",
+        "labels": [
+          "Cause"
+        ],
+        "properties": {
+          "description": "电池电压低于阀值",
+          "category": "wiring"
+        }
+      },
+      {
+        "id": "B1C0016_01",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "B1C0016",
+          "stepNumber": 1,
+          "stepName": "检查蓄电池电压是否正常",
+          "steps": "a. 打开汽车前舱盖，启动车辆。 b. 测量蓄电池电压是否正常。 标准电压值：约 12V 检查结果是否正常？ 是 >> 去步骤 2。 否 >> 电压过低，对蓄电池进行充电或更换。",
+          "requiredTools": "数字万用表"
+        }
+      },
+      {
+        "id": "B1C0016_02",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "B1C0016",
+          "stepNumber": 2,
+          "stepName": "检查空调控制器电源线束",
+          "steps": "a. 电源状态“OFF”。 b. 拔下仪表电器盒保险丝 IF38、IF54，断开空调 控制器接插件 IP77。 c. 用数字万用表测量保险丝 IF38 插座的 2 号针 脚与 IP77 的 36 号针脚；保险丝 IF54 插座的 2 号针脚与 IP77 的 18 号针脚之间的电阻。 标准电阻值：＜ 1Ω 检查结果是否正常？ 是 >> 更换空调控制器。 否 >> 维修或更换空调控制器电源线束。",
+          "requiredTools": "数字万用表"
+        }
+      },
+      {
+        "id": "path_01",
+        "labels": [
+          "SolutionPath"
+        ],
+        "properties": {
+          "coverDTC": "B1C0016",
+          "referencePath": "空调控制器 > 故障码诊断与操作 >B1C0016-故障诊断",
+          "summary": "主要检查空调电束与电压"
+        }
+      },
+      {
+        "id": "diagram_4.6",
+        "labels": [
+          "DiagramMain"
+        ],
+        "properties": {
+          "title": "空调和暖风系统(1)",
+          "relatedSystem": "系统电路图",
+          "relatedECU": "空调控制器",
+          "model": [
+            "IP77",
+            "IP78"
+          ],
+          "includedInterface": [
+            {
+              "蓄电池电源": "IP77-18",
+              "IG1电源": "IP77-36",
+              "EVAP阀控制": "IP77-29",
+              "驾驶员侧冷暖电机控制": "IP78-15",
+              "驾驶员侧冷暖电机位置信号": "IP78-26",
+              "乘客侧冷暖电机控制": "IP78-18",
+              "乘客侧冷暖电机位置信号": "IP78-27",
+              "模式电机控制": "IP78-2",
+              "5V电源": "IP78-5",
+              "模式电机位置信号": "IP78-28",
+              "传感器接地": "IP78-25",
+              "内外循环电机控制": "IP78-3",
+              "内外循环电机位置": "IP77-28",
+              "接地": "IP78-23",
+              "空调压力信号": "IP77-2",
+              "环境温度信号": "IP78-8",
+              "室内温度信号": "IP78-6",
+              "乘客侧信号": "IP78-10",
+              "驾驶员侧信号": "IP78-9",
+              "空气质量信号": "IP77-1",
+              "水泵调速": "IP77-28"
+            }
+          ]
+        }
+      },
+      {
+        "id": "diagramchild_01",
+        "labels": [
+          "DiagramChild"
+        ],
+        "properties": {
+          "title": "IG1电源",
+          "connectECU": "空调控制器",
+          "model": "IF38",
+          "pin": [
+            {
+              "2": "O 0.35"
+            }
+          ]
+        }
+      },
+      {
+        "id": "diagramchild_02",
+        "labels": [
+          "DiagramChild"
+        ],
+        "properties": {
+          "title": "蓄电池电源",
+          "connectECU": "空调控制器",
+          "model": "IF54",
+          "pin": [
+            {
+              "2": "N 0.35"
+            }
+          ]
+        }
+      },
+      {
+        "id": "manual_01",
+        "labels": [
+          "MaintenanceManual"
+        ],
+        "properties": {
+          "title": "空调控制面板总成",
+          "chapternumber": "4.1.5.2",
+          "fileID": "1367"
+        }
+      }
+    ],
+    "relations": [
+      {
+        "id": "rel_001",
+        "type": "reportsDTC",
+        "startNode": "system_01",
+        "endNode": "DTC_001",
+        "properties": {}
+      },
+      {
+        "id": "rel_003",
+        "type": "hasRelatedDiagram",
+        "startNode": "system_01",
+        "endNode": "diagram_4.6",
+        "properties": {}
+      },
+      {
+        "id": "rel_004",
+        "type": "hasMaintenanceProcedure",
+        "startNode": "system_01",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_005",
+        "type": "isReportedByECU",
+        "startNode": "DTC_001",
+        "endNode": "system_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_007",
+        "type": "triggersDTC",
+        "startNode": "cause_001",
+        "endNode": "DTC_001",
+        "properties": {}
+      },
+      {
+        "id": "rel_014",
+        "type": "recommendsSolution",
+        "startNode": "DTC_001",
+        "endNode": "path_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_016",
+        "type": "includesCheckStep",
+        "startNode": "path_01",
+        "endNode": "B1C0016_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_017",
+        "type": "includesCheckStep",
+        "startNode": "path_01",
+        "endNode": "B1C0016_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_023",
+        "type": "hasSolutionPath",
+        "startNode": "cause_001",
+        "endNode": "path_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_029",
+        "type": "referencesDiagram",
+        "startNode": "B1C0016_02",
+        "endNode": "diagram_4.6",
+        "properties": {}
+      },
+      {
+        "id": "rel_030",
+        "type": "referencesDiagram",
+        "startNode": "B1C0016_01",
+        "endNode": "diagram_4.6",
+        "properties": {}
+      },
+      {
+        "id": "rel_031",
+        "type": "connectDiagramChild",
+        "startNode": "diagram_4.6",
+        "endNode": "diagramchild_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_032",
+        "type": "connectDiagramChild",
+        "startNode": "diagram_4.6",
+        "endNode": "diagramchild_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_036",
+        "type": "referencesManual",
+        "startNode": "B1C0016_01",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_037",
+        "type": "referencesManual",
+        "startNode": "B1C0016_02",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_043",
+        "type": "followsAfter",
+        "startNode": "B1C0016_01",
+        "endNode": "B1C0016_02",
+        "properties": {}
+      }
+    ]
+  },
+  {
+    "number": 5,
+    "nodes": [
+      {
+        "id": "system_01",
+        "labels": [
+          "System"
+        ],
+        "properties": {
+          "name": "动力电池系统(CATL)"
+        }
+      },
+      {
+        "id": "DTC_001",
+        "labels": [
+          "DTC"
+        ],
+        "properties": {
+          "code": "P168222",
+          "description": "SOC过高",
+          "domain": "P",
+          "severityLevel": 3
+        }
+      },
+      {
+        "id": "cause_001",
+        "labels": [
+          "Cause"
+        ],
+        "properties": {
+          "description": "SOC存储值丢失",
+          "category": "Software"
+        }
+      },
+      {
+        "id": "P168222_01",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "P168222",
+          "stepNumber": 1,
+          "stepName": "上电检查",
+          "steps": "a. 电源状态“OFF”。 b. 重新启动车辆，检查车辆是否正常。 检查结果是否正常？ 是 >> 故障排除。 否 >> 去步骤 2。",
+          "requiredTools": ""
+        }
+      },
+      {
+        "id": "P168222_02",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "P168222",
+          "stepNumber": 2,
+          "stepName": "更换动力电池",
+          "steps": "a. 更换动力电池，检查故障是否排除。 检查结果是否正常？ 是 >> 故障排除。 否 >> 从其他故障查找原因。",
+          "requiredTools": "诊断仪"
+        }
+      },
+      {
+        "id": "path_01",
+        "labels": [
+          "SolutionPath"
+        ],
+        "properties": {
+          "coverDTC": "B1C0016",
+          "referencePath": "动力电池系统(CATL)>故障码诊断与操作>P168222/P168227-故障诊断",
+          "summary": "上电检查，必要时更换动力电池"
+        }
+      },
+      {
+        "id": "manual_01",
+        "labels": [
+          "MaintenanceManual"
+        ],
+        "properties": {
+          "title": "动力电池机系统",
+          "chapternumber": "3.1.5",
+          "fileID": "1152"
+        }
+      }
+    ],
+    "relations": [
+      {
+        "id": "rel_001",
+        "type": "reportsDTC",
+        "startNode": "system_01",
+        "endNode": "DTC_001",
+        "properties": {}
+      },
+      {
+        "id": "rel_004",
+        "type": "hasMaintenanceProcedure",
+        "startNode": "system_01",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_005",
+        "type": "isReportedByECU",
+        "startNode": "DTC_001",
+        "endNode": "system_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_007",
+        "type": "triggersDTC",
+        "startNode": "cause_001",
+        "endNode": "DTC_001",
+        "properties": {}
+      },
+      {
+        "id": "rel_014",
+        "type": "recommendsSolution",
+        "startNode": "DTC_001",
+        "endNode": "path_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_016",
+        "type": "includesCheckStep",
+        "startNode": "path_01",
+        "endNode": "P168222_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_017",
+        "type": "includesCheckStep",
+        "startNode": "path_01",
+        "endNode": "P168222_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_023",
+        "type": "hasSolutionPath",
+        "startNode": "cause_001",
+        "endNode": "path_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_036",
+        "type": "referencesManual",
+        "startNode": "P168222_01",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_037",
+        "type": "referencesManual",
+        "startNode": "P168222_02",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_043",
+        "type": "followsAfter",
+        "startNode": "P168222_01",
+        "endNode": "P168222_02",
+        "properties": {}
+      }
+    ]
+  },
+  {
+    "number": 6,
+    "note": "问题6是假设出现一个未在目录中列出的故障码，故在PDF中没有数据。"
+  },
+  {
+    "number": 7,
+    "note": "问题7数据与倒车雷达ECU JSON文件重复。"
+  },
+  {
+    "number": 8,
+    "nodes": [
+      {
+        "id": "system_01",
+        "labels": [
+          "System"
+        ],
+        "properties": {
+          "name": "安全气囊电控单元"
+        }
+      },
+      {
+        "id": "system_02",
+        "labels": [
+          "System"
+        ],
+        "properties": {
+          "name": "动力电池系统(CATL)"
+        }
+      },
+      {
+        "id": "DTC_001",
+        "labels": [
+          "DTC"
+        ],
+        "properties": {
+          "code": "B000111",
+          "description": "驾驶员安全气囊回路对地短路",
+          "domain": "B",
+          "severityLevel": 3
+        }
+      },
+      {
+        "id": "DTC_002",
+        "labels": [
+          "DTC"
+        ],
+        "properties": {
+          "code": "P16A173",
+          "description": "主正或预充继电器粘连故障",
+          "domain": "P",
+          "severityLevel": 4
+        }
+      },
+      {
+        "id": "cause_001",
+        "labels": [
+          "Cause"
+        ],
+        "properties": {
+          "description": "驾驶员安全气囊回路对地短路",
+          "category": "wiring"
+        }
+      },
+      {
+        "id": "cause_002",
+        "labels": [
+          "Cause"
+        ],
+        "properties": {
+          "description": "主正或者预充继电器故障",
+          "category": "Hardware"
+        }
+      },
+      {
+        "id": "B000111_01",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "B000111",
+          "stepNumber": 1,
+          "stepName": "检查驾驶员安全气囊线束",
+          "steps": "a. 电源状态“OFF”，断开蓄电池负极。 b. 断开时钟弹簧接插件 IP42，安全气囊电控单 元接插件 BD42。 c. 用数字万用表测量 IP42 的 3/4 号针脚与 BD42 的 24/23 号针脚之间的电阻。 标准电阻值：＜ 1Ω 检查结果是否正常？ 是 >> 去步骤 2。 否 >> 维修或更换驾驶员安全气囊线束。",
+          "requiredTools": "数字万用表"
+        }
+      },
+      {
+        "id": "B000111_02",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "B000111",
+          "stepNumber": 2,
+          "stepName": "检查时钟弹簧",
+          "steps": "a. 电源状态“OFF”，断开蓄电池负极。 b. 拆卸时钟弹簧。 c. 用数字万用表测量检查时钟弹簧相应针脚是否 导通。 检查结果是否正常？ 是 >> 去步骤 3。 否 >> 更换时钟弹簧。",
+          "requiredTools": "数字万用表"
+        }
+      },
+      {
+        "id": "B000111_03",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "B000111",
+          "stepNumber": 3,
+          "stepName": "更换驾驶员安全气囊",
+          "steps": "a. 更换驾驶员安全气囊，检查故障是否排除。 检查结果是否正常？ 是 >> 故障排除。 否 >> 更换安全气囊电控单元。",
+          "requiredTools": ""
+        }
+      },
+      {
+        "id": "P16A173_01",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "P16A173",
+          "stepNumber": 1,
+          "stepName": "上电检查",
+          "steps": "a. 电源状态“OFF”。 b. 重新启动车辆，检查车辆是否正常。 检查结果是否正常？ 是 >> 故障排除。 否 >> 去步骤 2。",
+          "requiredTools": ""
+        }
+      },
+      {
+        "id": "P16A173_02",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "P16A173",
+          "stepNumber": 2,
+          "stepName": "更换动力电池",
+          "steps": "a. 更换动力电池，检查故障是否排除。 检查结果是否正常？ 是 >> 故障排除。 否 >> 从其他故障查找原因。",
+          "requiredTools": ""
+        }
+      },
+      {
+        "id": "path_01",
+        "labels": [
+          "SolutionPath"
+        ],
+        "properties": {
+          "coverDTC": "B000111",
+          "referencePath": "安全气囊电控单元>故障码诊断与操作>B000111/B000112/B00011A/B000113/B00012D/B00012C-故障诊断",
+          "summary": "检查驾驶员安全气囊线束，必要时更换驾驶员安全气囊"
+        }
+      },
+      {
+        "id": "path_02",
+        "labels": [
+          "SolutionPath"
+        ],
+        "properties": {
+          "coverDTC": "P16A173",
+          "referencePath": "动力电池系统(CATL)>故障码诊断与操作>P16A173/P16A373/P16A473/P16A573/P16A072/P16A372/P16A472/P164020/P164901/P16944B/P169412/P169413/P164A86/P169798/P165817/P165917/P165A17/P16A691-故障诊断",
+          "summary": "上电检查，必要时更换动力电池"
+        }
+      },
+      {
+        "id": "diagram_4.34",
+        "labels": [
+          "DiagramMain"
+        ],
+        "properties": {
+          "title": "安全气囊系统",
+          "relatedSystem": "系统电路图",
+          "relatedECU": "安全气囊控制器",
+          "model": [
+            "BD42",
+            "BD43"
+          ],
+          "includedInterface": [
+            {
+              "主驾安全气囊+": "BD42-23",
+              "主驾安全气囊-": "BD42-24"
+            }
+          ]
+        }
+      },
+      {
+        "id": "diagramchild_01",
+        "labels": [
+          "DiagramChild"
+        ],
+        "properties": {
+          "title": "时钟弹簧",
+          "connectECU": "安全气囊控制器",
+          "model": "IP42",
+          "pin": [
+            {
+              "4": "S 0.5",
+              "3": "N 0.5"
+            }
+          ]
+        }
+      },
+      {
+        "id": "manual_01",
+        "labels": [
+          "MaintenanceManual"
+        ],
+        "properties": {
+          "title": "动力电池机系统",
+          "chapternumber": "4.10.4.6",
+          "fileID": "1312"
+        }
+      },
+      {
+        "id": "manual_02",
+        "labels": [
+          "MaintenanceManual"
+        ],
+        "properties": {
+          "title": "动力电池机系统",
+          "chapternumber": "3.1.5",
+          "fileID": "1152"
+        }
+      }
+    ],
+    "relations": [
+      {
+        "id": "rel_001",
+        "type": "reportsDTC",
+        "startNode": "system_01",
+        "endNode": "DTC_001",
+        "properties": {}
+      },
+      {
+        "id": "rel_002",
+        "type": "reportsDTC",
+        "startNode": "system_02",
+        "endNode": "DTC_002",
+        "properties": {}
+      },
+      {
+        "id": "rel_003",
+        "type": "hasRelatedDiagram",
+        "startNode": "system_01",
+        "endNode": "diagram_4.34",
+        "properties": {}
+      },
+      {
+        "id": "rel_004",
+        "type": "hasMaintenanceProcedure",
+        "startNode": "system_01",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_005",
+        "type": "hasMaintenanceProcedure",
+        "startNode": "system_02",
+        "endNode": "manual_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_006",
+        "type": "isReportedByECU",
+        "startNode": "DTC_001",
+        "endNode": "system_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_007",
+        "type": "isReportedByECU",
+        "startNode": "DTC_002",
+        "endNode": "system_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_008",
+        "type": "triggersDTC",
+        "startNode": "cause_001",
+        "endNode": "DTC_001",
+        "properties": {}
+      },
+      {
+        "id": "rel_014",
+        "type": "recommendsSolution",
+        "startNode": "DTC_001",
+        "endNode": "path_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_016",
+        "type": "includesCheckStep",
+        "startNode": "path_01",
+        "endNode": "B1C0016_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_017",
+        "type": "includesCheckStep",
+        "startNode": "path_01",
+        "endNode": "B1C0016_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_023",
+        "type": "hasSolutionPath",
+        "startNode": "cause_001",
+        "endNode": "path_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_024",
+        "type": "hasSolutionPath",
+        "startNode": "cause_002",
+        "endNode": "path_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_029",
+        "type": "referencesDiagram",
+        "startNode": "B000111_02",
+        "endNode": "diagram_4.34",
+        "properties": {}
+      },
+      {
+        "id": "rel_031",
+        "type": "connectDiagramChild",
+        "startNode": "diagram_4.34",
+        "endNode": "diagramchild_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_036",
+        "type": "referencesManual",
+        "startNode": "B000111_01",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_037",
+        "type": "referencesManual",
+        "startNode": "B000111_02",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_038",
+        "type": "referencesManual",
+        "startNode": "B000111_03",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_039",
+        "type": "referencesManual",
+        "startNode": "P16A173_01",
+        "endNode": "manual_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_040",
+        "type": "referencesManual",
+        "startNode": "P16A173_02",
+        "endNode": "manual_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_043",
+        "type": "followsAfter",
+        "startNode": "B000111_01",
+        "endNode": "B000111_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_044",
+        "type": "followsAfter",
+        "startNode": "B000111_02",
+        "endNode": "B000111_03",
+        "properties": {}
+      },
+      {
+        "id": "rel_045",
+        "type": "followsAfter",
+        "startNode": "P16A173_01",
+        "endNode": "P16A173_02",
+        "properties": {}
+      }
+    ]
+  },
+  {
+    "number": 9,
+    "nodes": [
+      {
+        "id": "system_01",
+        "labels": [
+          "System"
+        ],
+        "properties": {
+          "name": "动力电池系统(CATL)"
+        }
+      },
+      {
+        "id": "DTC_001",
+        "labels": [
+          "DTC"
+        ],
+        "properties": {
+          "code": "P169011",
+          "description": "CC2 信号短地",
+          "domain": "P",
+          "severityLevel": 3
+        }
+      },
+      {
+        "id": "cause_001",
+        "labels": [
+          "Cause"
+        ],
+        "properties": {
+          "description": "信号线路短路",
+          "category": "wiring"
+        }
+      },
+      {
+        "id": "cause_002",
+        "labels": [
+          "Cause"
+        ],
+        "properties": {
+          "description": "充电设备故障",
+          "category": "Hardware"
+        }
+      },
+      {
+        "id": "cause_003",
+        "labels": [
+          "Cause"
+        ],
+        "properties": {
+          "description": "快充插座故障",
+          "category": "Hardware"
+        }
+      },
+      {
+        "id": "P169011_01",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "P169011",
+          "stepNumber": 1,
+          "stepName": "检查充电设备",
+          "steps": "a. 更换充电设备，检查故障是否排除。 检查结果是否正常？ 是 >> 故障排除。 否 >> 去步骤 2。",
+          "requiredTools": ""
+        }
+      },
+      {
+        "id": "P169011_02",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "P169011",
+          "stepNumber": 2,
+          "stepName": "检查 CC2 信号线束",
+          "steps": "a. 电源状态“OFF”，断开蓄电池负极。 b. 断开动力电池低压线束接插件 FB18，快充插 座接插件 FS02。 c. 用数字万用表测量 FB18 的 12 号针脚与 FS02 的 2 号针脚之间的电阻。 标准电阻值：＜ 1Ω 检查结果是否正常？ 是 >> 去步骤 3。 否 >> 维修或更换 CC2 信号线束。",
+          "requiredTools": "数字万用表"
+        }
+      },
+      {
+        "id": "P169011_03",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "P169011",
+          "stepNumber": 3,
+          "stepName": "检查快充插座",
+          "steps": "a. 更换快充插座，检查故障是否排除。 检查结果是否正常？ 是 >> 故障排除。 否 >> 去步骤 4。",
+          "requiredTools": ""
+        }
+      },
+      {
+        "id": "P169011_04",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "P169011",
+          "stepNumber": 4,
+          "stepName": "更换动力电池",
+          "steps": "a. 更换动力电池，检查故障是否排除。 检查结果是否正常？ 是 >> 故障排除。 否 >> 从其他故障查找原因。",
+          "requiredTools": ""
+        }
+      },
+      {
+        "id": "path_01",
+        "labels": [
+          "SolutionPath"
+        ],
+        "properties": {
+          "coverDTC": "P169011",
+          "referencePath": "动力电池系统(CATL)>故障码诊断与操作>P169011-故障诊断",
+          "summary": "检查线束和充电设备，必要时更换动力电池"
+        }
+      },
+      {
+        "id": "diagram_4.1",
+        "labels": [
+          "DiagramMain"
+        ],
+        "properties": {
+          "title": "电池管理及快充系统",
+          "relatedSystem": "系统电路图",
+          "relatedECU": "动力电池",
+          "model": [
+            "FB18",
+            "BH02",
+            "FS01"
+          ],
+          "includedInterface": [
+            {
+              "电源": "FB18-9",
+              "IG1电源": "FB18-18",
+              "CC2检测": "FB18-12",
+              "快充唤醒": "FB18-13",
+              "快充CAN-L": "FB18-14",
+              "快充CAN-H": "FB18-17",
+              "快充负": "FS01-1",
+              "快充正": "FS01-2",
+              "接地": "FS18-8",
+              "ECAN-H": "FS18-7",
+              "ECAN-L": "FS18-5",
+              "BMCAN-H": "FS18-4",
+              "BMCAN-L": "FS18-3",
+              "紧急下电信号": "FS18-15",
+              "总负": "BH02-2",
+              "总正": "BH02-1"
+            }
+          ]
+        }
+      },
+      {
+        "id": "diagramchild_01",
+        "labels": [
+          "DiagramChild"
+        ],
+        "properties": {
+          "title": "快充插座",
+          "connectECU": "动力电池",
+          "model": "FS02",
+          "pin": [
+            {
+              "2": "N 0.5"
+            }
+          ]
+        }
+      },
+      {
+        "id": "manual_01",
+        "labels": [
+          "MaintenanceManual"
+        ],
+        "properties": {
+          "title": "动力电池机系统",
+          "chapternumber": "3.1.5",
+          "fileID": "1152"
+        }
+      }
+    ],
+    "relations": [
+      {
+        "id": "rel_001",
+        "type": "reportsDTC",
+        "startNode": "system_01",
+        "endNode": "DTC_001",
+        "properties": {}
+      },
+      {
+        "id": "rel_003",
+        "type": "hasRelatedDiagram",
+        "startNode": "system_01",
+        "endNode": "diagram_4.1",
+        "properties": {}
+      },
+      {
+        "id": "rel_004",
+        "type": "hasMaintenanceProcedure",
+        "startNode": "system_01",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_006",
+        "type": "isReportedByECU",
+        "startNode": "DTC_001",
+        "endNode": "system_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_008",
+        "type": "triggersDTC",
+        "startNode": "cause_001",
+        "endNode": "DTC_001",
+        "properties": {}
+      },
+      {
+        "id": "rel_009",
+        "type": "triggersDTC",
+        "startNode": "cause_002",
+        "endNode": "DTC_001",
+        "properties": {}
+      },
+      {
+        "id": "rel_010",
+        "type": "triggersDTC",
+        "startNode": "cause_003",
+        "endNode": "DTC_001",
+        "properties": {}
+      },
+      {
+        "id": "rel_014",
+        "type": "recommendsSolution",
+        "startNode": "DTC_001",
+        "endNode": "path_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_016",
+        "type": "includesCheckStep",
+        "startNode": "path_01",
+        "endNode": "P169011_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_017",
+        "type": "includesCheckStep",
+        "startNode": "path_01",
+        "endNode": "P169011_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_018",
+        "type": "includesCheckStep",
+        "startNode": "path_01",
+        "endNode": "P169011_03",
+        "properties": {}
+      },
+      {
+        "id": "rel_019",
+        "type": "includesCheckStep",
+        "startNode": "path_01",
+        "endNode": "P169011_04",
+        "properties": {}
+      },
+      {
+        "id": "rel_023",
+        "type": "hasSolutionPath",
+        "startNode": "cause_001",
+        "endNode": "path_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_024",
+        "type": "hasSolutionPath",
+        "startNode": "cause_002",
+        "endNode": "path_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_025",
+        "type": "hasSolutionPath",
+        "startNode": "cause_003",
+        "endNode": "path_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_029",
+        "type": "referencesDiagram",
+        "startNode": "P169011_02",
+        "endNode": "diagram_4.1",
+        "properties": {}
+      },
+      {
+        "id": "rel_031",
+        "type": "connectDiagramChild",
+        "startNode": "diagram_4.1",
+        "endNode": "diagramchild_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_036",
+        "type": "referencesManual",
+        "startNode": "P169011_01",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_037",
+        "type": "referencesManual",
+        "startNode": "P169011_02",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_038",
+        "type": "referencesManual",
+        "startNode": "P169011_03",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_039",
+        "type": "referencesManual",
+        "startNode": "P169011_04",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_043",
+        "type": "followsAfter",
+        "startNode": "P169011_01",
+        "endNode": "P169011_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_044",
+        "type": "followsAfter",
+        "startNode": "P169011_02",
+        "endNode": "P169011_03",
+        "properties": {}
+      },
+      {
+        "id": "rel_045",
+        "type": "followsAfter",
+        "startNode": "P169011_03",
+        "endNode": "P169011_04",
+        "properties": {}
+      }
+    ]
+  },
+  {
+    "number": 10,
+    "nodes": [
+      {
+        "id": "system_01",
+        "labels": [
+          "System"
+        ],
+        "properties": {
+          "name": "动力电池系统(CATL)"
+        }
+      },
+      {
+        "id": "DTC_001",
+        "labels": [
+          "DTC"
+        ],
+        "properties": {
+          "code": "P16E098",
+          "description": "电池温度过高 1 级报警",
+          "domain": "P",
+          "severityLevel": 4
+        }
+      },
+      {
+        "id": "DTC_002",
+        "labels": [
+          "DTC"
+        ],
+        "properties": {
+          "code": "P16E006",
+          "description": "电池温差过大",
+          "domain": "P",
+          "severityLevel": 4
+        }
+      },
+      {
+        "id": "cause_001",
+        "labels": [
+          "Cause"
+        ],
+        "properties": {
+          "description": "冷却液不足",
+          "category": "Hardware"
+        }
+      },
+      {
+        "id": "cause_002",
+        "labels": [
+          "Cause"
+        ],
+        "properties": {
+          "description": "冷却管路故障",
+          "category": "Hardware"
+        }
+      },
+      {
+        "id": "cause_003",
+        "labels": [
+          "Cause"
+        ],
+        "properties": {
+          "description": "冷却系统故障",
+          "category": "Software"
+        }
+      },
+      {
+        "id": "cause_004",
+        "labels": [
+          "Cause"
+        ],
+        "properties": {
+          "description": "动力电池内部故障",
+          "category": "Hardware"
+        }
+      },
+      {
+        "id": "cause_005",
+        "labels": [
+          "Cause"
+        ],
+        "properties": {
+          "description": "车辆附近存在异常温度源",
+          "category": "Environmental"
+        }
+      },
+      {
+        "id": "cause_006",
+        "labels": [
+          "Cause"
+        ],
+        "properties": {
+          "description": "冷却系统故障",
+          "category": "Software"
+        }
+      },
+      {
+        "id": "cause_007",
+        "labels": [
+          "Cause"
+        ],
+        "properties": {
+          "description": "动力电池内部故障",
+          "category": "Hardware"
+        }
+      },
+      {
+        "id": "P16E098_01",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "P16E098",
+          "stepNumber": 1,
+          "stepName": "检查冷却液",
+          "steps": "a. 检查冷却液是否充足。 检查结果是否正常？ 是 >> 去步骤 2。 否 >> 添加冷却液。",
+          "requiredTools": ""
+        }
+      },
+      {
+        "id": "P16E098_02",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "P16E098",
+          "stepNumber": 2,
+          "stepName": "检查动力电池冷却管路",
+          "steps": "a. 检查动力电池冷却管路是否正常。 检查结果是否正常？ 是 >> 去步骤 3。 否 >> 更换动力电池故障的冷却管路。",
+          "requiredTools": ""
+        }
+      },
+      {
+        "id": "P16E098_03",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "P16E098",
+          "stepNumber": 3,
+          "stepName": "检查动力电池冷却系统",
+          "steps": "a. 检查动力电池冷却系统是否正常。 检查结果是否正常？ 是 >> 去步骤 4。 否 >> 维修或更换动力电池冷却系统故障部件。",
+          "requiredTools": ""
+        }
+      },
+      {
+        "id": "P16E098_04",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "P16E098",
+          "stepNumber": 4,
+          "stepName": "更换动力电池",
+          "steps": "a. 更换动力电池，检查故障是否排除。 检查结果是否正常？ 是 >> 故障排除。 否 >> 从其他故障查找原因。",
+          "requiredTools": ""
+        }
+      },
+      {
+        "id": "P16E006_01",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "P16E006",
+          "stepNumber": 1,
+          "stepName": "检查车辆附近环境",
+          "steps": "a. 检查车辆是否靠近异常热源。 检查结果是否正常？ 是 >> 去步骤 2。 否 >> 将车辆置于合适的工作环境中。",
+          "requiredTools": ""
+        }
+      },
+      {
+        "id": "P16E006_02",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "P16E006",
+          "stepNumber": 2,
+          "stepName": "检查动力电池冷却系统",
+          "steps": "a. 检查动力电池冷却系统是否正常。 检查结果是否正常？ 是 >> 去步骤 3。 否 >> 维修或更换动力电池冷却系统故障部件。",
+          "requiredTools": ""
+        }
+      },
+      {
+        "id": "P16E006_03",
+        "labels": [
+          "CheckStep"
+        ],
+        "properties": {
+          "coverDTC": "P16E006",
+          "stepNumber": 3,
+          "stepName": "更换动力电池",
+          "steps": "a. 更换动力电池，检查故障是否排除。 检查结果是否正常？ 是 >> 故障排除。 否 >> 从其他故障查找原因。",
+          "requiredTools": "诊断仪"
+        }
+      },
+      {
+        "id": "path_01",
+        "labels": [
+          "SolutionPath"
+        ],
+        "properties": {
+          "coverDTC": "P16E098",
+          "referencePath": "动力电池系统(CATL)>故障码诊断与操作>P16E098/P16E198/P16E298-故障诊断",
+          "summary": "检查管路和冷却系统，必要时更换动力电池"
+        }
+      },
+      {
+        "id": "path_02",
+        "labels": [
+          "SolutionPath"
+        ],
+        "properties": {
+          "coverDTC": "P16E006",
+          "referencePath": "动力电池系统(CATL)>故障码诊断与操作>P16E006-故障诊断",
+          "summary": "检查环境和冷却系统，必要时更换动力电池"
+        }
+      },
+      {
+        "id": "manual_01",
+        "labels": [
+          "MaintenanceManual"
+        ],
+        "properties": {
+          "title": "动力电池机系统",
+          "chapternumber": "3.1.5",
+          "fileID": "1152"
+        }
+      }
+    ],
+    "relations": [
+      {
+        "id": "rel_001",
+        "type": "reportsDTC",
+        "startNode": "system_01",
+        "endNode": "DTC_001",
+        "properties": {}
+      },
+      {
+        "id": "rel_002",
+        "type": "reportsDTC",
+        "startNode": "system_01",
+        "endNode": "DTC_002",
+        "properties": {}
+      },
+      {
+        "id": "rel_004",
+        "type": "hasMaintenanceProcedure",
+        "startNode": "system_01",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_006",
+        "type": "isReportedByECU",
+        "startNode": "DTC_001",
+        "endNode": "system_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_007",
+        "type": "isReportedByECU",
+        "startNode": "DTC_002",
+        "endNode": "system_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_008",
+        "type": "triggersDTC",
+        "startNode": "cause_001",
+        "endNode": "DTC_001",
+        "properties": {}
+      },
+      {
+        "id": "rel_009",
+        "type": "triggersDTC",
+        "startNode": "cause_002",
+        "endNode": "DTC_001",
+        "properties": {}
+      },
+      {
+        "id": "rel_010",
+        "type": "triggersDTC",
+        "startNode": "cause_003",
+        "endNode": "DTC_001",
+        "properties": {}
+      },
+      {
+        "id": "rel_011",
+        "type": "triggersDTC",
+        "startNode": "cause_004",
+        "endNode": "DTC_001",
+        "properties": {}
+      },
+      {
+        "id": "rel_012",
+        "type": "triggersDTC",
+        "startNode": "cause_005",
+        "endNode": "DTC_002",
+        "properties": {}
+      },
+      {
+        "id": "rel_013",
+        "type": "triggersDTC",
+        "startNode": "cause_006",
+        "endNode": "DTC_002",
+        "properties": {}
+      },
+      {
+        "id": "rel_014",
+        "type": "triggersDTC",
+        "startNode": "cause_007",
+        "endNode": "DTC_002",
+        "properties": {}
+      },
+      {
+        "id": "rel_015",
+        "type": "recommendsSolution",
+        "startNode": "DTC_001",
+        "endNode": "path_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_003",
+        "type": "recommendsSolution",
+        "startNode": "DTC_002",
+        "endNode": "path_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_016",
+        "type": "includesCheckStep",
+        "startNode": "path_01",
+        "endNode": "P16E098_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_017",
+        "type": "includesCheckStep",
+        "startNode": "path_01",
+        "endNode": "P16E098_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_018",
+        "type": "includesCheckStep",
+        "startNode": "path_01",
+        "endNode": "P16E098_03",
+        "properties": {}
+      },
+      {
+        "id": "rel_019",
+        "type": "includesCheckStep",
+        "startNode": "path_01",
+        "endNode": "P16E098_04",
+        "properties": {}
+      },
+      {
+        "id": "rel_020",
+        "type": "includesCheckStep",
+        "startNode": "path_02",
+        "endNode": "P16E006_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_021",
+        "type": "includesCheckStep",
+        "startNode": "path_02",
+        "endNode": "P16E006_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_022",
+        "type": "includesCheckStep",
+        "startNode": "path_02",
+        "endNode": "P16E006_03",
+        "properties": {}
+      },
+      {
+        "id": "rel_023",
+        "type": "hasSolutionPath",
+        "startNode": "cause_001",
+        "endNode": "path_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_024",
+        "type": "hasSolutionPath",
+        "startNode": "cause_002",
+        "endNode": "path_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_025",
+        "type": "hasSolutionPath",
+        "startNode": "cause_003",
+        "endNode": "path_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_026",
+        "type": "hasSolutionPath",
+        "startNode": "cause_004",
+        "endNode": "path_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_027",
+        "type": "hasSolutionPath",
+        "startNode": "cause_005",
+        "endNode": "path_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_028",
+        "type": "hasSolutionPath",
+        "startNode": "cause_006",
+        "endNode": "path_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_029",
+        "type": "hasSolutionPath",
+        "startNode": "cause_007",
+        "endNode": "path_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_036",
+        "type": "referencesManual",
+        "startNode": "P16E098_01",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_037",
+        "type": "referencesManual",
+        "startNode": "P16E098_02",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_038",
+        "type": "referencesManual",
+        "startNode": "P16E098_03",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_039",
+        "type": "referencesManual",
+        "startNode": "P16E098_04",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_040",
+        "type": "referencesManual",
+        "startNode": "P16E098_04",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_041",
+        "type": "referencesManual",
+        "startNode": "P16E006_01",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_042",
+        "type": "referencesManual",
+        "startNode": "P16E006_02",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_043",
+        "type": "referencesManual",
+        "startNode": "P16E006_03",
+        "endNode": "manual_01",
+        "properties": {}
+      },
+      {
+        "id": "rel_044",
+        "type": "followsAfter",
+        "startNode": "P16E098_01",
+        "endNode": "P16E098_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_045",
+        "type": "followsAfter",
+        "startNode": "P16E098_02",
+        "endNode": "P16E098_03",
+        "properties": {}
+      },
+      {
+        "id": "rel_046",
+        "type": "followsAfter",
+        "startNode": "P16E098_03",
+        "endNode": "P16E098_04",
+        "properties": {}
+      },
+      {
+        "id": "rel_047",
+        "type": "followsAfter",
+        "startNode": "P16E006_01",
+        "endNode": "P16E006_02",
+        "properties": {}
+      },
+      {
+        "id": "rel_048",
+        "type": "followsAfter",
+        "startNode": "P16E006_02",
+        "endNode": "P16E006_03",
+        "properties": {}
+      }
+    ]
+  }
+]

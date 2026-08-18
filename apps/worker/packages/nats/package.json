@@ -1,0 +1,26 @@
+{
+  "name": "@corekg/nats",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run --passWithNoTests --dir src",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@nats-io/jetstream": "^3.4.0",
+    "@nats-io/transport-node": "^3.4.0",
+    "zod": "^4.4.3",
+    "@corekg/config": "workspace:*",
+    "@corekg/logger": "workspace:*",
+    "@corekg/rpc": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10"
+  }
+}

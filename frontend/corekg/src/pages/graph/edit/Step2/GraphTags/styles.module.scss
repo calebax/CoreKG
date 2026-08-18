@@ -1,0 +1,11 @@
+.item {
+  .operator {
+    visibility: hidden;
+  }
+  &:hover {
+    background-color: #f8f9fd;
+    .operator {
+      visibility: visible;
+    }
+  }
+}

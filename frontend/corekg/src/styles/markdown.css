@@ -1,0 +1,406 @@
+/* Markdown样式 */
+
+/* Tab按钮组的滚动条样式 */
+.custom-tab-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+.custom-tab-scroll::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.custom-tab-scroll::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 2px;
+}
+
+.custom-tab-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+}
+
+.custom-tab-scroll::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.custom-preview-scroll,
+body .custom-preview-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent !important;
+}
+
+.custom-preview-scroll::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* 为文档分析tab设置的特殊样式 */
+.custom-markdown {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-markdown .markdown-body {
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  max-width: 100%;
+  width: 100%;
+  overflow-x: auto;
+  hyphens: auto;
+  min-width: 0;
+  flex: 1;
+}
+
+/* 确保markdown内容容器能够正确处理小宽度 */
+.custom-markdown .markdown-body.flex {
+  min-width: 0;
+  width: 100%;
+}
+
+.custom-markdown .markdown-body.flex.max-h-\[70vh\],
+.custom-markdown .markdown-body.flex.max-h-\[75vh\] {
+  min-width: 0;
+  width: 100%;
+}
+
+/* 通用滚动条样式 - 覆盖所有滚动元素 */
+.custom-markdown *::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-markdown *::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+.custom-markdown *::-webkit-scrollbar-thumb {
+  background: #d9d9d9;
+  border-radius: 4px;
+}
+
+.custom-markdown *::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Firefox滚动条样式 */
+.custom-markdown * {
+  scrollbar-width: thin;
+  scrollbar-color: #d9d9d9 rgba(0, 0, 0, 0.05);
+}
+
+/* 自定义滚动条样式 */
+.custom-markdown .markdown-body::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-markdown .markdown-body::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.custom-markdown .markdown-body::-webkit-scrollbar-thumb {
+  background: #d9d9d9;
+  border-radius: 4px;
+}
+
+.custom-markdown .markdown-body::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* 滚动容器样式优化 */
+.custom-markdown .flex.max-h-\[70vh\].flex-col.overflow-auto,
+.custom-markdown .markdown-body.flex.max-h-\[70vh\].flex-col.overflow-auto {
+  scrollbar-width: thin;
+  scrollbar-color: #d9d9d9 transparent;
+  min-width: 0;
+  width: 100%;
+}
+
+.custom-markdown .flex.max-h-\[70vh\].flex-col.overflow-auto::-webkit-scrollbar,
+.custom-markdown
+  .markdown-body.flex.max-h-\[70vh\].flex-col.overflow-auto::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-markdown
+  .flex.max-h-\[70vh\].flex-col.overflow-auto::-webkit-scrollbar-track,
+.custom-markdown
+  .markdown-body.flex.max-h-\[70vh\].flex-col.overflow-auto::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.custom-markdown
+  .flex.max-h-\[70vh\].flex-col.overflow-auto::-webkit-scrollbar-thumb,
+.custom-markdown
+  .markdown-body.flex.max-h-\[70vh\].flex-col.overflow-auto::-webkit-scrollbar-thumb {
+  background: #d9d9d9;
+  border-radius: 4px;
+}
+
+.custom-markdown
+  .flex.max-h-\[70vh\].flex-col.overflow-auto::-webkit-scrollbar-corner,
+.custom-markdown
+  .markdown-body.flex.max-h-\[70vh\].flex-col.overflow-auto::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.custom-markdown .markdown-body h1 {
+  color: #165dff;
+  font-size: 18px;
+  font-weight: 500;
+  border: none;
+  padding: 0;
+  margin: 12px 0;
+  word-wrap: break-word;
+  white-space: normal;
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+.custom-markdown .markdown-body p {
+  margin-bottom: 12px;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  max-width: 100%;
+  line-height: 1.6;
+  hyphens: auto;
+}
+
+.custom-markdown .markdown-body p,
+.custom-markdown .markdown-body li {
+  color: #606266;
+  font-size: 16px;
+  font-weight: 400;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+/* 移除所有 markdown-body h2 的下边框 */
+.markdown-body h2,
+.markdown-body hr,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6,
+.custom-markdown .markdown-body h2,
+.custom-markdown .markdown-body h3,
+.custom-markdown .markdown-body h4,
+.custom-markdown .markdown-body h5,
+.custom-markdown .markdown-body h6,
+.custom-markdown .markdown-body hr {
+  border-bottom: none !important;
+  background-color: #ffffff;
+}
+
+.custom-markdown .markdown-body h2,
+.custom-markdown .markdown-body h3,
+.custom-markdown .markdown-body h4,
+.custom-markdown .markdown-body h5,
+.custom-markdown .markdown-body h6 {
+  word-wrap: break-word;
+  white-space: normal;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  color: #165dff;
+  border: none;
+  font-weight: 500;
+}
+
+.custom-markdown .markdown-body ul,
+.custom-markdown .markdown-body ol {
+  word-wrap: break-word;
+  white-space: normal;
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+.custom-markdown .markdown-body li {
+  word-wrap: break-word;
+  white-space: normal;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+.markdown-body hr {
+  height: 1px;
+}
+
+.custom-markdown .markdown-body * {
+  max-width: 100%;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* 特别处理代码块 */
+.custom-markdown .markdown-body pre,
+.custom-markdown .markdown-body code {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* 代码块滚动条样式 */
+.custom-markdown .markdown-body pre::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-markdown .markdown-body pre::-webkit-scrollbar-track {
+  background: #f5f5f5;
+  border-radius: 3px;
+}
+
+.custom-markdown .markdown-body pre::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+/* 处理表格溢出 */
+.custom-markdown .markdown-body table {
+  max-width: 100%;
+  overflow-x: auto;
+  display: block;
+  white-space: nowrap;
+}
+
+.custom-markdown .markdown-body table tbody,
+.custom-markdown .markdown-body table thead {
+  display: table;
+  width: 100%;
+}
+
+/* 表格滚动条样式 */
+.custom-markdown .markdown-body table::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-markdown .markdown-body table::-webkit-scrollbar-track {
+  background: #f5f5f5;
+  border-radius: 3px;
+}
+
+.custom-markdown .markdown-body table::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+/* 用于智能分析 */
+.intelligent-analysis-tab {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.intelligent-analysis-tab *::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.intelligent-analysis-tab *::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.intelligent-analysis-tab *::-webkit-scrollbar-thumb {
+  background: #d9d9d9;
+  border-radius: 4px;
+}
+
+.intelligent-analysis-tab *::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.intelligent-analysis-tab * {
+  scrollbar-width: thin;
+  scrollbar-color: #d9d9d9 transparent;
+}
+
+.intelligent-analysis-tab .markdown-body::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.intelligent-analysis-tab .markdown-body::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.intelligent-analysis-tab .markdown-body::-webkit-scrollbar-thumb {
+  background: #d9d9d9;
+  border-radius: 4px;
+}
+
+.intelligent-analysis-tab .markdown-body::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.intelligent-analysis-tab .markdown-body h1,
+.intelligent-analysis-tab .markdown-body h2,
+.intelligent-analysis-tab .markdown-body h3,
+.intelligent-analysis-tab .markdown-body h4,
+.intelligent-analysis-tab .markdown-body h5,
+.intelligent-analysis-tab .markdown-body h6 {
+  border: none;
+}
+
+/* 表格样式 */
+
+.markdown-body table {
+  display: table !important;
+  border-collapse: collapse;
+  overflow-x: auto;
+  margin: 1em 0;
+  overflow-x: auto;
+  border-spacing: 0;
+  background-color: #ffffff !important;
+  color: #24292e !important;
+  border: 1px solid #dfe2e5;
+}
+
+.markdown-body table tr {
+  background-color: #ffffff !important;
+  border-top: 1px solid #c6cbd1;
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: #f6f8fa !important;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+  border: 1px solid #dfe2e5 !important;
+  padding: 0.6em 1em;
+  text-align: left;
+  color: #24292e !important;
+}
+
+.markdown-body table th {
+  font-weight: 600;
+  background-color: #f0f0f0 !important;
+}
+
+.table-container {
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}

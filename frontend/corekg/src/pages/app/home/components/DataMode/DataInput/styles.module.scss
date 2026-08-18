@@ -1,0 +1,18 @@
+.dataInput {
+  border: none;
+  box-shadow: none;
+  outline: none;
+  margin: 0;
+  textarea {
+    resize: none;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    text-indent: 70px;
+    overflow: hidden;
+    height: 100%;
+    line-height: 24px;
+  }
+}

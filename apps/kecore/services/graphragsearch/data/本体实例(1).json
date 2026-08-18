@@ -1,0 +1,2815 @@
+{
+  "nodes":[
+  {
+    "id": "ECU_REAR_RADAR_01",
+    "labels": ["ECU"],
+    "properties": {
+      "name": "倒车雷达 ECU",
+      "supportedProtocols": "",
+      "hardwareVersion": ""
+    }
+  },
+  {
+    "id": "U007388",
+    "labels": ["DTC"],
+    "properties": {
+      "code": "U007388",
+      "description": "CAN总线离线",
+      "domain": "U",
+      "severityLevel": 4
+    }
+  },
+  {
+    "id": "U108087",
+    "labels": ["DTC"],
+    "properties": {
+      "code": "U108087",
+      "description": "与网关转发的整车控制器信号丢失通讯",
+      "domain": "U",
+      "severityLevel": 4
+    }
+  },
+  {
+    "id": "U015587",
+    "labels": ["DTC"],
+    "properties": {
+      "code": "U015587",
+      "description": "与网关转发的全景控制器信号丢失通讯",
+      "domain": "U",
+      "severityLevel": 4
+    }
+  },
+  {
+    "id": "U014087",
+    "labels": ["DTC"],
+    "properties": {
+      "code": "U014087",
+      "description": "与网关转发的车身控制模块信号丢失通讯",
+      "domain": "U",
+      "severityLevel": 4
+    }
+  },
+  {
+    "id": "U044781",
+    "labels": ["DTC"],
+    "properties": {
+      "code": "U044781",
+      "description": "接收到无效的网关控制模块报文",
+      "domain": "U",
+      "severityLevel": 3
+    }
+  },
+  {
+    "id": "B216046",
+    "labels": ["DTC"],
+    "properties": {
+      "code": "B216046",
+      "description": "控制模块校准/参数存储器故障：EEPROM",
+      "domain": "B",
+      "severityLevel": 4
+    }
+  },
+  {
+    "id": "B212296",
+    "labels": ["DTC"],
+    "properties": {
+      "code": "B212296",
+      "description": "后右侧传感器故障",
+      "domain": "B",
+      "severityLevel": 3
+    }
+  },
+  {
+    "id": "B212396",
+    "labels": ["DTC"],
+    "properties": {
+      "code": "B212396",
+      "description": "后右中传感器故障",
+      "domain": "B",
+      "severityLevel": 3
+    }
+  },
+  {
+    "id": "B212496",
+    "labels": ["DTC"],
+    "properties": {
+      "code": "B212496",
+      "description": "后左侧传感器故障",
+      "domain": "B",
+      "severityLevel": 3
+    }
+  },
+  {
+    "id": "B212596",
+    "labels": ["DTC"],
+    "properties": {
+      "code": "B212596",
+      "description": "后左中传感器故障",
+      "domain": "B",
+      "severityLevel": 3
+    }
+  },
+  {
+    "id": "B212696",
+    "labels": ["DTC"],
+    "properties": {
+      "code": "B212696",
+      "description": "前右侧传感器故障",
+      "domain": "B",
+      "severityLevel": 3
+    }
+  },
+  {
+    "id": "B212796",
+    "labels": ["DTC"],
+    "properties": {
+      "code": "B212796",
+      "description": "前右中传感器故障",
+      "domain": "B",
+      "severityLevel": 3
+    }
+  },
+  {
+    "id": "B212896",
+    "labels": ["DTC"],
+    "properties": {
+      "code": "B212896",
+      "description": "前左侧传感器故障",
+      "domain": "B",
+      "severityLevel": 3
+    }
+  },
+  {
+    "id": "B212996",
+    "labels": ["DTC"],
+    "properties": {
+      "code": "B212996",
+      "description": "前左中传感器故障",
+      "domain": "B",
+      "severityLevel": 3
+    }
+  },
+  {
+    "id": "B210016",
+    "labels": ["DTC"],
+    "properties": {
+      "code": "B210016",
+      "description": "电压过低",
+      "domain": "B",
+      "severityLevel": 3
+    }
+  },
+  {
+    "id": "B210017",
+    "labels": ["DTC"],
+    "properties": {
+      "code": "B210017",
+      "description": "电压过高",
+      "domain": "B",
+      "severityLevel": 3
+    }
+  },
+  {
+    "id": "U012987",
+    "labels": ["DTC"],
+    "properties": {
+      "code": "U012987",
+      "description": "与网关转发的制动控制模块信号丢失通讯",
+      "domain": "U",
+      "severityLevel": 4
+    }
+  },
+  {
+    "id": "cause_001",
+    "labels": ["Cause"],
+    "properties": {
+      "description": "RPA CAN通讯故障",
+      "category": "Wiring"
+    }
+  },
+  {
+    "id": "cause_002",
+    "labels": ["Cause"],
+    "properties": {
+      "description": "与网关控制模块转发到整车控制器信号丢失通讯 1S以上",
+      "category": "Wiring"
+    }
+  },
+  {
+    "id": "cause_003",
+    "labels": ["Cause"],
+    "properties": {
+      "description": "与网关控制模块转发的全景控制器丢失通讯 1S以上",
+      "category": "Wiring"
+    }
+  },
+  {
+    "id": "cause_004",
+    "labels": ["Cause"],
+    "properties": {
+      "description": "与网关控制模块转发到车身控制模块信号丢失通讯 1S以上",
+      "category": "Wiring"
+    }
+  },
+  {
+    "id": "cause_005",
+    "labels": ["Cause"],
+    "properties": {
+      "description": "接收到无效的网关控制模块报文",
+      "category": "Software"
+    }
+  },
+  {
+    "id": "cause_006",
+    "labels": ["Cause"],
+    "properties": {
+      "description": "不能正常读写数据的次数达到 3次",
+      "category": "Hardware"
+    }
+  },
+  {
+    "id": "cause_007",
+    "labels": ["Cause"],
+    "properties": {
+      "description": "部件内部故障/短路到地或者开路",
+      "category": "Hardware"
+    }
+  },
+  {
+    "id": "cause_008",
+    "labels": ["Cause"],
+    "properties": {
+      "description": "蓄电池电压过低",
+      "category": "Environmental"
+    }
+  },
+  {
+    "id": "cause_009",
+    "labels": ["Cause"],
+    "properties": {
+      "description": "蓄电池电压过高",
+      "category": "Environmental"
+    }
+  },
+  {
+    "id": "cause_010",
+    "labels": ["Cause"],
+    "properties": {
+      "description": "与网关控制模块转发到制动控制模块信号丢失通讯 1S以上",
+      "category": "Wiring"
+    }
+  },
+  {
+    "id": "U007388_01",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "U007388",
+      "stepNumber": 1,
+      "stepName": "一般检查",
+      "steps": "启动车辆，连接故障诊断仪清除故障码。熄火车辆，关闭所有用电器，5秒后重新启动车辆。再次读取故障诊断码，检查故障码是否依然存在。",
+      "requiredTools": "故障诊断仪"
+    }
+  },
+  {
+    "id": "U007388_02",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "U007388",
+      "stepNumber": 2,
+      "stepName": "检查倒车雷达 ECU CAN 线",
+      "steps": "电源状态（OFF），断开蓄电池负极。断开倒车雷达 ECU接插件 BD90及网关接插件 IP20。检查 BD90的 21/20号针脚与 IP20的 8/18号针脚之间的线路是否正常。",
+      "requiredTools": "数字万用表"
+    }
+  },
+  {
+    "id": "U007388_03",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "U007388",
+      "stepNumber": 3,
+      "stepName": "更换倒车雷达ECU",
+      "steps": "更换新的倒车雷达 ECU，检查故障码及症状是否排除。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "U108087_01",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "U108087",
+      "stepNumber": 1,
+      "stepName": "一般检查",
+      "steps": "启动车辆，连接故障诊断仪清除故障码。熄火车辆，关闭所有用电器，5秒后重新启动车辆。再次读取故障诊断码，检查故障码是否依然存在。",
+      "requiredTools": "故障诊断仪"
+    }
+  },
+  {
+    "id": "U108087_02",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "U108087",
+      "stepNumber": 2,
+      "stepName": "检查整车控制模块 CAN 线",
+      "steps": "电源状态(OFF)，断开蓄电池负极。断开倒车雷达 ECU接插件 BD90及整车控制模块插件FB36。检查 BD90的 21/20号针脚与 FB36的 56/57号针脚之间的线路是否正常。",
+      "requiredTools": "数字万用表"
+    }
+  },
+  {
+    "id": "U108087_03",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "U108087",
+      "stepNumber": 3,
+      "stepName": "检查整车控制模块故障码",
+      "steps": "读取整车控制模块故障码，检查是否存在同类型故障码。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "U108087_04",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "U108087",
+      "stepNumber": 4,
+      "stepName": "更换倒车雷达ECU",
+      "steps": "更换新的倒车雷达 ECU，检查故障码及症状是否排除。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "U015587_01",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "U015587",
+      "stepNumber": 1,
+      "stepName": "一般检查",
+      "steps": "启动车辆，连接故障诊断仪清除故障码。熄火车辆，关闭所有用电器，5秒后重新启动车辆。再次读取故障诊断码，检查故障码是否依然存在。",
+      "requiredTools": "故障诊断仪"
+    }
+  },
+  {
+    "id": "U015587_02",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "U015587",
+      "stepNumber": 2,
+      "stepName": "检查全景泊车控制模块CAN线",
+      "steps": "电源状态(OFF)，断开蓄电池负极。断开倒车雷达 ECU接插件 BD90及全景泊车控制模块接插件 BD32。检查 BD90的 21/20号针脚与 BD32 6/5号针脚之间的线路是否正常。",
+      "requiredTools": "数字万用表"
+    }
+  },
+  {
+    "id": "U015587_03",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "U015587",
+      "stepNumber": 3,
+      "stepName": "检查全景泊车控制模块故障码",
+      "steps": "读取全景泊车控制模块故障码，检查是否存在同类型故障码。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "U015587_04",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "U015587",
+      "stepNumber": 4,
+      "stepName": "更换倒车雷达ECU",
+      "steps": "更换新的倒车雷达 ECU，检查故障码及症状是否排除。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "U014087_01",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "U014087",
+      "stepNumber": 1,
+      "stepName": "一般检查",
+      "steps": "启动车辆，连接故障诊断仪清除故障码。熄火车辆，关闭所有用电器，5秒后重新启动车辆。再次读取故障诊断码，检查故障码是否依然存在。",
+      "requiredTools": "故障诊断仪"
+    }
+  },
+  {
+    "id": "U014087_02",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "U014087",
+      "stepNumber": 2,
+      "stepName": "检查全景泊车控制模块CAN线",
+      "steps": "电源状态(OFF)，断开蓄电池负极。断开倒车雷达 ECU接插件 BD90及网关控制模块接插件IP20。检查 BD90的 21/20号针脚与 IP20 8/18号针脚之间的线路是否正常。检查 IP19 43/42号针脚与 IP20 5/15号针脚之间的线路是否正常。",
+      "requiredTools": "数字万用表"
+    }
+  },
+  {
+    "id": "U014087_03",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "U014087",
+      "stepNumber": 3,
+      "stepName": "检查车身控制模块故障码",
+      "steps": "读取车身控制模块故障码，检查是否存在同类型故障码。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "U014087_04",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "U014087",
+      "stepNumber": 4,
+      "stepName": "更换倒车雷达ECU",
+      "steps": "更换新的倒车雷达 ECU，检查故障码及症状是否排除。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "U044781_01",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "U044781",
+      "stepNumber": 1,
+      "stepName": "一般检查",
+      "steps": "启动车辆，连接故障诊断仪清除故障码。熄火车辆，关闭所有用电器，5秒后重新启动车辆。再次读取故障诊断码，检查故障码是否依然存在。",
+      "requiredTools": "故障诊断仪"
+    }
+  },
+  {
+    "id": "U044781_02",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "U044781",
+      "stepNumber": 2,
+      "stepName": "检查全景泊车控制模块CAN线",
+      "steps": "电源状态(OFF)，断开蓄电池负极。断开倒车雷达 ECU接插件 BD90及网关控制模块接插件IP20。检查 BD90的 21/20号针脚与 IP20 8/18号针脚之间的线路是否正常。",
+      "requiredTools": "数字万用表"
+    }
+  },
+  {
+    "id": "U044781_03",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "U044781",
+      "stepNumber": 3,
+      "stepName": "检查网关控制模块故障码",
+      "steps": "读取网关控制模块故障码，检查是否存在同类型故障码。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "U044781_04",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "U044781",
+      "stepNumber": 4,
+      "stepName": "更换倒车雷达ECU",
+      "steps": "更换新的倒车雷达 ECU，检查故障码及症状是否排除。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "B216046_01",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B216046",
+      "stepNumber": 1,
+      "stepName": "一般检查",
+      "steps": "启动车辆，连接故障诊断仪清除故障码。熄火车辆，关闭所有用电器，5秒后重新启动车辆。再次读取故障诊断码，检查故障码是否依然存在。",
+      "requiredTools": "故障诊断仪"
+    }
+  },
+  {
+    "id": "B216046_02",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B216046",
+      "stepNumber": 2,
+      "stepName": "更换倒车雷达ECU",
+      "steps": "更换新的倒车雷达 ECU，检查故障码及症状是否排除。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "B212296_01",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212296",
+      "stepNumber": 1,
+      "stepName": "一般检查",
+      "steps": "启动车辆，连接故障诊断仪清除故障码。熄火车辆，关闭所有用电器，5秒后重新启动车辆。再次读取故障诊断码，检查故障码是否依然存在。",
+      "requiredTools": "故障诊断仪"
+    }
+  },
+  {
+    "id": "B212396_01",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212396",
+      "stepNumber": 1,
+      "stepName": "一般检查",
+      "steps": "启动车辆，连接故障诊断仪清除故障码。熄火车辆，关闭所有用电器，5秒后重新启动车辆。再次读取故障诊断码，检查故障码是否依然存在。",
+      "requiredTools": "故障诊断仪"
+    }
+  },
+  {
+    "id": "B212496_01",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212496",
+      "stepNumber": 1,
+      "stepName": "一般检查",
+      "steps": "启动车辆，连接故障诊断仪清除故障码。熄火车辆，关闭所有用电器，5秒后重新启动车辆。再次读取故障诊断码，检查故障码是否依然存在。",
+      "requiredTools": "故障诊断仪"
+    }
+  },
+  {
+    "id": "B212596_01",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212596",
+      "stepNumber": 1,
+      "stepName": "一般检查",
+      "steps": "启动车辆，连接故障诊断仪清除故障码。熄火车辆，关闭所有用电器，5秒后重新启动车辆。再次读取故障诊断码，检查故障码是否依然存在。",
+      "requiredTools": "故障诊断仪"
+    }
+  },
+  {
+    "id": "B212696_01",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212696",
+      "stepNumber": 1,
+      "stepName": "一般检查",
+      "steps": "启动车辆，连接故障诊断仪清除故障码。熄火车辆，关闭所有用电器，5秒后重新启动车辆。再次读取故障诊断码，检查故障码是否依然存在。",
+      "requiredTools": "故障诊断仪"
+    }
+  },
+  {
+    "id": "B212796_01",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212796",
+      "stepNumber": 1,
+      "stepName": "一般检查",
+      "steps": "启动车辆，连接故障诊断仪清除故障码。熄火车辆，关闭所有用电器，5秒后重新启动车辆。再次读取故障诊断码，检查故障码是否依然存在。",
+      "requiredTools": "故障诊断仪"
+    }
+  },
+  {
+    "id": "B212896_01",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212896",
+      "stepNumber": 1,
+      "stepName": "一般检查",
+      "steps": "启动车辆，连接故障诊断仪清除故障码。熄火车辆，关闭所有用电器，5秒后重新启动车辆。再次读取故障诊断码，检查故障码是否依然存在。",
+      "requiredTools": "故障诊断仪"
+    }
+  },
+  {
+    "id": "B212996_01",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212996",
+      "stepNumber": 1,
+      "stepName": "一般检查",
+      "steps": "启动车辆，连接故障诊断仪清除故障码。熄火车辆，关闭所有用电器，5秒后重新启动车辆。再次读取故障诊断码，检查故障码是否依然存在。",
+      "requiredTools": "故障诊断仪"
+    }
+  },
+  {
+    "id": "B212296_02",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212296",
+      "stepNumber": 2,
+      "stepName": "检查倒车雷达传感器相关线束",
+      "steps": "电源状态(OFF)，断开蓄电池负极。断开左倒车雷达传感器插件RP07。用数字万用表测量RP07的1/3/2号针脚与接地之间是否存在短路故障。",
+      "requiredTools": "数字万用表"
+    }
+  },
+  {
+    "id": "B212396_02",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212396",
+      "stepNumber": 2,
+      "stepName": "检查倒车雷达传感器相关线束",
+      "steps": "电源状态(OFF)，断开蓄电池负极。断开左倒车雷达传感器插件RP07。用数字万用表测量RP07的1/3/2号针脚与接地之间是否存在短路故障。",
+      "requiredTools": "数字万用表"
+    }
+  },
+  {
+    "id": "B212496_02",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212496",
+      "stepNumber": 2,
+      "stepName": "检查倒车雷达传感器相关线束",
+      "steps": "电源状态(OFF)，断开蓄电池负极。断开左倒车雷达传感器插件RP07。用数字万用表测量RP07的1/3/2号针脚与接地之间是否存在短路故障。",
+      "requiredTools": "数字万用表"
+    }
+  },
+  {
+    "id": "B212596_02",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212596",
+      "stepNumber": 2,
+      "stepName": "检查倒车雷达传感器相关线束",
+      "steps": "电源状态(OFF)，断开蓄电池负极。断开左倒车雷达传感器插件RP07。用数字万用表测量RP07的1/3/2号针脚与接地之间是否存在短路故障。",
+      "requiredTools": "数字万用表"
+    }
+  },
+  {
+    "id": "B212696_02",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212696",
+      "stepNumber": 2,
+      "stepName": "检查倒车雷达传感器相关线束",
+      "steps": "电源状态(OFF)，断开蓄电池负极。断开左倒车雷达传感器插件RP07。用数字万用表测量RP07的1/3/2号针脚与接地之间是否存在短路故障。",
+      "requiredTools": "数字万用表"
+    }
+  },
+  {
+    "id": "B212796_02",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212796",
+      "stepNumber": 2,
+      "stepName": "检查倒车雷达传感器相关线束",
+      "steps": "电源状态(OFF)，断开蓄电池负极。断开左倒车雷达传感器插件RP07。用数字万用表测量RP07的1/3/2号针脚与接地之间是否存在短路故障。",
+      "requiredTools": "数字万用表"
+    }
+  },
+  {
+    "id": "B212896_02",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212896",
+      "stepNumber": 2,
+      "stepName": "检查倒车雷达传感器相关线束",
+      "steps": "电源状态(OFF)，断开蓄电池负极。断开左倒车雷达传感器插件RP07。用数字万用表测量RP07的1/3/2号针脚与接地之间是否存在短路故障。",
+      "requiredTools": "数字万用表"
+    }
+  },
+  {
+    "id": "B212996_02",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212996",
+      "stepNumber": 2,
+      "stepName": "检查倒车雷达传感器相关线束",
+      "steps": "电源状态(OFF)，断开蓄电池负极。断开左倒车雷达传感器插件RP07。用数字万用表测量RP07的1/3/2号针脚与接地之间是否存在短路故障。",
+      "requiredTools": "数字万用表"
+    }
+  },
+  {
+    "id": "B212296_03",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212296",
+      "stepNumber": 3,
+      "stepName": "检查倒车雷达传感器相关线束",
+      "steps": "电源状态(OFF)，断开蓄电池负极。断开右倒车雷达传感器插件RP07及倒车雷达ECU BD90。用数字万用表测量RP07的1/3/2号针脚与BD90的23/11/15号针脚之间是否存在开路故障。",
+      "requiredTools": "数字万用表"
+    }
+  },
+  {
+    "id": "B212396_03",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212396",
+      "stepNumber": 3,
+      "stepName": "检查倒车雷达传感器相关线束",
+      "steps": "电源状态(OFF)，断开蓄电池负极。断开右倒车雷达传感器插件RP07及倒车雷达ECU BD90。用数字万用表测量RP07的1/3/2号针脚与BD90的23/11/15号针脚之间是否存在开路故障。",
+      "requiredTools": "数字万用表"
+    }
+  },
+  {
+    "id": "B212496_03",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212496",
+      "stepNumber": 3,
+      "stepName": "检查倒车雷达传感器相关线束",
+      "steps": "电源状态(OFF)，断开蓄电池负极。断开右倒车雷达传感器插件RP07及倒车雷达ECU BD90。用数字万用表测量RP07的1/3/2号针脚与BD90的23/11/15号针脚之间是否存在开路故障。",
+      "requiredTools": "数字万用表"
+    }
+  },
+  {
+    "id": "B212596_03",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212596",
+      "stepNumber": 3,
+      "stepName": "检查倒车雷达传感器相关线束",
+      "steps": "电源状态(OFF)，断开蓄电池负极。断开右倒车雷达传感器插件RP07及倒车雷达ECU BD90。用数字万用表测量RP07的1/3/2号针脚与BD90的23/11/15号针脚之间是否存在开路故障。",
+      "requiredTools": "数字万用表"
+    }
+  },
+  {
+    "id": "B212696_03",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212696",
+      "stepNumber": 3,
+      "stepName": "检查倒车雷达传感器相关线束",
+      "steps": "电源状态(OFF)，断开蓄电池负极。断开右倒车雷达传感器插件RP07及倒车雷达ECU BD90。用数字万用表测量RP07的1/3/2号针脚与BD90的23/11/15号针脚之间是否存在开路故障。",
+      "requiredTools": "数字万用表"
+    }
+  },
+  {
+    "id": "B212796_03",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212796",
+      "stepNumber": 3,
+      "stepName": "检查倒车雷达传感器相关线束",
+      "steps": "电源状态(OFF)，断开蓄电池负极。断开右倒车雷达传感器插件RP07及倒车雷达ECU BD90。用数字万用表测量RP07的1/3/2号针脚与BD90的23/11/15号针脚之间是否存在开路故障。",
+      "requiredTools": "数字万用表"
+    }
+  },
+  {
+    "id": "B212896_03",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212896",
+      "stepNumber": 3,
+      "stepName": "检查倒车雷达传感器相关线束",
+      "steps": "电源状态(OFF)，断开蓄电池负极。断开右倒车雷达传感器插件RP07及倒车雷达ECU BD90。用数字万用表测量RP07的1/3/2号针脚与BD90的23/11/15号针脚之间是否存在开路故障。",
+      "requiredTools": "数字万用表"
+    }
+  },
+  {
+    "id": "B212996_03",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212996",
+      "stepNumber": 3,
+      "stepName": "检查倒车雷达传感器相关线束",
+      "steps": "电源状态(OFF)，断开蓄电池负极。断开右倒车雷达传感器插件RP07及倒车雷达ECU BD90。用数字万用表测量RP07的1/3/2号针脚与BD90的23/11/15号针脚之间是否存在开路故障。",
+      "requiredTools": "数字万用表"
+    }
+  },
+  {
+    "id": "B212296_04",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212296",
+      "stepNumber": 4,
+      "stepName": "更换倒车雷达传感器",
+      "steps": "更换新的倒车雷达传感器，检查故障码及症状是否排除。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "B212396_04",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212396",
+      "stepNumber": 4,
+      "stepName": "更换倒车雷达传感器",
+      "steps": "更换新的倒车雷达传感器，检查故障码及症状是否排除。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "B212496_04",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212496",
+      "stepNumber": 4,
+      "stepName": "更换倒车雷达传感器",
+      "steps": "更换新的倒车雷达传感器，检查故障码及症状是否排除。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "B212596_04",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212596",
+      "stepNumber": 4,
+      "stepName": "更换倒车雷达传感器",
+      "steps": "更换新的倒车雷达传感器，检查故障码及症状是否排除。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "B212696_04",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212696",
+      "stepNumber": 4,
+      "stepName": "更换倒车雷达传感器",
+      "steps": "更换新的倒车雷达传感器，检查故障码及症状是否排除。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "B212796_04",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212796",
+      "stepNumber": 4,
+      "stepName": "更换倒车雷达传感器",
+      "steps": "更换新的倒车雷达传感器，检查故障码及症状是否排除。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "B212896_04",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212896",
+      "stepNumber": 4,
+      "stepName": "更换倒车雷达传感器",
+      "steps": "更换新的倒车雷达传感器，检查故障码及症状是否排除。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "B212996_04",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212996",
+      "stepNumber": 4,
+      "stepName": "更换倒车雷达传感器",
+      "steps": "更换新的倒车雷达传感器，检查故障码及症状是否排除。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "B212296_05",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212296",
+      "stepNumber": 5,
+      "stepName": "更换倒车雷达ECU",
+      "steps": "更换新的倒车雷达 ECU，检查故障码及症状是否排除。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "B212396_05",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212396",
+      "stepNumber": 5,
+      "stepName": "更换倒车雷达ECU",
+      "steps": "更换新的倒车雷达 ECU，检查故障码及症状是否排除。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "B212496_05",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212496",
+      "stepNumber": 5,
+      "stepName": "更换倒车雷达ECU",
+      "steps": "更换新的倒车雷达 ECU，检查故障码及症状是否排除。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "B212596_05",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212596",
+      "stepNumber": 5,
+      "stepName": "更换倒车雷达ECU",
+      "steps": "更换新的倒车雷达 ECU，检查故障码及症状是否排除。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "B212696_05",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212696",
+      "stepNumber": 5,
+      "stepName": "更换倒车雷达ECU",
+      "steps": "更换新的倒车雷达 ECU，检查故障码及症状是否排除。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "B212796_05",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212796",
+      "stepNumber": 5,
+      "stepName": "更换倒车雷达ECU",
+      "steps": "更换新的倒车雷达 ECU，检查故障码及症状是否排除。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "B212896_05",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212896",
+      "stepNumber": 5,
+      "stepName": "更换倒车雷达ECU",
+      "steps": "更换新的倒车雷达 ECU，检查故障码及症状是否排除。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "B212996_05",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B212996",
+      "stepNumber": 5,
+      "stepName": "更换倒车雷达ECU",
+      "steps": "更换新的倒车雷达 ECU，检查故障码及症状是否排除。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "B210016_01",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B210016",
+      "stepNumber": 1,
+      "stepName": "检查蓄电池电压是否正常",
+      "steps": "电源状态(OFF)，断开蓄电池负极。用数字万用表测量蓄电池两端电压。",
+      "requiredTools": "数字万用表"
+    }
+  },
+  {
+    "id": "B210017_01",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B210017",
+      "stepNumber": 1,
+      "stepName": "检查蓄电池电压是否正常",
+      "steps": "电源状态(OFF)，断开蓄电池负极。用数字万用表测量蓄电池两端电压。",
+      "requiredTools": "数字万用表"
+    }
+  },
+  {
+    "id": "B210016_02",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B210016",
+      "stepNumber": 2,
+      "stepName": "检查倒车雷达ECU供电相关线束",
+      "steps": "启动车辆，用数字万用表测量倒车雷达ECU接插件BD90的1号针脚与接地之间的电压是否正常。",
+      "requiredTools": "数字万用表"
+    }
+  },
+  {
+    "id": "B210017_02",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B210017",
+      "stepNumber": 2,
+      "stepName": "检查倒车雷达ECU供电相关线束",
+      "steps": "启动车辆，用数字万用表测量倒车雷达ECU接插件BD90的1号针脚与接地之间的电压是否正常。",
+      "requiredTools": "数字万用表"
+    }
+  },
+  {
+    "id": "B210016_03",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B210016",
+      "stepNumber": 3,
+      "stepName": "检查倒车雷达ECU保险丝",
+      "steps": "目视检查仪表电器盒保险丝IF35是否正常。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "B210017_03",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "B210017",
+      "stepNumber": 3,
+      "stepName": "检查倒车雷达ECU保险丝",
+      "steps": "目视检查仪表电器盒保险丝IF35是否正常。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "U012987_01",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "U012987",
+      "stepNumber": 1,
+      "stepName": "一般检查",
+      "steps": "启动车辆，连接故障诊断仪清除故障码。熄火车辆，关闭所有用电器，5秒后重新启动车辆。再次读取故障诊断码，检查故障码是否依然存在。",
+      "requiredTools": "故障诊断仪"
+    }
+  },
+  {
+    "id": "U012987_02",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "U012987",
+      "stepNumber": 2,
+      "stepName": "检查制动控制模块CAN线",
+      "steps": "电源状态(OFF)，断开蓄电池负极。断开倒车雷达 ECU接插件 BD90及制动控制模块接插件FB19。检查 BD90的 21/20号针脚与 FB19 7/21号针脚之间的线路是否正常。",
+      "requiredTools": "数字万用表"
+    }
+  },
+  {
+    "id": "U012987_03",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "U012987",
+      "stepNumber": 3,
+      "stepName": "检查制动控制模块故障码",
+      "steps": "读取制动控制模块故障码，检查是否存在同类型故障码。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "U012987_04",
+    "labels": ["CheckStep"],
+    "properties": {
+      "coverDTC": "U012987",
+      "stepNumber": 4,
+      "stepName": "更换倒车雷达ECU",
+      "steps": "更换新的倒车雷达 ECU，检查故障码及症状是否排除。",
+      "requiredTools": ""
+    }
+  },
+  {
+    "id": "path_01",
+    "labels": ["SolutionPath"],
+    "properties": {
+      "coverDTC": "U007388",
+      "referencePath": "倒车雷达 ECU>故障码诊断与操作>U007388-故障诊断",
+      "summary": "针对U007388进行CAN通信线路检查及ECU更换"
+    }
+  },
+  {
+    "id": "path_02",
+    "labels": ["SolutionPath"],
+    "properties": {
+      "coverDTC": "U108087",
+      "referencePath": "倒车雷达 ECU>故障码诊断与操作>U108087-故障诊断",
+      "summary": "针对U108087进行整车控制器CAN通信检查"
+    }
+  },
+  {
+    "id": "path_03",
+    "labels": ["SolutionPath"],
+    "properties": {
+      "coverDTC": "U015587",
+      "referencePath": "倒车雷达 ECU>故障码诊断与操作>U015587-故障诊断",
+      "summary": "针对U015587进行全景控制器CAN通信检查"
+    }
+  },
+  {
+    "id": "path_04",
+    "labels": ["SolutionPath"],
+    "properties": {
+      "coverDTC": "U014087",
+      "referencePath": "倒车雷达 ECU>故障码诊断与操作>U014087-故障诊断",
+      "summary": "针对U014087进行车身控制模块CAN通信检查"
+    }
+  },
+  {
+    "id": "path_05",
+    "labels": ["SolutionPath"],
+    "properties": {
+      "coverDTC": "U044781",
+      "referencePath": "倒车雷达 ECU>故障码诊断与操作>U044781-故障诊断",
+      "summary": "针对U044781进行网关报文有效性检查"
+    }
+  },
+  {
+    "id": "path_06",
+    "labels": ["SolutionPath"],
+    "properties": {
+      "coverDTC": "B216046",
+      "referencePath": "倒车雷达 ECU>故障码诊断与操作>B216046-故障诊断",
+      "summary": "更换倒车雷达ECU解决EEPROM故障"
+    }
+  },
+  {
+    "id": "path_07",
+    "labels": ["SolutionPath"],
+    "properties": {
+      "coverDTC": "B212296&&&B212396&&&B212496&&&B212596&&&B212696&&&B212796&&&B212896&&&B212996",
+      "referencePath": "倒车雷达 ECU>故障码诊断与操作>B212296/B212396/B212496/B212596/B212696/B212796/B212896/B212996-故障诊断",
+      "summary": "针对传感器故障进行线束和传感器更换"
+    }
+  },
+  {
+    "id": "path_08",
+    "labels": ["SolutionPath"],
+    "properties": {
+      "coverDTC": "B260016&&&B260017",
+      "referencePath": "倒车雷达 ECU>故障码诊断与操作>B260016/B260017-故障诊断",
+      "summary": "针对电源异常进行供电线路和保险丝检查"
+    }
+  },
+  {
+    "id": "path_09",
+    "labels": ["SolutionPath"],
+    "properties": {
+      "coverDTC": "U012987",
+      "referencePath": "倒车雷达 ECU>故障码诊断与操作>U012987-故障诊断",
+      "summary": "针对U012987进行制动控制模块CAN通信检查"
+    }
+  },
+  {
+    "id": "diagram_4.39",
+    "labels": ["Diagram"],
+    "properties": {
+      "title": "电气-泊车辅助系统",
+      "relatedECU": "倒车雷达 ECU",
+      "ecuModel": "BD90",
+      "relatedSystem": "电气-泊车辅助系统",
+      "includedSensors": "左倒车雷达传感器;中倒车雷达传感器;右倒车雷达传感器；仪表板电器盒；ACAN系统",
+      "includedPins": "11；23；10；15；8；24；ACAN-L；ACAN-H；IG1电源"
+    }
+  },
+  {
+    "id": "4.13.5.1",
+    "labels": ["MaintenanceOperation"],
+    "properties": {
+      "system": "电气-泊车辅助系统",
+      "operationType": "拆卸",
+      "维修对象": "全景泊车ECU",
+      "steps": "1. 将车辆停在平坦路面，整车处于“OFF“状态，启用驻车制动。2. 拆卸前排左座椅总成。3. 掀开地毯，拆卸全景泊车ECU的4颗固定螺母，并将其连带线束取出。4. 断开接插件A（视频输出）、B（左右视频输入）、C（前后视频输入）、D（高清视频信号），取出全景泊车ECU总成。",
+      "tips": "",
+      "recommendedTools": "10mm套筒"
+    }
+  },
+  {
+    "id": "4.13.5.1_install",
+    "labels": ["MaintenanceOperation"],
+    "properties": {
+      "system": "电气-泊车辅助系统",
+      "operationType": "安装",
+      "维修对象": "全景泊车ECU",
+      "steps": "1. 连接接插件A、B、C、D至全景泊车ECU。2. 安装全景泊车ECU至固定位置，安装4颗固定螺母并紧固。3. 安装前排左座椅总成。4. 检查全景泊车功能应工作正常。",
+      "tips": "",
+      "recommendedTools": "10mm套筒"
+    }
+  },
+  {
+    "id": "4.13.5.2",
+    "labels": ["MaintenanceOperation"],
+    "properties": {
+      "system": "电气-泊车辅助系统",
+      "operationType": "拆卸",
+      "维修对象": "前全景泊车摄像头",
+      "steps": "1. 将车辆停在平坦路面，整车处于“OFF“状态，启用驻车制动。2. 打开发动机罩并支撑。3. 拆卸机舱前上护板。4. 拆卸前保险杠总成。5. 拆卸前全景泊车摄像头2颗固定螺钉，取下前全景泊车摄像头总成。",
+      "tips": "拆下前全景泊车摄像头时谨防掉落与磕碰。",
+      "recommendedTools": "十字螺丝刀"
+    }
+  },
+  {
+    "id": "4.13.5.2_install",
+    "labels": ["MaintenanceOperation"],
+    "properties": {
+      "system": "电气-泊车辅助系统",
+      "operationType": "安装",
+      "维修对象": "前全景泊车摄像头",
+      "steps": "1. 安装前全景摄像头至固定位置，安装2颗固定螺钉并紧固。2. 安装前保险杠总成。3. 安装机舱前上护板。4. 检查前全景泊车摄像头应工作良好。5. 关闭并锁止发动机罩。",
+      "tips": "",
+      "recommendedTools": "十字螺丝刀"
+    }
+  },
+  {
+    "id": "4.13.5.3",
+    "labels": ["MaintenanceOperation"],
+    "properties": {
+      "system": "电气-泊车辅助系统",
+      "operationType": "拆卸",
+      "维修对象": "后全景泊车摄像头",
+      "steps": "1. 将车辆停在平坦路面，启用驻车制动，整车电源处于“OFF“状态。2. 撬下后全景泊车摄像头及底座，并断开接插件<A>，取下后全景泊车摄像头。",
+      "tips": "",
+      "recommendedTools": "内饰件拆卸工具"
+    }
+  },
+  {
+    "id": "4.13.5.3_install",
+    "labels": ["MaintenanceOperation"],
+    "properties": {
+      "system": "电气-泊车辅助系统",
+      "operationType": "安装",
+      "维修对象": "后全景泊车摄像头",
+      "steps": "1. 连接接插件<A>，并将后全景泊车摄像头安装至后保险杠固定位置。2. 检查后全景泊车摄像头应工作良好。",
+      "tips": "",
+      "recommendedTools": "内饰件拆卸工具"
+    }
+  },
+  {
+    "id": "4.13.5.4",
+    "labels": ["MaintenanceOperation"],
+    "properties": {
+      "system": "电气-泊车辅助系统",
+      "operationType": "拆卸",
+      "维修对象": "倒车后视摄像头",
+      "steps": "1. 将车辆停在平坦路面，启用驻车制动，整车电源处于“OFF“状态。2. 撬下倒车后视摄像头及底座，拆卸2颗螺钉，断开接插件<A>，取下倒车后视摄像头。",
+      "tips": "",
+      "recommendedTools": "内饰件拆卸工具; 十字螺丝刀"
+    }
+  },
+  {
+    "id": "4.13.5.4_install",
+    "labels": ["MaintenanceOperation"],
+    "properties": {
+      "system": "电气-泊车辅助系统",
+      "operationType": "安装",
+      "维修对象": "倒车后视摄像头",
+      "steps": "1. 连接接插件<A>，安装2颗螺钉并紧固，将倒车后视摄像头安装至后保险杠固定位置。2. 检查倒车后视摄像头应工作良好。",
+      "tips": "",
+      "recommendedTools": "十字螺丝刀"
+    }
+  },
+  {
+    "id": "4.13.5.5",
+    "labels": ["MaintenanceOperation"],
+    "properties": {
+      "system": "电气-泊车辅助系统",
+      "operationType": "拆卸",
+      "维修对象": "自动泊车雷达传感器（前保险杠）",
+      "steps": "1. 整车处于“OFF“状态。2. 拆卸左前轮挡泥板总成。3. 打开锁止扣，拔下接插件，将位于前保险杠的自动泊车雷达传感器从支架上拆下。",
+      "tips": "",
+      "recommendedTools": ""
+    }
+  },
+  {
+    "id": "4.13.5.5_install",
+    "labels": ["MaintenanceOperation"],
+    "properties": {
+      "system": "电气-泊车辅助系统",
+      "operationType": "安装",
+      "维修对象": "自动泊车雷达传感器（前保险杠）",
+      "steps": "1. 安装自动泊车雷达传感器至固定位置，连接接插件并按下锁止扣。2. 安装左前轮挡泥板总成。3. 检查左前侧自动泊车雷达传感器功能应正常。",
+      "tips": "",
+      "recommendedTools": ""
+    }
+  },
+  {
+    "id": "4.13.5.6",
+    "labels": ["MaintenanceOperation"],
+    "properties": {
+      "system": "电气-泊车辅助系统",
+      "operationType": "拆卸",
+      "维修对象": "自动泊车雷达传感器（后保险杠）",
+      "steps": "1. 将车辆停在平坦路面，整车处于“OFF“状态，启用驻车制动。2. 拆卸行李箱左侧饰件总成（部分边缘）。3. 拆卸左后组合灯A。4. 拆卸行李箱右侧饰件总成（部分边缘）。5. 拆卸右后组合灯A。6. 拆卸后保险杠总成。7. 打开锁止扣，拔下接插件，将位于后保险杠的自动泊车雷达传感器从支架上拆下。",
+      "tips": "行李箱左侧/右侧饰件只需拆下部分边缘并扯开即可，不用全部拆下。",
+      "recommendedTools": ""
+    }
+  },
+  {
+    "id": "4.13.5.6_install",
+    "labels": ["MaintenanceOperation"],
+    "properties": {
+      "system": "电气-泊车辅助系统",
+      "operationType": "安装",
+      "维修对象": "自动泊车雷达传感器（后保险杠）",
+      "steps": "1. 安装自动泊车雷达传感器至固定位置，连接接插件并按下锁止扣。2. 安装右后组合灯A。3. 安装行李箱右侧饰件总成。4. 安装左后组合灯A。5. 安装行李箱左侧饰件总成。6. 检查左后侧自动泊车雷达传感器功能应正常。",
+      "tips": "",
+      "recommendedTools": ""
+    }
+  },
+  {
+    "id": "4.13.5.7",
+    "labels": ["MaintenanceOperation"],
+    "properties": {
+      "system": "电气-泊车辅助系统",
+      "operationType": "拆卸",
+      "维修对象": "自动泊车倒车雷达传感器（前保险杠）",
+      "steps": "",
+      "tips": "自动泊车倒车雷达传感器与自动泊车雷达传感器拆卸程序基本相同。",
+      "recommendedTools": ""
+    }
+  },
+  {
+    "id": "4.13.5.8",
+    "labels": ["MaintenanceOperation"],
+    "properties": {
+      "system": "电气-泊车辅助系统",
+      "operationType": "拆卸",
+      "维修对象": "自动泊车倒车雷达传感器（后保险杠）",
+      "steps": "",
+      "tips": "自动泊车倒车雷达传感器与自动泊车雷达传感器拆卸程序基本相同。",
+      "recommendedTools": ""
+    }
+  },
+  {
+    "id": "4.13.5.9",
+    "labels": ["MaintenanceOperation"],
+    "properties": {
+      "system": "电气-泊车辅助系统",
+      "operationType": "拆卸",
+      "维修对象": "自动泊车ECU",
+      "steps": "1. 将车辆停在平坦路面，整车处于“OFF“状态，启用驻车制动。2. 打开行李箱。3. 拆卸行李箱左侧饰件总成（部分边缘）。4. 断开接插件A（APA1）、B（APA2）、C（APA3）。5. 拆卸2颗固定螺栓并取出自动泊车ECU。",
+      "tips": "拆装自动泊车ECU时谨防因掉落与磕碰导致损坏。",
+      "recommendedTools": "10mm套筒"
+    }
+  },
+  {
+    "id": "4.13.5.9_install",
+    "labels": ["MaintenanceOperation"],
+    "properties": {
+      "system": "电气-泊车辅助系统",
+      "operationType": "安装",
+      "维修对象": "自动泊车ECU",
+      "steps": "1. 安装自动泊车ECU至固定位置，安装2颗固定螺栓并紧固。2. 连接接插件A、B、C。3. 安装行李箱左侧饰件总成。4. 关闭行李箱并锁止。5. 检查自动泊车功能应工作正常。",
+      "tips": "",
+      "recommendedTools": "10mm套筒"
+    }
+  },
+  {
+    "id": "4.13.5.10",
+    "labels": ["MaintenanceOperation"],
+    "properties": {
+      "system": "电气-泊车辅助系统",
+      "operationType": "拆卸",
+      "维修对象": "倒车雷达ECU",
+      "steps": "1. 将车辆停在平坦路面，整车处于“OFF“状态，启用驻车制动。2. 打开行李箱。3. 拆卸行李箱左侧饰件总成（部分边缘）。4. 断开接插件A，拆卸2颗固定螺栓，取出倒车雷达ECU。",
+      "tips": "拆装倒车雷达ECU时谨防因掉落与磕碰导致损坏。",
+      "recommendedTools": "10mm套筒"
+    }
+  },
+  {
+    "id": "4.13.5.10_install",
+    "labels": ["MaintenanceOperation"],
+    "properties": {
+      "system": "电气-泊车辅助系统",
+      "operationType": "安装",
+      "维修对象": "倒车雷达ECU",
+      "steps": "1. 安装倒车雷达ECU至固定位置，安装2颗固定螺栓并紧固，连接接插件A。2. 安装行李箱左侧饰件总成。3. 关闭行李箱并锁止。4. 检查倒车雷达功能应工作正常。",
+      "tips": "",
+      "recommendedTools": "10mm套筒"
+    }
+  },
+  {
+    "id": "4.13.5.11",
+    "labels": ["MaintenanceOperation"],
+    "properties": {
+      "system": "电气-泊车辅助系统",
+      "operationType": "安装",
+      "维修对象": "倒车雷达传感器",
+      "steps": "",
+      "tips": "倒车雷达传感器与自动泊车雷达传感器拆卸程序基本相同。",
+      "recommendedTools": ""
+    }
+  },
+  {
+    "id": "4.13.5.12",
+    "labels": ["MaintenanceOperation"],
+    "properties": {
+      "system": "电气-泊车辅助系统",
+      "operationType": "拆卸",
+      "维修对象": "盲区监测主传感器",
+      "steps": "1. 将车辆停在平坦路面，启用驻车制动，整车处于“OFF“状态。2. 断开蓄电池负极。3. 拆卸行李箱左侧饰件总成（部分）。4. 拆卸左后组合灯A。5. 拆卸行李箱右侧饰件总成（部分）。6. 拆卸右后组合灯A。7. 拆卸后保险杠总成。8. 断开接插件A。9. 撬起卡爪，取下盲区监测主传感器。",
+      "tips": "将后保险杠总成整体拆下即可，不必分解。",
+      "recommendedTools": "内饰件拆卸工具"
+    }
+  },
+  {
+    "id": "4.13.5.12_install",
+    "labels": ["MaintenanceOperation"],
+    "properties": {
+      "system": "电气-泊车辅助系统",
+      "operationType": "安装",
+      "维修对象": "盲区监测主传感器",
+      "steps": "1. 放置盲区监测主传感器到安装位置，按压并使其扣紧，检查卡爪应到位。2. 连接接插件A。3. 安装后保险杠总成。4. 安装右后组合灯A。5. 安装行李箱右侧饰件总成。6. 安装左后组合灯A。7. 安装行李箱左侧饰件总成。8. 连接蓄电池负极，起动车辆。9. 检查相关电器部件应工作正常。",
+      "tips": "",
+      "recommendedTools": "内饰件拆卸工具"
+    }
+  },
+  {
+    "id": "4.13.5.13",
+    "labels": ["MaintenanceOperation"],
+    "properties": {
+      "system": "电气-泊车辅助系统",
+      "operationType": "拆卸",
+      "维修对象": "盲区监测主传感器支架",
+      "steps": "1. 将车辆停在平坦路面，启用驻车制动，整车处于“OFF“状态。2. 断开蓄电池负极。3. 拆卸行李箱左侧饰件总成（部分）。4. 拆卸左后组合灯A。5. 拆卸行李箱右侧饰件总成（部分）。6. 拆卸右后组合灯A。7. 拆卸后保险杠总成。8. 拆卸盲区监测主传感器。9. 拆卸3颗固定螺母，取下盲区监测主传感器支架。",
+      "tips": "将后保险杠总成整体拆下即可，不必分解。",
+      "recommendedTools": "10mm套筒"
+    }
+  },
+  {
+    "id": "4.13.5.13_install",
+    "labels": ["MaintenanceOperation"],
+    "properties": {
+      "system": "电气-泊车辅助系统",
+      "operationType": "安装",
+      "维修对象": "盲区监测主传感器支架",
+      "steps": "1. 放置盲区监测主传感器支架到安装位置，安装3颗固定螺母并紧固。2. 安装盲区监测主传感器。3. 安装后保险杠总成。4. 安装右后组合灯A。5. 安装行李箱右侧饰件总成。6. 安装左后组合灯A。7. 安装行李箱左侧饰件总成。8. 连接蓄电池负极，起动车辆。9. 检查相关电器部件应工作正常。",
+      "tips": "",
+      "recommendedTools": "10mm套筒"
+    }
+  },
+  {
+    "id": "4.13.5.14",
+    "labels": ["MaintenanceOperation"],
+    "properties": {
+      "system": "电气-泊车辅助系统",
+      "operationType": "安装",
+      "维修对象": "盲区监测副传感器支架",
+      "steps": "",
+      "tips": "盲区监测副传感器支架与主传感器支架拆卸程序基本相同。",
+      "recommendedTools": ""
+    }
+  }
+],
+
+
+  "relations": [
+    {
+      "id": "rel_001",
+      "type": "reportsDTC",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "U007388",
+      "properties": {}
+    },
+    {
+      "id": "rel_002",
+      "type": "reportsDTC",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "U108087",
+      "properties": {}
+    },
+    {
+      "id": "rel_003",
+      "type": "reportsDTC",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "U015587",
+      "properties": {}
+    },
+    {
+      "id": "rel_004",
+      "type": "reportsDTC",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "U014087",
+      "properties": {}
+    },
+    {
+      "id": "rel_005",
+      "type": "reportsDTC",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "U044781",
+      "properties": {}
+    },
+    {
+      "id": "rel_006",
+      "type": "reportsDTC",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "B216046",
+      "properties": {}
+    },
+    {
+      "id": "rel_007",
+      "type": "reportsDTC",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "B212296",
+      "properties": {}
+    },
+    {
+      "id": "rel_008",
+      "type": "reportsDTC",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "B212396",
+      "properties": {}
+    },
+    {
+      "id": "rel_009",
+      "type": "reportsDTC",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "B212496",
+      "properties": {}
+    },
+    {
+      "id": "rel_010",
+      "type": "reportsDTC",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "B212596",
+      "properties": {}
+    },
+    {
+      "id": "rel_011",
+      "type": "reportsDTC",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "B212696",
+      "properties": {}
+    },
+    {
+      "id": "rel_012",
+      "type": "reportsDTC",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "B212796",
+      "properties": {}
+    },
+    {
+      "id": "rel_013",
+      "type": "reportsDTC",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "B212896",
+      "properties": {}
+    },
+    {
+      "id": "rel_014",
+      "type": "reportsDTC",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "B212996",
+      "properties": {}
+    },
+    {
+      "id": "rel_015",
+      "type": "reportsDTC",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "B210016",
+      "properties": {}
+    },
+    {
+      "id": "rel_016",
+      "type": "reportsDTC",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "B210017",
+      "properties": {}
+    },
+    {
+      "id": "rel_017",
+      "type": "reportsDTC",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "U012987",
+      "properties": {}
+    },
+    {
+      "id": "rel_019",
+      "type": "hasRelatedDiagram",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "diagram_4.39",
+      "properties": {}
+    },
+    {
+      "id": "rel_020",
+      "type": "hasMaintenanceProcedure",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "4.13.5.1",
+      "properties": {}
+    },
+    {
+      "id": "rel_021",
+      "type": "hasMaintenanceProcedure",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "4.13.5.1_install",
+      "properties": {}
+    },
+    {
+      "id": "rel_022",
+      "type": "hasMaintenanceProcedure",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "4.13.5.2",
+      "properties": {}
+    },
+    {
+      "id": "rel_023",
+      "type": "hasMaintenanceProcedure",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "4.13.5.2_install",
+      "properties": {}
+    },
+    {
+      "id": "rel_024",
+      "type": "hasMaintenanceProcedure",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "4.13.5.3",
+      "properties": {}
+    },
+    {
+      "id": "rel_025",
+      "type": "hasMaintenanceProcedure",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "4.13.5.3_install",
+      "properties": {}
+    },
+    {
+      "id": "rel_026",
+      "type": "hasMaintenanceProcedure",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "4.13.5.4",
+      "properties": {}
+    },
+    {
+      "id": "rel_027",
+      "type": "hasMaintenanceProcedure",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "4.13.5.4_install",
+      "properties": {}
+    },
+    {
+      "id": "rel_028",
+      "type": "hasMaintenanceProcedure",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "4.13.5.5",
+      "properties": {}
+    },
+    {
+      "id": "rel_029",
+      "type": "hasMaintenanceProcedure",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "4.13.5.5_install",
+      "properties": {}
+    },
+    {
+      "id": "rel_030",
+      "type": "hasMaintenanceProcedure",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "4.13.5.6",
+      "properties": {}
+    },
+    {
+      "id": "rel_031",
+      "type": "hasMaintenanceProcedure",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "4.13.5.6_install",
+      "properties": {}
+    },
+    {
+      "id": "rel_032",
+      "type": "hasMaintenanceProcedure",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "4.13.5.7",
+      "properties": {}
+    },
+    {
+      "id": "rel_033",
+      "type": "hasMaintenanceProcedure",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "4.13.5.8",
+      "properties": {}
+    },
+    {
+      "id": "rel_034",
+      "type": "hasMaintenanceProcedure",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "4.13.5.9",
+      "properties": {}
+    },
+    {
+      "id": "rel_035",
+      "type": "hasMaintenanceProcedure",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "4.13.5.9_install",
+      "properties": {}
+    },
+    {
+      "id": "rel_036",
+      "type": "hasMaintenanceProcedure",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "4.13.5.10",
+      "properties": {}
+    },
+    {
+      "id": "rel_037",
+      "type": "hasMaintenanceProcedure",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "4.13.5.10_install",
+      "properties": {}
+    },
+    {
+      "id": "rel_038",
+      "type": "hasMaintenanceProcedure",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "4.13.5.11",
+      "properties": {}
+    },
+    {
+      "id": "rel_039",
+      "type": "hasMaintenanceProcedure",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "4.13.5.12",
+      "properties": {}
+    },
+    {
+      "id": "rel_040",
+      "type": "hasMaintenanceProcedure",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "4.13.5.12_install",
+      "properties": {}
+    },
+    {
+      "id": "rel_041",
+      "type": "hasMaintenanceProcedure",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "4.13.5.13",
+      "properties": {}
+    },
+    {
+      "id": "rel_042",
+      "type": "hasMaintenanceProcedure",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "4.13.5.13_install",
+      "properties": {}
+    },
+    {
+      "id": "rel_043",
+      "type": "hasMaintenanceProcedure",
+      "startNode": "ECU_REAR_RADAR_01",
+      "endNode": "4.13.5.14",
+      "properties": {}
+    },
+    {
+      "id": "rel_044",
+      "type": "recommendsSolution",
+      "startNode": "U007388",
+      "endNode": "path_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_045",
+      "type": "recommendsSolution",
+      "startNode": "U108087",
+      "endNode": "path_02",
+      "properties": {}
+    },
+    {
+      "id": "rel_046",
+      "type": "recommendsSolution",
+      "startNode": "U015587",
+      "endNode": "path_03",
+      "properties": {}
+    },
+    {
+      "id": "rel_047",
+      "type": "recommendsSolution",
+      "startNode": "U014087",
+      "endNode": "path_04",
+      "properties": {}
+    },
+    {
+      "id": "rel_048",
+      "type": "recommendsSolution",
+      "startNode": "U044781",
+      "endNode": "path_05",
+      "properties": {}
+    },
+    {
+      "id": "rel_049",
+      "type": "recommendsSolution",
+      "startNode": "B216046",
+      "endNode": "path_06",
+      "properties": {}
+    },
+    {
+      "id": "rel_050",
+      "type": "recommendsSolution",
+      "startNode": "B212296",
+      "endNode": "path_07",
+      "properties": {}
+    },
+    {
+      "id": "rel_051",
+      "type": "recommendsSolution",
+      "startNode": "B212396",
+      "endNode": "path_07",
+      "properties": {}
+    },
+    {
+      "id": "rel_052",
+      "type": "recommendsSolution",
+      "startNode": "B212496",
+      "endNode": "path_07",
+      "properties": {}
+    },
+    {
+      "id": "rel_053",
+      "type": "recommendsSolution",
+      "startNode": "B212596",
+      "endNode": "path_07",
+      "properties": {}
+    },
+    {
+      "id": "rel_054",
+      "type": "recommendsSolution",
+      "startNode": "B212696",
+      "endNode": "path_07",
+      "properties": {}
+    },
+    {
+      "id": "rel_055",
+      "type": "recommendsSolution",
+      "startNode": "B212796",
+      "endNode": "path_07",
+      "properties": {}
+    },
+    {
+      "id": "rel_056",
+      "type": "recommendsSolution",
+      "startNode": "B212896",
+      "endNode": "path_07",
+      "properties": {}
+    },
+    {
+      "id": "rel_057",
+      "type": "recommendsSolution",
+      "startNode": "B212996",
+      "endNode": "path_07",
+      "properties": {}
+    },
+    {
+      "id": "rel_058",
+      "type": "recommendsSolution",
+      "startNode": "B210016",
+      "endNode": "path_08",
+      "properties": {}
+    },
+    {
+      "id": "rel_059",
+      "type": "recommendsSolution",
+      "startNode": "B210017",
+      "endNode": "path_08",
+      "properties": {}
+    },
+    {
+      "id": "rel_060",
+      "type": "recommendsSolution",
+      "startNode": "U012987",
+      "endNode": "path_09",
+      "properties": {}
+    },
+    {
+      "id": "rel_061",
+      "type": "isReportedByECU",
+      "startNode": "U007388",
+      "endNode": "ECU_REAR_RADAR_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_062",
+      "type": "isReportedByECU",
+      "startNode": "U108087",
+      "endNode": "ECU_REAR_RADAR_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_063",
+      "type": "isReportedByECU",
+      "startNode": "U015587",
+      "endNode": "ECU_REAR_RADAR_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_064",
+      "type": "isReportedByECU",
+      "startNode": "U014087",
+      "endNode": "ECU_REAR_RADAR_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_065",
+      "type": "isReportedByECU",
+      "startNode": "U044781",
+      "endNode": "ECU_REAR_RADAR_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_066",
+      "type": "isReportedByECU",
+      "startNode": "B216046",
+      "endNode": "ECU_REAR_RADAR_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_067",
+      "type": "isReportedByECU",
+      "startNode": "B212296",
+      "endNode": "ECU_REAR_RADAR_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_068",
+      "type": "isReportedByECU",
+      "startNode": "B212396",
+      "endNode": "ECU_REAR_RADAR_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_069",
+      "type": "isReportedByECU",
+      "startNode": "B212496",
+      "endNode": "ECU_REAR_RADAR_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_070",
+      "type": "isReportedByECU",
+      "startNode": "B212596",
+      "endNode": "ECU_REAR_RADAR_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_071",
+      "type": "isReportedByECU",
+      "startNode": "B212696",
+      "endNode": "ECU_REAR_RADAR_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_072",
+      "type": "isReportedByECU",
+      "startNode": "B212796",
+      "endNode": "ECU_REAR_RADAR_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_073",
+      "type": "isReportedByECU",
+      "startNode": "B212896",
+      "endNode": "ECU_REAR_RADAR_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_074",
+      "type": "isReportedByECU",
+      "startNode": "B212996",
+      "endNode": "ECU_REAR_RADAR_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_075",
+      "type": "isReportedByECU",
+      "startNode": "B210016",
+      "endNode": "ECU_REAR_RADAR_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_076",
+      "type": "isReportedByECU",
+      "startNode": "B210017",
+      "endNode": "ECU_REAR_RADAR_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_077",
+      "type": "isReportedByECU",
+      "startNode": "U012987",
+      "endNode": "ECU_REAR_RADAR_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_078",
+      "type": "hasSolutionPath",
+      "startNode": "cause_001",
+      "endNode": "path_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_079",
+      "type": "hasSolutionPath",
+      "startNode": "cause_002",
+      "endNode": "path_02",
+      "properties": {}
+    },
+    {
+      "id": "rel_080",
+      "type": "hasSolutionPath",
+      "startNode": "cause_003",
+      "endNode": "path_03",
+      "properties": {}
+    },
+    {
+      "id": "rel_081",
+      "type": "hasSolutionPath",
+      "startNode": "cause_004",
+      "endNode": "path_04",
+      "properties": {}
+    },
+    {
+      "id": "rel_082",
+      "type": "hasSolutionPath",
+      "startNode": "cause_005",
+      "endNode": "path_05",
+      "properties": {}
+    },
+    {
+      "id": "rel_083",
+      "type": "hasSolutionPath",
+      "startNode": "cause_006",
+      "endNode": "path_06",
+      "properties": {}
+    },
+    {
+      "id": "rel_084",
+      "type": "hasSolutionPath",
+      "startNode": "cause_007",
+      "endNode": "path_07",
+      "properties": {}
+    },
+    {
+      "id": "rel_085",
+      "type": "hasSolutionPath",
+      "startNode": "cause_008",
+      "endNode": "path_08",
+      "properties": {}
+    },
+    {
+      "id": "rel_086",
+      "type": "hasSolutionPath",
+      "startNode": "cause_009",
+      "endNode": "path_08",
+      "properties": {}
+    },
+    {
+      "id": "rel_087",
+      "type": "hasSolutionPath",
+      "startNode": "cause_010",
+      "endNode": "path_09",
+      "properties": {}
+    },
+    {
+      "id": "rel_088",
+      "type": "triggersDTC",
+      "startNode": "cause_001",
+      "endNode": "U007388",
+      "properties": {}
+    },
+    {
+      "id": "rel_089",
+      "type": "triggersDTC",
+      "startNode": "cause_002",
+      "endNode": "U108087",
+      "properties": {}
+    },
+    {
+      "id": "rel_090",
+      "type": "triggersDTC",
+      "startNode": "cause_003",
+      "endNode": "U015587",
+      "properties": {}
+    },
+    {
+      "id": "rel_091",
+      "type": "triggersDTC",
+      "startNode": "cause_004",
+      "endNode": "U014087",
+      "properties": {}
+    },
+    {
+      "id": "rel_092",
+      "type": "triggersDTC",
+      "startNode": "cause_005",
+      "endNode": "U044781",
+      "properties": {}
+    },
+    {
+      "id": "rel_093",
+      "type": "triggersDTC",
+      "startNode": "cause_006",
+      "endNode": "B216046",
+      "properties": {}
+    },
+    {
+      "id": "rel_094",
+      "type": "triggersDTC",
+      "startNode": "cause_007",
+      "endNode": "B212296",
+      "properties": {}
+    },
+    {
+      "id": "rel_095",
+      "type": "triggersDTC",
+      "startNode": "cause_007",
+      "endNode": "B212396",
+      "properties": {}
+    },
+    {
+      "id": "rel_096",
+      "type": "triggersDTC",
+      "startNode": "cause_007",
+      "endNode": "B212496",
+      "properties": {}
+    },
+    {
+      "id": "rel_097",
+      "type": "triggersDTC",
+      "startNode": "cause_007",
+      "endNode": "B212596",
+      "properties": {}
+    },
+    {
+      "id": "rel_098",
+      "type": "triggersDTC",
+      "startNode": "cause_007",
+      "endNode": "B212696",
+      "properties": {}
+    },
+    {
+      "id": "rel_099",
+      "type": "triggersDTC",
+      "startNode": "cause_007",
+      "endNode": "B212796",
+      "properties": {}
+    },
+    {
+      "id": "rel_100",
+      "type": "triggersDTC",
+      "startNode": "cause_007",
+      "endNode": "B212896",
+      "properties": {}
+    },
+    {
+      "id": "rel_101",
+      "type": "triggersDTC",
+      "startNode": "cause_007",
+      "endNode": "B212996",
+      "properties": {}
+    },
+    {
+      "id": "rel_102",
+      "type": "triggersDTC",
+      "startNode": "cause_008",
+      "endNode": "B210016",
+      "properties": {}
+    },
+    {
+      "id": "rel_103",
+      "type": "triggersDTC",
+      "startNode": "cause_009",
+      "endNode": "B210017",
+      "properties": {}
+    },
+    {
+      "id": "rel_104",
+      "type": "triggersDTC",
+      "startNode": "cause_010",
+      "endNode": "U012987",
+      "properties": {}
+    },
+    {
+      "id": "rel_105",
+      "type": "includesCheckStep",
+      "startNode": "path_01",
+      "endNode": "U007388_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_106",
+      "type": "includesCheckStep",
+      "startNode": "path_01",
+      "endNode": "U007388_02",
+      "properties": {}
+    },
+    {
+      "id": "rel_107",
+      "type": "includesCheckStep",
+      "startNode": "path_01",
+      "endNode": "U007388_03",
+      "properties": {}
+    },
+    {
+      "id": "rel_108",
+      "type": "includesCheckStep",
+      "startNode": "path_02",
+      "endNode": "U108087_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_109",
+      "type": "includesCheckStep",
+      "startNode": "path_02",
+      "endNode": "U108087_02",
+      "properties": {}
+    },
+    {
+      "id": "rel_110",
+      "type": "includesCheckStep",
+      "startNode": "path_02",
+      "endNode": "U108087_03",
+      "properties": {}
+    },
+    {
+      "id": "rel_111",
+      "type": "includesCheckStep",
+      "startNode": "path_02",
+      "endNode": "U108087_04",
+      "properties": {}
+    },
+    {
+      "id": "rel_112",
+      "type": "includesCheckStep",
+      "startNode": "path_03",
+      "endNode": "U015587_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_113",
+      "type": "includesCheckStep",
+      "startNode": "path_03",
+      "endNode": "U015587_02",
+      "properties": {}
+    },
+    {
+      "id": "rel_114",
+      "type": "includesCheckStep",
+      "startNode": "path_03",
+      "endNode": "U015587_03",
+      "properties": {}
+    },
+    {
+      "id": "rel_115",
+      "type": "includesCheckStep",
+      "startNode": "path_03",
+      "endNode": "U015587_04",
+      "properties": {}
+    },
+    {
+      "id": "rel_116",
+      "type": "includesCheckStep",
+      "startNode": "path_04",
+      "endNode": "U014087_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_117",
+      "type": "includesCheckStep",
+      "startNode": "path_04",
+      "endNode": "U014087_02",
+      "properties": {}
+    },
+    {
+      "id": "rel_118",
+      "type": "includesCheckStep",
+      "startNode": "path_04",
+      "endNode": "U014087_03",
+      "properties": {}
+    },
+    {
+      "id": "rel_119",
+      "type": "includesCheckStep",
+      "startNode": "path_04",
+      "endNode": "U014087_04",
+      "properties": {}
+    },
+    {
+      "id": "rel_120",
+      "type": "includesCheckStep",
+      "startNode": "path_05",
+      "endNode": "U044781_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_121",
+      "type": "includesCheckStep",
+      "startNode": "path_05",
+      "endNode": "U044781_02",
+      "properties": {}
+    },
+    {
+      "id": "rel_122",
+      "type": "includesCheckStep",
+      "startNode": "path_05",
+      "endNode": "U044781_03",
+      "properties": {}
+    },
+    {
+      "id": "rel_123",
+      "type": "includesCheckStep",
+      "startNode": "path_05",
+      "endNode": "U044781_04",
+      "properties": {}
+    },
+    {
+      "id": "rel_124",
+      "type": "includesCheckStep",
+      "startNode": "path_06",
+      "endNode": "B216046_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_125",
+      "type": "includesCheckStep",
+      "startNode": "path_06",
+      "endNode": "B216046_02",
+      "properties": {}
+    },
+    {
+      "id": "rel_126",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212296_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_127",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212396_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_128",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212496_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_129",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212596_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_130",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212696_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_131",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212796_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_132",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212896_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_133",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212996_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_134",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212296_02",
+      "properties": {}
+    },
+    {
+      "id": "rel_135",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212396_02",
+      "properties": {}
+    },
+    {
+      "id": "rel_136",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212496_02",
+      "properties": {}
+    },
+    {
+      "id": "rel_137",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212596_02",
+      "properties": {}
+    },
+    {
+      "id": "rel_138",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212696_02",
+      "properties": {}
+    },
+    {
+      "id": "rel_139",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212796_02",
+      "properties": {}
+    },
+    {
+      "id": "rel_140",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212896_02",
+      "properties": {}
+    },
+    {
+      "id": "rel_141",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212996_02",
+      "properties": {}
+    },
+    {
+      "id": "rel_142",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212296_03",
+      "properties": {}
+    },
+    {
+      "id": "rel_143",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212396_03",
+      "properties": {}
+    },
+    {
+      "id": "rel_144",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212496_03",
+      "properties": {}
+    },
+    {
+      "id": "rel_145",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212596_03",
+      "properties": {}
+    },
+    {
+      "id": "rel_146",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212696_03",
+      "properties": {}
+    },
+    {
+      "id": "rel_147",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212796_03",
+      "properties": {}
+    },
+    {
+      "id": "rel_148",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212896_03",
+      "properties": {}
+    },
+    {
+      "id": "rel_149",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212996_03",
+      "properties": {}
+    },
+    {
+      "id": "rel_150",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212296_04",
+      "properties": {}
+    },
+    {
+      "id": "rel_151",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212396_04",
+      "properties": {}
+    },
+    {
+      "id": "rel_152",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212496_04",
+      "properties": {}
+    },
+    {
+      "id": "rel_153",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212596_04",
+      "properties": {}
+    },
+    {
+      "id": "rel_154",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212696_04",
+      "properties": {}
+    },
+    {
+      "id": "rel_155",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212796_04",
+      "properties": {}
+    },
+    {
+      "id": "rel_156",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212896_04",
+      "properties": {}
+    },
+    {
+      "id": "rel_157",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212996_04",
+      "properties": {}
+    },
+    {
+      "id": "rel_158",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212296_05",
+      "properties": {}
+    },
+    {
+      "id": "rel_159",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212396_05",
+      "properties": {}
+    },
+    {
+      "id": "rel_160",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212496_05",
+      "properties": {}
+    },
+    {
+      "id": "rel_161",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212596_05",
+      "properties": {}
+    },
+    {
+      "id": "rel_162",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212696_05",
+      "properties": {}
+    },
+    {
+      "id": "rel_163",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212796_05",
+      "properties": {}
+    },
+    {
+      "id": "rel_164",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212896_05",
+      "properties": {}
+    },
+    {
+      "id": "rel_165",
+      "type": "includesCheckStep",
+      "startNode": "path_07",
+      "endNode": "B212996_05",
+      "properties": {}
+    },
+    {
+      "id": "rel_166",
+      "type": "includesCheckStep",
+      "startNode": "path_08",
+      "endNode": "B210016_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_167",
+      "type": "includesCheckStep",
+      "startNode": "path_08",
+      "endNode": "B210017_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_168",
+      "type": "includesCheckStep",
+      "startNode": "path_08",
+      "endNode": "B210016_02",
+      "properties": {}
+    },
+    {
+      "id": "rel_169",
+      "type": "includesCheckStep",
+      "startNode": "path_08",
+      "endNode": "B210017_02",
+      "properties": {}
+    },
+    {
+      "id": "rel_170",
+      "type": "includesCheckStep",
+      "startNode": "path_08",
+      "endNode": "B210016_03",
+      "properties": {}
+    },
+    {
+      "id": "rel_171",
+      "type": "includesCheckStep",
+      "startNode": "path_08",
+      "endNode": "B210017_03",
+      "properties": {}
+    },
+    {
+      "id": "rel_172",
+      "type": "includesCheckStep",
+      "startNode": "path_09",
+      "endNode": "U012987_01",
+      "properties": {}
+    },
+    {
+      "id": "rel_173",
+      "type": "includesCheckStep",
+      "startNode": "path_09",
+      "endNode": "U012987_02",
+      "properties": {}
+    },
+    {
+      "id": "rel_174",
+      "type": "includesCheckStep",
+      "startNode": "path_09",
+      "endNode": "U012987_03",
+      "properties": {}
+    },
+    {
+      "id": "rel_175",
+      "type": "includesCheckStep",
+      "startNode": "path_09",
+      "endNode": "U012987_04",
+      "properties": {}
+    },
+    {
+      "id": "rel_176",
+      "type": "referencesDiagram",
+      "startNode": "U007388_02",
+      "endNode": "diagram_4.39",
+      "properties": {}
+    },
+    {
+      "id": "rel_177",
+      "type": "referencesDiagram",
+      "startNode": "U108087_02",
+      "endNode": "diagram_4.39",
+      "properties": {}
+    },
+    {
+      "id": "rel_178",
+      "type": "referencesDiagram",
+      "startNode": "U015587_02",
+      "endNode": "diagram_4.39",
+      "properties": {}
+    },
+    {
+      "id": "rel_179",
+      "type": "referencesDiagram",
+      "startNode": "U014087_02",
+      "endNode": "diagram_4.39",
+      "properties": {}
+    },
+    {
+      "id": "rel_180",
+      "type": "referencesDiagram",
+      "startNode": "U044781_02",
+      "endNode": "diagram_4.39",
+      "properties": {}
+    },
+    {
+      "id": "rel_181",
+      "type": "referencesDiagram",
+      "startNode": "B212296_02",
+      "endNode": "diagram_4.39",
+      "properties": {}
+    },
+    {
+      "id": "rel_182",
+      "type": "referencesDiagram",
+      "startNode": "B212396_02",
+      "endNode": "diagram_4.39",
+      "properties": {}
+    },
+    {
+      "id": "rel_183",
+      "type": "referencesDiagram",
+      "startNode": "B212496_02",
+      "endNode": "diagram_4.39",
+      "properties": {}
+    },
+    {
+      "id": "rel_184",
+      "type": "referencesDiagram",
+      "startNode": "B212596_02",
+      "endNode": "diagram_4.39",
+      "properties": {}
+    },
+    {
+      "id": "rel_185",
+      "type": "referencesDiagram",
+      "startNode": "B212696_02",
+      "endNode": "diagram_4.39",
+      "properties": {}
+    },
+    {
+      "id": "rel_186",
+      "type": "referencesDiagram",
+      "startNode": "B212796_02",
+      "endNode": "diagram_4.39",
+      "properties": {}
+    },
+    {
+      "id": "rel_187",
+      "type": "referencesDiagram",
+      "startNode": "B212896_02",
+      "endNode": "diagram_4.39",
+      "properties": {}
+    },
+    {
+      "id": "rel_188",
+      "type": "referencesDiagram",
+      "startNode": "B212996_02",
+      "endNode": "diagram_4.39",
+      "properties": {}
+    },
+    {
+      "id": "rel_189",
+      "type": "referencesDiagram",
+      "startNode": "B212296_03",
+      "endNode": "diagram_4.39",
+      "properties": {}
+    },
+    {
+      "id": "rel_190",
+      "type": "referencesDiagram",
+      "startNode": "B212396_03",
+      "endNode": "diagram_4.39",
+      "properties": {}
+    },
+    {
+      "id": "rel_191",
+      "type": "referencesDiagram",
+      "startNode": "B212496_03",
+      "endNode": "diagram_4.39",
+      "properties": {}
+    },
+    {
+      "id": "rel_192",
+      "type": "referencesDiagram",
+      "startNode": "B212596_03",
+      "endNode": "diagram_4.39",
+      "properties": {}
+    },
+    {
+      "id": "rel_193",
+      "type": "referencesDiagram",
+      "startNode": "B212696_03",
+      "endNode": "diagram_4.39",
+      "properties": {}
+    },
+    {
+      "id": "rel_194",
+      "type": "referencesDiagram",
+      "startNode": "B212796_03",
+      "endNode": "diagram_4.39",
+      "properties": {}
+    },
+    {
+      "id": "rel_195",
+      "type": "referencesDiagram",
+      "startNode": "B212896_03",
+      "endNode": "diagram_4.39",
+      "properties": {}
+    },
+    {
+      "id": "rel_196",
+      "type": "referencesDiagram",
+      "startNode": "B212996_03",
+      "endNode": "diagram_4.39",
+      "properties": {}
+    },
+    {
+      "id": "rel_197",
+      "type": "referencesDiagram",
+      "startNode": "B210016_02",
+      "endNode": "diagram_4.39",
+      "properties": {}
+    },
+    {
+      "id": "rel_198",
+      "type": "referencesDiagram",
+      "startNode": "B210017_02",
+      "endNode": "diagram_4.39",
+      "properties": {}
+    },
+    {
+      "id": "rel_199",
+      "type": "referencesDiagram",
+      "startNode": "U012987_02",
+      "endNode": "diagram_4.39",
+      "properties": {}
+    }
+  ]
+}

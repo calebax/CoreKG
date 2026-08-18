@@ -1,0 +1,55 @@
+.page {
+  padding: 24px 32px;
+  height: 100%;
+  overflow: auto;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.createBtn {
+  height: 30px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  border: 1px solid #0c99ff;
+  color: #0c99ff;
+  background: transparent;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 10px;
+
+  &:hover {
+    border-color: #0c99ff;
+    color: #0c99ff;
+  }
+
+  &:active {
+    border-color: #0c99ff;
+    color: #0c99ff;
+  }
+}
+
+.createBtnIcon {
+  color: #0c99ff;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 300px);
+  column-gap: 40px;
+  row-gap: 32px;
+  justify-content: center;
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}

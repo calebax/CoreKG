@@ -1,0 +1,13 @@
+# Analyser（文档解析）服务配置示例。
+# 用法：cp analyser_config.yaml.example analyser_config.yaml，填入本地/真实值。
+
+api_url: http://localhost:8080
+
+analyser_api_url: http://localhost:5000/local.Run
+
+s3:
+  endpoint_url: http://localhost:9000
+  access_key_id: minioadmin
+  secret_access_key: change-me
+  region: us-east-1
+  bucket: corekg-bucket

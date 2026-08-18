@@ -1,0 +1,17 @@
+.nodeDetail {
+  box-shadow: 0px 4px 13.2px 0px #7445e03b;
+  border: 1px solid #7445e033;
+}
+.tabs {
+  :global(.ant-tabs-nav) {
+    margin-bottom: 0;
+  }
+  :global(.ant-tabs-content-holder) {
+    display: none;
+  }
+  :global(.ant-tabs-tab) {
+    &:not(:hover) {
+      color: #616373;
+    }
+  }
+}

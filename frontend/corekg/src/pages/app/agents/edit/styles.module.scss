@@ -1,0 +1,25 @@
+.scroll {
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #ececed;
+    border-radius: 3px;
+  }
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-corner {
+    background-color: transparent;
+  }
+}
+
+.drawer {
+  :global(.ant-drawer-header-title) {
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    :global(.ant-drawer-title) {
+      flex: unset;
+    }
+  }
+}

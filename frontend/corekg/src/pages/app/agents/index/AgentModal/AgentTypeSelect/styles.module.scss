@@ -1,0 +1,32 @@
+.radio {
+  :global {
+    .ant-radio>.ant-radio-inner {
+      background-color: #fff;
+      border-color: #C4C8CC;
+
+      &::after {
+        background-color: #C4C8CC;
+        width: 16px;
+        height: 16px;
+        transform: scale(0.375);
+        opacity: 1;
+
+      }
+    }
+
+    .ant-radio-checked>.ant-radio-inner {
+      background-color: transparent;
+      border-color: #0C99FF;
+
+      &::after {
+        background-color: #0C99FF;
+      }
+    }
+  }
+
+  &> :global(.ant-radio) {
+    align-self: baseline;
+    transform: translateY(2px);
+  }
+
+}

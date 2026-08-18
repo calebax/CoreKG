@@ -1,0 +1,6 @@
+.previewSwitch {
+    user-select: none;
+    &:global(.ant-switch.ant-switch-checked){
+        background-color: #0C99ff;
+    }
+}

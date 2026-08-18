@@ -1,0 +1,36 @@
+# task_worker 客户端本地/测试配置示例。
+# 用法：cp test.yaml.example test.yaml，填入本地/真实值。
+s3_storages:
+  - bucket: "corekg-bucket"
+    end_point: "http://localhost:9000"
+    access_key_id: "minioadmin"
+    secret_access_key: "change-me"
+    region: "us-east-1"
+    use_path_style: true
+
+elasticsearch:
+  addresses:
+    - "http://localhost:9200"
+  username: "elastic"
+  password: "change-me"
+  max_retries: 3
+nebula:
+  address: "localhost"
+  port: 9669
+  username: "root"
+  password: "change-me"
+  prefix: "test_know"
+agent:
+  apiUrl: "http://localhost:8080/v1/chat/completions"
+  apiKey: "change-me"
+  chunkSize: 2000
+  maxTokenSize: 200000
+  maxWorkers: 50
+  pool:
+    abstractMD: "change-me"
+    absChunkMD: "change-me"
+    mergeAbstractMD: "change-me"
+    mindmapMD: "change-me"
+    mindChunkMD: "change-me"
+    mergeMindmapMD: "change-me"
+    shortDescMD: "change-me"

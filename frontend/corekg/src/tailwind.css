@@ -1,0 +1,36 @@
+@layer theme, base, antd, components, utilities;
+@import 'tailwindcss';
+
+@layer base {
+  :root {
+    --spacing-4\.5: 1.125rem;
+    --spacing-5\.5: 1.375rem;
+    --spacing-6\.5: 1.625rem;
+    --spacing-7\.5: 1.875rem;
+    --spacing-12\.5: 3.125rem;
+    --spacing-15: 3.75rem;
+    --spacing-18: 4.5rem;
+    --spacing-25: 6.25rem;
+    --spacing-30: 7.5rem;
+
+    --leading-1: 1em;
+    --leading-1\.1: 1.1em;
+    --leading-1\.2: 1.2em;
+    --leading-1\.3: 1.3em;
+    --leading-1\.4: 1.4em;
+    --leading-1\.5: 1.5em;
+    --leading-1\.6: 1.6em;
+    --leading-1\.8: 1.8em;
+    --leading-2: 2em;
+
+    --tracking-1: '.01em';
+    --tracking-2: '.02em';
+  }
+}
+
+@theme {
+  --color-primary: #0C99FF;
+  --color-title: #1d2129;
+  --color-content: #4e5969;
+  --color-description: #86909c;
+}

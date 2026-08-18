@@ -1,0 +1,11 @@
+.ctrlInputWrapper {
+  padding: 1px;
+  background: linear-gradient(
+    183.9deg,
+    rgba(64, 128, 255, 0.85) -4.84%,
+    rgba(178, 24, 255, 0.18) 109.52%
+  );
+  &:hover {
+    box-shadow: 0px 0px 20.6px 0px #165dff26;
+  }
+}

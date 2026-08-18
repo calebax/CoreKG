@@ -1,0 +1,136 @@
+PUT /ke_0
+{
+   "mappings": {
+    "properties": {
+      "forest_id": {
+        "type": "integer"
+      },
+      "company_id": {
+        "type": "integer"
+      },
+      "uin": {
+        "type": "integer"
+      },
+      "type": {
+        "type": "keyword"
+      },
+      "content": {
+        "type": "text",
+        "analyzer": "ik_max_word",
+        "search_analyzer": "ik_smart",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "content_source": {
+        "type": "text",
+        "analyzer": "ik_max_word",
+        "search_analyzer": "ik_smart",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "content_target": {
+        "type": "text",
+        "analyzer": "ik_max_word",
+        "search_analyzer": "ik_smart",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "embedding": {
+        "type": "dense_vector",
+        "dims": 1024,
+        "index": true
+      },
+      "tokens": {
+        "type": "integer"
+      },
+      "mind_map": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "abstract": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "question": {
+        "type": "keyword"
+      },
+      "file_id": {
+        "type": "integer"
+      },
+      "location": {
+        "type": "integer",
+        "index": false
+      },
+      "sequence": {
+        "type": "integer"
+      },
+      "description": {
+        "type": "text",
+        "analyzer": "ik_max_word",
+        "search_analyzer": "ik_smart"
+      },
+      "image_url": {
+        "type": "keyword"
+      },
+      "formula": {
+        "type": "keyword"
+      },
+      "references": {
+        "type": "nested",
+        "properties": {
+          "file_id": {
+            "type": "integer"
+          },
+          "location": {
+            "type": "integer",
+            "index": false
+          },
+          "sequence": {
+            "type": "integer"
+          },
+          "description": {
+            "type": "text",
+            "analyzer": "ik_max_word",
+            "search_analyzer": "ik_smart"
+          },
+          "chunk_id": {
+            "type": "keyword"
+          },
+          "image_url": {
+            "type": "keyword"
+          },
+          "formula": {
+            "type": "keyword"
+          }
+        }
+      }
+    },
+    "dynamic": "strict"
+  },
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 1
+  }
+}

@@ -1,0 +1,68 @@
+.resizing {
+  background-color: rgba(12, 153, 255, 0.8);
+  width: 2px;
+}
+
+.resizing:hover {
+  background-color: rgba(12, 153, 255, 0.8);
+}
+
+.separator {
+  position: relative;
+  transition: .3s background ease-out;
+}
+
+// 拖拽条包装容器，用于扩展触发热区
+// 完全透明，只用于扩展触发热区，不遮挡任何内容
+.separatorWrapper {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 12px;
+  cursor: col-resize;
+  // 不设置 z-index，避免遮挡内容
+  // 默认右侧拖拽条（历史记录侧边栏），完全在侧边栏外部
+  right: -6px;
+  background: transparent;
+  pointer-events: auto;
+}
+
+// 左侧拖拽条（仪表盘侧边栏），完全在侧边栏外部
+.separatorWrapperLeft {
+  left: -6px;
+  right: auto;
+}
+
+.section {
+  will-change: width;
+  transition: .3s width ease-out;
+
+}
+
+.opo_btn {
+  background: linear-gradient(90deg,
+      rgba(246, 214, 255, 0.3) 0%,
+      rgba(208, 191, 255, 0.3) 100%);
+
+  .text {
+    color: transparent;
+    background-clip: text;
+    background-image: linear-gradient(90deg, #845ef6 0%, #cc5de8 100%);
+  }
+}
+
+.historyOperator {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+
+    height: 14px;
+    width: 1px;
+    background-color: #919497;
+  }
+}

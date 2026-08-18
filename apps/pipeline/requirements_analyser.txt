@@ -1,0 +1,12 @@
+pynvml
+loguru
+requests
+PyYAML
+boto3
+botocore
+certifi
+opencv-python
+imagehash
+Pillow
+pdf2image
+pypdf

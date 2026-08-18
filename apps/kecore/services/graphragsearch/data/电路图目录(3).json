@@ -1,0 +1,144 @@
+[
+  {
+    "chapter": "1. 电路识读说明",
+    "file_id":886,
+    "sections": [
+      { "title": "1.1 电路图示例及说明", "file_id":886,"page": 3 },
+      { "title": "1.2 电路诊断和维修流程", "file_id":886,"page": 6 },
+      { "title": "1.3 故障检查与维修", "file_id":886,"page": 7 },
+      { "title": "1.4 电气元件符号", "file_id":886,"page": 9 }
+    ]
+  },
+  {
+    "chapter": "2. 电器盒",
+    "file_id":884,
+    "sections": [
+      { "title": "2.1 前舱电器盒保险丝分布", "file_id":884,"page": 2 },
+      { "title": "2.2 仪表板电器盒保险丝分布","file_id":884, "page": 2 }
+    ]
+  },
+  {
+    "chapter": "3. 电源电路图",
+    "file_id":885,
+    "sections": [
+      { "title": "3.1 前舱电源分配(1)", "file_id":885,"page": 3 },
+      { "title": "3.2 前舱电源分配 (2)", "file_id":885,"page": 3 },
+      { "title": "3.3 仪表板电源电路(1)", "file_id":885,"page": 3 },
+      { "title": "3.4 仪表板电源电路(2)", "file_id":885,"page": 3 },
+      { "title": "3.5 仪表板电源电路(3)","file_id":885, "page": 3 }
+    ]
+  },
+  {
+    "chapter": "4. 系统电路图",
+    "file_id":888,
+    "sections": [
+      { "title": "4.1 电池管理及快充系统","file_id":888, "page": 4 },
+      { "title": "4.2 高压电源分配", "file_id":890,"page": 4 },
+      { "title": "4.3 驱动电机系统(日电产)", "file_id":891,"page": 4 },
+      { "title": "4.4 电机冷却系统", "file_id":892,"page": 4 },
+      { "title": "4.5 集成电源系统", "file_id":893,"page": 4 },
+      { "title": "4.6 空调和暖风系统(1)", "file_id":894,"page": 4 },
+      { "title": "4.7 空调和暖风系统(2)", "file_id":895,"page": 4 },
+      { "title": "4.8 音响系统(1)", "file_id":896,"page": 4 },
+      { "title": "4.9 音响系统(2)", "file_id":897,"page": 4 },
+      { "title": "4.10 氛围灯", "file_id":898,"page": 4 },
+      { "title": "4.11 倒车灯和电动防炫目后视镜", "file_id":899,"page": 4 },
+      { "title": "4.12 前、后雾灯", "file_id":901,"page": 4 },
+      { "title": "4.13 日行灯","file_id":900, "page": 4 },
+      { "title": "4.14 室内灯全景天窗版", "file_id":902,"page": 4 },
+      { "title": "4.15 室内灯", "file_id":903,"page": 4 },
+      { "title": "4.16 小灯及背光灯系统(1)", "file_id":904,"page": 4 },
+      { "title": "4.17 小灯及背光灯系统(2)", "file_id":905,"page": 4 },
+      { "title": "4.18 远、近光灯(1)", "file_id":906,"page": 4 },
+      { "title": "4.19 远、近光灯(2)自动调节", "file_id":907,"page": 4 },
+      { "title": "4.20 远、近光灯(3)手动调节", "file_id":908,"page": 4 },
+      { "title": "4.21 制动灯", "file_id":910,"page": 4 },
+      { "title": "4.22 转向及危险警告灯", "file_id":909,"page": 4 },
+      { "title": "4.24 太阳能系统及鼓风机控制", "file_id":911,"page": 4 },
+      { "title": "4.24 电动车窗", "file_id":912,"page": 4 },
+      { "title": "4.25 防夹电动车窗", "file_id":913,"page": 4 },
+      { "title": "4.26 电动后视镜", "file_id":914,"page": 4 },
+      { "title": "4.27 电动后视镜带记忆功能", "file_id":915,"page": 4 },
+      { "title": "4.28 雨刮与洗涤", "file_id":917,"page": 4 },
+      { "title": "4.29 组合仪表", "file_id":916,"page": 4 },
+      { "title": "4.30 电动天窗", "file_id":918,"page": 4 },
+      { "title": "4.32 电动座椅带记忆功能", "file_id":920,"page": 4 },
+      { "title": "4.30 中控锁(1)", "file_id":919,"page": 4 },
+      { "title": "4.31 中控锁(2)", "file_id":919,"page": 4 },
+      { "title": "4.33 主驾电动座椅无记忆功能及副驾电动座椅", "file_id":921,"page": 4 },
+      { "title": "4.34 安全气囊系统", "file_id":922,"page": 4 },
+      { "title": "4.35 喇叭","file_id":923, "page": 4 },
+      { "title": "4.36 车辆稳定性控制及驻车控制系统", "file_id":924,"page": 4 },
+      { "title": "4.37 车道偏离及前向雷达大", "file_id":925,"page": 4 },
+      { "title": "4.38 盲区监测系统", "file_id":926,"page": 4 },
+      { "title": "4.39 倒车雷达系统", "file_id":928,"page": 4 },
+      { "title": "4.40 全景泊车系统","file_id":927, "page": 4 },
+      { "title": "4.41 自动泊车系统", "file_id":929,"page": 4 },
+      { "title": "4.42 USB及12V电源", "file_id":930,"page": 4 },
+      { "title": "4.43 无线充电", "file_id":931,"page": 4 },
+      { "title": "4.44 ACAN通讯系统", "file_id":932,"page": 4 },
+      { "title": "4.45 DCAN通讯系统","file_id":933, "page": 4 },
+      { "title": "4.46 ECAN通讯系统", "file_id":934,"page": 4 },
+      { "title": "4.47 LIN线与OBD诊断系统","file_id":935, "page": 4 },
+      { "title": "4.48 PCAN通讯系统", "file_id":936,"page": 4 },
+      { "title": "4.49 网关系统","file_id":937, "page": 4 },
+      { "title": "4.50 智能蓝牙系统", "file_id":938,"page": 69 },
+      { "title": "4.51 低速提示音系统", "file_id":939,"page": 70 },
+      { "title": "4.52 整车控制系统(1)", "file_id":940,"page": 71 },
+      { "title": "4.53 整车控制系统(2)-不带HVH", "file_id":941,"page": 72 },
+      { "title": "4.54 整车控制系统(3)", "file_id":943,"page": 73 },
+      { "title": "4.55 无钥匙进入系统(1)", "file_id":942,"page": 74 },
+      { "title": "4.56 无钥匙进入系统(2)", "file_id":944,"page": 75 },
+      { "title": "4.57 T-BOX", "file_id":945,"page": 76 },
+      { "title": "4.58 电动助力转向系统", "file_id":947,"page": 77 },
+      { "title": "4.60 前中央控制面板及空调控制面板", "file_id":946,"page": 78 },
+      { "title": "4.61 电池热管理系统", "file_id":949,"page": 79 },
+      { "title": "4.61 计价器系统", "file_id":948,"page": 80 },
+      { "title": "4.62 监控摄像系统", "file_id":950,"page": 81 },
+      { "title": "4.63 音响系统(出租版)", "file_id":951,"page": 82 }
+    ]
+  },
+  {
+    "chapter": "5. 接地点",
+    "file_id":889,
+    "sections": [
+      { "title": "5.1 前舱线束Ⅱ接地点","file_id":889,"page": 83 },
+      { "title": "5.2 前舱线束接地点","file_id":889,"page": 87 },
+      { "title": "5.3 仪表板线束接地点","file_id":889, "page": 93 },
+      { "title": "5.4 车身线束接地点","file_id":889, "page": 99 },
+      { "title": "5.5 充电线束接地点","file_id":889, "page": 106 },
+      { "title": "5.6 接地线束及蓄电池负极线束接地点","file_id":889, "page": 109 }
+    ]
+  },
+  {
+    "chapter": "6. 线束布置与接插件说明",
+    "file_id":952,
+    "sections": [
+      { "title": "6.1 前舱线束(1)", "file_id": 952,"page": 110 },
+      { "title": "6.2 前舱线束(2)", "file_id": 953,"page": 111 },
+      { "title": "6.3 前舱线束Ⅱ", "file_id": 954,"page": 132 },
+      { "title": "6.4 仪表板线束(1)", "file_id": 956,"page": 140 },
+      { "title": "6.5 仪表板线束(2)", "file_id": 955,"page": 141 },
+      { "title": "6.6 仪表板线束(3)", "file_id": 957,"page": 142 },
+      { "title": "6.7 副仪表板线束", "file_id": 958,"page": 178 },
+      { "title": "6.8 车身线束(1)", "file_id":961,"page": 183 },
+      { "title": "6.9 车身线束(2)", "file_id": 959,"page": 184 },
+      { "title": "6.10 后卡钳线束", "file_id":962,"page": 215 },
+      { "title": "6.12 左前门线束", "file_id":963,"page": 219 },
+      { "title": "6.13 右前门线束", "file_id":965,"page": 227 },
+      { "title": "6.14 左后门线束", "file_id":964,"page": 234 },
+      { "title": "6.15 右后门线束", "file_id":970,"page": 237 },
+      { "title": "6.16 前保险杠线束", "file_id":966,"page": 240 },
+      { "title": "6.17 后保险杠线束", "file_id":967,"page": 243 },
+      { "title": "6.18 充电线束", "file_id":969,"page": 249 },
+      { "title": "6.19 高压线束", "file_id":968,"page": 255 }
+    ]
+  },
+  {
+    "chapter": "7. 缩略语",
+    "file_id":887,
+    "sections": [
+      { "title": "7.1 缩略语", "file_id":887,"page": 258 }
+    ]
+  }
+]

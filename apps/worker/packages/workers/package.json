@@ -1,0 +1,31 @@
+{
+  "name": "@corekg/workers",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run --passWithNoTests --dir src",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "uuid": "^11.1.0",
+    "zod": "^4.4.3",
+    "pino": "^10.3.1",
+    "@corekg/config": "workspace:*",
+    "@corekg/logger": "workspace:*",
+    "@corekg/nats": "workspace:*",
+    "@corekg/storage": "workspace:*",
+    "@corekg/search": "workspace:*",
+    "@corekg/ai": "workspace:*",
+    "@corekg/rpc": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "@types/uuid": "^10.0.0",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10"
+  }
+}

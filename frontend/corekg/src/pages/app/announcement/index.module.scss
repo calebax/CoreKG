@@ -1,0 +1,148 @@
+.layoutHeader {
+  :global(.ant-breadcrumb-separator) {
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+// 公告内容 HTML 样式
+.announcementContent {
+
+  // 列表样式
+  :global(ul),
+  :global(ol) {
+    padding-left: 2em;
+    margin: 1em 0;
+  }
+
+  :global(li) {
+    margin: 0.5em 0;
+    list-style-position: outside;
+  }
+
+  :global(ul) {
+    list-style-type: disc;
+  }
+
+  :global(ol) {
+    list-style-type: decimal;
+  }
+
+  // 标题样式
+  :global(h1),
+  :global(h2),
+  :global(h3),
+  :global(h4),
+  :global(h5),
+  :global(h6) {
+    margin: 1em 0 0.5em 0;
+    font-weight: 500;
+    color: #165dff;
+  }
+
+  :global(h1) {
+    font-size: 1.5em;
+  }
+
+  :global(h2) {
+    font-size: 1.3em;
+  }
+
+  :global(h3) {
+    font-size: 1.1em;
+  }
+
+  // 段落样式
+  :global(p) {
+    margin: 1em 0;
+    line-height: 1.6;
+  }
+
+  // 文本格式
+  :global(strong),
+  :global(b) {
+    font-weight: 600;
+  }
+
+  :global(em),
+  :global(i) {
+    font-style: italic;
+  }
+
+  // 链接样式
+  :global(a) {
+    color: #0c99ff;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  // 图片样式
+  :global(img) {
+    max-width: 100%;
+    height: auto;
+    margin: 1em 0;
+  }
+
+  // 表格样式
+  :global(table) {
+    border-collapse: collapse;
+    margin: 1em 0;
+    width: 100%;
+  }
+
+  :global(table th),
+  :global(table td) {
+    border: 1px solid #dfe2e5;
+    padding: 0.6em 1em;
+    text-align: left;
+  }
+
+  :global(table th) {
+    font-weight: 600;
+    background-color: #f0f0f0;
+  }
+
+  :global(table tr:nth-child(2n)) {
+    background-color: #f6f8fa;
+  }
+
+  // 代码样式
+  :global(code) {
+    background-color: #f6f8fa;
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 0.9em;
+  }
+
+  :global(pre) {
+    background-color: #f6f8fa;
+    padding: 1em;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 1em 0;
+
+    :global(code) {
+      background-color: transparent;
+      padding: 0;
+    }
+  }
+
+  // 引用样式
+  :global(blockquote) {
+    border-left: 4px solid #dfe2e5;
+    padding-left: 1em;
+    margin: 1em 0;
+    color: #6a737d;
+  }
+
+  // 水平线
+  :global(hr) {
+    border: none;
+    border-top: 1px solid #dfe2e5;
+    margin: 1.5em 0;
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "app": {
+    "home": {
+      "morningGreeting": "早上好呀！",
+      "noonGreeting": "中午好呀！",
+      "afternoonGreeting": "下午好呀！",
+      "eveningGreeting": "晚上好呀！"
+    }
+  }
+}

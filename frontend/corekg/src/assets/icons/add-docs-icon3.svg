@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="57" height="56" viewBox="0 0 57 56" fill="none">
+  <g clip-path="url(#clip0_1_10070)">
+    <g style="mix-blend-mode:multiply">
+      <path d="M3.13246 21.8775C1.83739 21.4458 0.5 22.4097 0.5 23.7749L0.5 35.2251C0.5 36.5903 1.83739 37.5542 3.13246 37.1225L5.13246 36.4558C5.94914 36.1836 6.5 35.4193 6.5 34.5585L6.5 24.4415C6.5 23.5807 5.94914 22.8164 5.13246 22.5442L3.13246 21.8775Z" fill="#7DDEFF"/>
+    </g>
+    <g style="mix-blend-mode:multiply">
+      <path d="M53.8675 21.8775C55.1626 21.4458 56.5 22.4097 56.5 23.7749V35.2251C56.5 36.5903 55.1626 37.5542 53.8675 37.1225L51.8675 36.4558C51.0509 36.1836 50.5 35.4193 50.5 34.5585V24.4415C50.5 23.5807 51.0509 22.8164 51.8675 22.5442L53.8675 21.8775Z" fill="#7DDEFF"/>
+    </g>
+    <g style="mix-blend-mode:multiply">
+      <path d="M34.5 6C36.7091 6 38.5 7.79086 38.5 10V10.2803H44.5C47.8137 10.2803 50.5 12.9666 50.5 16.2803V43C50.5 46.3137 47.8137 49 44.5 49H12.5C9.18629 49 6.5 46.3137 6.5 43V16.2803C6.5 12.9666 9.18629 10.2803 12.5 10.2803H20.5V10C20.5 7.79086 22.2909 6 24.5 6H34.5Z" fill="url(#paint0_linear_1_10070)"/>
+    </g>
+    <rect x="18.5" y="21" width="5" height="10" rx="2.5" fill="white"/>
+    <rect x="34.5" y="21" width="5" height="10" rx="2.5" fill="white"/>
+  </g>
+  <defs>
+    <linearGradient id="paint0_linear_1_10070" x1="28.5" y1="6" x2="28.5" y2="49" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#676CFF"/>
+      <stop offset="1" stop-color="#76ECFF"/>
+    </linearGradient>
+    <clipPath id="clip0_1_10070">
+      <rect width="56" height="56" fill="white" transform="translate(0.5)"/>
+    </clipPath>
+  </defs>
+</svg>

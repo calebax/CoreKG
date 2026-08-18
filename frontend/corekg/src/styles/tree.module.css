@@ -1,0 +1,91 @@
+/* 共享的树组件样式 */
+.tree {
+  @apply overflow-auto;
+
+  :global(.ant-tree-list) {
+    :global(.ant-tree-treenode) {
+      @apply min-w-full;
+      cursor: pointer;
+      border-radius: 4px;
+      
+      &:hover {
+        background-color: #9194971a !important;
+        
+        :global(.ant-tree-switcher) {
+          background-color: transparent !important;
+        }
+        
+        :global(.ant-tree-checkbox) {
+          background-color: transparent !important;
+        }
+        
+        :global(.ant-tree-node-content-wrapper) {
+          background-color: transparent !important;
+        }
+      }
+    }
+  }
+
+  :global(.ant-tree-switcher) {
+    color: #919497 !important;
+    flex-shrink: 0;
+    
+    :global(.ant-tree-switcher-icon) {
+      color: #919497 !important;
+    }
+    
+    svg {
+      color: #919497 !important;
+      fill: #919497 !important;
+    }
+  }
+
+  :global(.ant-tree-checkbox) {
+    flex-shrink: 0;
+  }
+
+  :global(.ant-tree-node-content-wrapper) {
+    @apply w-full flex items-center;
+  }
+
+  :global(.ant-tree-title) {
+    @apply flex items-center;
+    color: #0C1F17 !important;
+    flex: 1;
+    min-width: 0;
+  }
+
+  :global(.ant-tree-iconEle) {
+    flex-shrink: 0;
+    @apply flex items-center;
+    
+    &:empty {
+      display: none !important;
+      width: 0 !important;
+      min-width: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    
+    /* 隐藏没有实际内容的图标容器 */
+    &:not(:has(img)):not(:has(svg)):not(:has(*)) {
+      display: none !important;
+      width: 0 !important;
+      min-width: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+  }
+  
+  /* 当图标容器为空时，确保不占用空间 */
+  :global(.ant-tree-node-content-wrapper) {
+    :global(.ant-tree-iconEle:empty) {
+      display: none !important;
+      width: 0 !important;
+      min-width: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+  }
+}
+

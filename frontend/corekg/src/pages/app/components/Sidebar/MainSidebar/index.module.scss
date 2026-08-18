@@ -1,0 +1,10 @@
+.mainSidebar {
+  flex-shrink: 0;
+  margin-bottom: 20px;
+  z-index: 100;
+  &Content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+}

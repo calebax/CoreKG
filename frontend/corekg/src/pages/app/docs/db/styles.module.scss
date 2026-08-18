@@ -1,0 +1,47 @@
+.createBtn {
+  border-radius: 6px;
+  border-color: #0C99FF;
+  padding: 10px;
+  gap: 5px;
+  color: #0C99FF;
+  box-shadow: none;
+  font-weight: 500;
+  height: 30px;
+
+  &Icon {
+    color: #0C99FF;
+    transition: 0.3s all ease-out;
+  }
+
+  &:active &Icon {
+    color: #0C99FF;
+  }
+
+  &Disabled {
+    opacity: 0.4 !important;
+    cursor: no-drop;
+  }
+}
+
+.searchInputWrap {
+  transition: 0.2s width ease-out;
+  will-change: width;
+
+  &:global(.ant-input-affix-wrapper-focused) {
+    width: 200px;
+    border-color: #0C99FF;
+  }
+
+  &.searchInputWrapSearching {
+    width: 200px;
+  }
+
+  :global {
+    .ant-input {
+      &::placeholder {
+        color: #0C99FF;
+        font-weight: 500;
+      }
+    }
+  }
+}

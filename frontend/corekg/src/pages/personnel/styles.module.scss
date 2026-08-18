@@ -1,0 +1,15 @@
+.layoutHeader {
+    align-items: center;
+    :global{
+        .ant-breadcrumb-separator{
+           display: flex; 
+           align-items: center;
+           margin-inline:5px;
+        }
+        .ant-breadcrumb-link{
+            color: #3C4149;
+            font-weight: 500;
+            font-size: 14px;
+        }
+    }
+}

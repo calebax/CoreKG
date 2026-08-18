@@ -1,0 +1,18 @@
+.agent{
+    &Btn {
+        height: 32px;
+        color: #CC5DE8;
+        background-color: #FAE8FF;
+        box-shadow: none;
+        font-weight: 500;
+        font-size: 14px;
+        gap: 5px;
+        padding: 0 10px;
+        border: none;
+        &:hover {
+            border: none;
+            background-color: #FAE8FF;
+            color: #CC5DE8;
+        }
+    }
+}

@@ -1,0 +1,8 @@
+.menuItem {
+  background-color: transparent;
+  color: #7b92a9;
+  &:hover,
+  &.active {
+    color: #4e87fa;
+  }
+}

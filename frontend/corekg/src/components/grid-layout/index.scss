@@ -1,0 +1,58 @@
+/* 自定义网格项基础样式 */
+.custom-grid-item {
+  border: 2px solid transparent;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 8px;
+  transition: all 0.2s ease; /* 平滑过渡效果 */
+  &:hover {
+    border-color: #0b99ff;
+  }
+  &-active {
+    border-color: #0b99ff;
+  }
+}
+
+/* 拖拽时的占位元素样式 */
+.react-grid-placeholder {
+  background-color: rgba(150, 200, 255, 0.3) !important; /* 浅蓝色半透明 */
+  border: 2px dashed #69b1ff !important; /* 虚线边框 */
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+/* 网格项被拖拽时的样式 */
+.custom-grid-item.react-draggable-dragging {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  opacity: 0.9;
+  z-index: 100;
+}
+
+/* 确保元素可聚焦 */
+.react-grid-item {
+  outline: none;
+  user-select: none;
+  &:hover {
+    .react-resizable-handle {
+      opacity: 1;
+    }
+  }
+}
+
+/* 调整大小时的样式 */
+.react-resizable-handle {
+  opacity: 0;
+  background-image: url('@/assets/icons/grid-corner.svg');
+  &:hover {
+    background-image: url('@/assets/icons/grid-corner-active.svg');
+  }
+  &::after {
+    display: none;
+  }
+}
+
+.custom-grid-container {
+  width: 100%;
+  height: calc(100%);
+  overflow: hidden auto;
+}

@@ -1,0 +1,79 @@
+{
+  "button": {
+    "clear": "清除",
+    "search": "搜索",
+    "viewMore": "查看更多",
+    "stopGenerating": "停止生成",
+    "send": "发送",
+    "analyse": "{{target}}分析",
+    "selected": "已选择",
+    "select": "选择",
+    "upload": "上传{{target}}",
+    "confirmDelete": "确认删除{{target}}",
+    "cancel": "取消",
+    "edit": "编辑{{target}}",
+    "delete": "删除{{target}}",
+    "import": "导入{{target}}",
+    "create": "创建{{target}}",
+    "download": "下载{{target}}",
+    "addNew": "新增{{target}}",
+    "save": "保存{{target}}",
+    "clearEmpty": "清空",
+    "expand": "展开",
+    "collapse": "收起",
+    "submit": "提交",
+    "confirm": "确定",
+    "add": "添加{{target}}",
+    "reset": "重置{{target}}",
+    "rename": "重命名{{target}}",
+    "goBack": "返回",
+    "close": "关闭"
+  },
+  "empty": {
+    "noFind": "暂未查询到相关内容～",
+    "emptyState": "空状态",
+    "noData": "暂无数据"
+  },
+  "resource": {
+    "data": "数据"
+  },
+  "status": {
+    "uploading": "上传中...",
+    "loading": "加载中..."
+  },
+  "file": {
+    "file": "文件",
+    "image": "图片",
+    "excel": "Excel",
+    "database": "数据库",
+    "cad": "CAD",
+    "video": "视频",
+    "doc": "文档",
+    "folder": "文件夹"
+  },
+  "custom": {
+    "all": "全部",
+    "list": "{{before}}列表{{after}}",
+    "name": "名称"
+  },
+  "model": {
+    "model": "大模型",
+    "selectModel": "模型",
+    "knowledge": "知识",
+    "selectKnowledge": "知识库"
+  },
+  "time": {
+    "secondsAgo": "{{count}}秒前",
+    "minutesAgo": "{{count}}分钟前",
+    "hoursAgo": "{{count}}小时前",
+    "daysAgo": "{{count}}天前"
+  },
+  "agreement": {
+    "youAgreement": "使用代表同意",
+    "and": "和",
+    "serviceAgreement": "服务协议",
+    "serviceAgreementLink": "/agreement/zh-CN/service.pdf",
+    "privacyAgreement": "隐私政策",
+    "privacyAgreementLink": "/agreement/zh-CN/privacy.pdf"
+  }
+}

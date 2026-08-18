@@ -1,0 +1,96 @@
+# CoreKG 本地开发依赖编排示例。
+# 用法：
+#   cp docker-compose.yml.example docker-compose.yml
+#   docker compose up -d
+#
+# 默认凭据与各 apps/*/conf/*/config.yaml.example、apps/worker/.env.example 保持一致。
+# 生产环境请勿使用本文件；所有密码均为本地开发默认值。
+
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: corekg-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: corekg_root_dev
+      MYSQL_DATABASE: corekg
+      MYSQL_USER: corekg
+      MYSQL_PASSWORD: corekg_dev
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    command: --default-authentication-plugin=caching_sha2_password
+
+  elasticsearch:
+    image: elasticsearch:8.18.1
+    container_name: corekg-es
+    restart: unless-stopped
+    environment:
+      discovery.type: single-node
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+      ELASTIC_PASSWORD: change-me
+      xpack.security.enabled: "true"
+      xpack.security.http.ssl.enabled: "false"
+      xpack.security.transport.ssl.enabled: "false"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+
+  redis:
+    image: redis:7
+    container_name: corekg-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  minio:
+    image: minio/minio:latest
+    container_name: corekg-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: change-me
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # MinIO 初始化：创建 corekg-bucket（替代原私有 minio-init 镜像）
+  minio-init:
+    image: minio/mc:latest
+    container_name: corekg-minio-init
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set local http://minio:9000 minioadmin change-me &&
+      mc mb --ignore-existing local/corekg-bucket &&
+      echo 'MinIO bucket corekg-bucket ready'
+      "
+    restart: "no"
+
+  nats:
+    image: nats:2
+    container_name: corekg-nats
+    restart: unless-stopped
+    ports:
+      - "4222:4222"
+
+volumes:
+  mysql_data:
+  es_data:
+  redis_data:
+  minio_data:

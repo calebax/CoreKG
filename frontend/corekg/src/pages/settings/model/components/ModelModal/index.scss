@@ -1,0 +1,29 @@
+.model-modal {
+  .ant-modal-close:hover {
+    background-color: transparent !important;
+  }
+
+  .ant-modal-close .ant-modal-close-x:hover {
+    color: inherit !important;
+  }
+}
+
+.ant-modal-content {
+  padding: 0;
+}
+
+.ant-modal-header {
+  padding: 16px 24px;
+  border-bottom: 1px solid #f0f0f0;
+  margin: 0;
+}
+
+:where(.css-dev-only-do-not-override-2ug2yc).ant-input-outlined,
+:where(.css-2ug2yc).ant-input-outlined {
+  border-color: #dfe0eb;
+}
+
+:where(.css-dev-only-do-not-override-2ug2yc).ant-modal .ant-modal-close:hover,
+:where(.css-2ug2yc).ant-modal .ant-modal-close:hover {
+  background-color: transparent !important;
+}

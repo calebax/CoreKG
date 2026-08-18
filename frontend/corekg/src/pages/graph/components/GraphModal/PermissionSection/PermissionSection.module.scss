@@ -1,0 +1,14 @@
+.scrollContainer {
+  :global {
+    .scrollbar-track {
+      background: transparent;
+    }
+    .scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 3px;
+    }
+    .scrollbar-thumb:hover {
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+  }
+}

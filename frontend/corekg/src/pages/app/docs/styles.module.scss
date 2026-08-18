@@ -1,0 +1,90 @@
+.createBtn {
+  border-radius: 6px;
+  padding: 10px;
+  gap: 5px;
+
+  &Icon {
+    color: #0C99FF;
+    transition: 0.3s all ease-out;
+  }
+
+  &:active &Icon {
+    color: #0C99FF;
+  }
+}
+
+.filterSelect {
+  &:global(.ant-select-dropdown) {
+    padding: 10px;
+    width: 230px;
+  }
+
+  :global {
+    .rc-virtual-list-holder-inner {
+      div.ant-select-item-option {
+        font-weight: 500 !important;
+        color: #0c1f17 !important;
+
+        &:hover {
+          font-weight: 500 !important;
+          color: #0c1f17 !important;
+        }
+      }
+
+      div.ant-select-item-option.ant-select-item-option-selected {
+        background-color: #f7f7f7 !important;
+        font-weight: 500 !important;
+        color: #0c1f17 !important;
+      }
+    }
+  }
+}
+
+.searchInputWrap {
+  transition: 0.2s width ease-out;
+  will-change: width;
+
+  &:global(.ant-input-affix-wrapper-focused) {
+    width: 200px;
+    border-color: #0C99FF;
+  }
+
+  &.searchInputWrapSearching {
+    width: 200px;
+  }
+
+  :global {
+    .ant-input {
+      &::placeholder {
+        color: #0C99FF;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+.multiLineEllipsis {
+  display: -webkit-box;
+  width: 100%;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  display: block;
+}
+
+.descWrap {
+  position: relative;
+
+  &::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}

@@ -1,0 +1,11 @@
+.item {
+  .checkbox {
+    display: none;
+  }
+  &:hover {
+    background-color: #eff0f6;
+    .checkbox {
+      display: block;
+    }
+  }
+}

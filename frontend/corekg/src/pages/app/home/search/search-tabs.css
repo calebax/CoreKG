@@ -1,0 +1,60 @@
+/* 自定义搜索页面 Tabs 样式 */
+.search-tabs-custom .ant-tabs-nav {
+  margin-bottom: 0 !important;
+}
+
+.search-tabs-custom .ant-tabs-nav::before {
+  display: none !important; /* 移除默认下边框 */
+}
+
+.search-tabs-custom .ant-tabs-nav-list {
+  gap: 24px !important; /* tab 之间的间距 */
+}
+
+.search-tabs-custom .ant-tabs-tab {
+  padding: 0 !important;
+  margin: 0 !important;
+  position: relative;
+}
+
+.search-tabs-custom .ant-tabs-tab .ant-tabs-tab-btn {
+  font-family: 'Inter ' !important;
+  font-size: 18px !important;
+  line-height: 26px !important;
+  font-weight: 400 !important; /* Regular */
+  color: #616373 !important; /* 未选中颜色 */
+  padding: 0 0 6px 0 !important; /* 底部留出下划线空间 */
+  transition: all 0.2s ease !important;
+}
+
+.search-tabs-custom .ant-tabs-tab .ant-tabs-tab-btn:hover {
+  color: #1e1f28 !important;
+}
+
+/* 移除默认的激活状态下边框 */
+.search-tabs-custom .ant-tabs-tab::after {
+  display: none !important;
+}
+
+/* 选中状态 */
+.search-tabs-custom .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  font-weight: 400 !important; /* Medium */
+  color: #1e1f28 !important; /* 选中颜色 */
+}
+
+/* 自定义下划线 */
+.search-tabs-custom .ant-tabs-tab.ant-tabs-tab-active::after {
+  content: '' !important;
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 2px !important;
+  background-color: #3d7fff !important;
+  border-radius: 104px !important;
+  display: block !important;
+}
+
+.search-tabs-custom .ant-tabs-ink-bar {
+  display: none !important; /* 隐藏默认的下划线 */
+}

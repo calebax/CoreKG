@@ -1,0 +1,21 @@
+{
+  "name": "@coze-foundation/auth-protocol",
+  "version": "0.0.1",
+  "description": "Shared auth protocol types and utilities for cross-iframe communication between corekg and workflow",
+  "license": "Apache-2.0",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "exit 0",
+    "dev": "exit 0",
+    "lint": "eslint ./ --cache",
+    "test": "vitest --run --passWithNoTests",
+    "test:cov": "npm run test -- --coverage"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@coze-arch/eslint-config": "workspace:*",
+    "@coze-arch/ts-config": "workspace:*",
+    "@coze-arch/vitest-config": "workspace:*",
+    "vitest": "~3.0.5"
+  }
+}

@@ -1,0 +1,108 @@
+# CoreKG 聚合服务本地开发配置示例。
+# 使用方式：
+#   1. cp config.yaml.example config.yaml
+#   2. 启动本地依赖（见仓库根 docker-compose.yml.example）：docker compose up -d
+#   3. 按需修改 config.yaml 中标记为 change-me 的密钥
+#
+# 所有真实密钥一律不要提交；config.yaml 已被 .gitignore 忽略。
+
+main:
+  app: corekg
+  http_addr: :8080
+  open_docs_api: true
+  base_url: http://localhost:8080
+  env: test
+  web_dir: ./web/dist/
+  database_conns:
+    core: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    account: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    knownow: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    chat: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    llm: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
+
+redis:
+  addr: localhost:6379
+  password: ""
+  db: 1
+
+account:
+  jwt_secret: change-me
+  plt_jwt_secret: change-me
+  jwt_expire: 8h
+
+zmrobot:
+  captcha_image_dir: ./var/captcha/
+
+local_storage:
+  dir: ./var/storage/
+
+notify:
+  smtp:
+    addr: smtp.example.com:465
+    username: noreply@example.com
+    password: change-me
+    nickname: CoreKG
+
+wecom:
+  apps:
+    - name: roc_message
+      company_id: change-me
+      agent_id: 1000002 # AgentId
+      secret: change-me
+      token: change-me
+      encoding_aes_key: change-me
+    - name: owl_message
+      company_id: change-me
+      agent_id: 1000006 # AgentId
+      secret: change-me
+      token: change-me
+      encoding_aes_key: change-me
+    - name: chatgpt
+      company_id: change-me
+      agent_id: 1000007 # AgentId
+      secret: change-me
+      token: ""
+      encoding_aes_key: ""
+
+tencent_cloud:
+  - AppId: change-me
+    SecretId: change-me
+    SecretKey: change-me
+    Region: ap-beijing
+
+name: roc_message
+company_id: change-me
+agent_id: 1000002 # AgentId
+secret: change-me
+token: change-me
+encoding_aes_key: change-me
+
+logger:
+  default:
+    - writer: console
+      level: debug
+    - writer: file
+      level: debug
+      filename: ./logs/default.log
+      maxsize: 10
+      maxage: 15
+      maxbackups: 5
+      localtime: true
+      compress: true
+    - writer: workwx
+      level: error
+      key: change-me
+  gorm:
+    - writer: console
+      level: debug
+  access:
+    - writer: console
+      level: debug
+    - writer: file
+      level: debug
+      filename: ./logs/access.log
+      maxsize: 10
+      maxage: 15
+      maxbackups: 5
+      localtime: true
+      compress: true

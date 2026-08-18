@@ -1,0 +1,55 @@
+- group: core
+  key: redis
+  name: Redis
+  value_type: yaml
+  value: "addr: redis:6379\r\npassword:  \"\"\r\ndb: 1"
+- group: knowledge
+  key: redis
+  name: Redis
+  value_type: yaml
+  value: "addr: redis:6379\r\npassword: \"\"\r\ndb: 4\r\n"
+- group: core
+  key: cos-ke
+  name: knowlegde存储
+  value_type: yaml
+  value: "purpose: forest-file\r\npresigned_timeout: \"24h\"\r\ns3:\r\n  end_point: http://CHANGE_ME_HOST\r\n  access_key_id: admin\r\n  secret_access_key: CHANGE_ME_S3_SECRET_KEY \r\n  region: minio\r\n  bucket: corekg-bucket\r\n  use_path_style: true\r\n\r\n"
+- group: knowledge
+  key: es
+  name: es配置
+  value_type: yaml
+  value: "addresses:\r\n  - http://elasticsearch-0.elasticsearch:9200\r\nusername: elastic\r\npassword: CHANGE_ME_PASSWORD \r\nmax_retries: 3\r\nslow_threshold: 3s"
+- group: knowledge
+  key: llm_image_parse
+  name: llm_image_parse
+  value_type: yaml
+  value: "api_key: yg-xxxxxxxxxxxxxxxxxxxxxxx\r\nbase_url: https://xxxxxxxxxxxxxxxx/v1/chat/completions\r\nmodel_name: \"qwen2.5-vl-72b-instruct\""
+- group: knowledge
+  key: nebula
+  name: 图数据库配置
+  value_type: yaml
+  value: "address: \"nebula-graphd-0.nebula-graphd\"\r\nport: 9669\r\nusername: \"root\"\r\npassword: \"nebula\"\r\nprefix: \"know\""
+- group: knowledge
+  key: embedding
+  name: embedding模型配置
+  value_type: yaml
+  value: "url: https://xxxxxxxxxxxxxxxx/v1/embeddings\r\nkey: \"yg-xxxxxxxxxxxxxxxx\"\r\nmodel_name: \"embedding\""
+- group: knowledge
+  key: convert_pdf
+  name: 文件转PDF
+  value_type: yaml
+  value: "default:\n  url: \"http://CHANGE_ME_HOST/forms/libreoffice/convert\"\n  api_key: \"\"\n  file_field: \"files\"\n  response_is_file: true\n  file_url_field: \"\"\nofd:\n  url: \"http://CHANGE_ME_HOST/forms/ofd/convert\"\n  api_key: \"\"\n  file_field: \"file\"\n  response_is_file: false\n  file_url_field: \"response.pdf_url\""
+- group: core
+  key: cos-cu-image
+  name: account头像存储
+  value_type: yaml
+  value: "purpose: cu-image\r\npresigned_timeout: \"24h\"\r\ns3:\r\n  end_point: http://CHANGE_ME_HOST\r\n  access_key_id: admin\r\n  secret_access_key: CHANGE_ME_S3_SECRET_KEY \r\n  region: minio\r\n  bucket: corekg-bucket\r\n  use_path_style: true\r\n\r\n"
+- group: core
+  key: cos-yg-chat
+  name: 轻应用头像存储
+  value_type: yaml
+  value: "purpose: yg-chat\r\npresigned_timeout: \"24h\"\r\ns3:\r\n  end_point: http://CHANGE_ME_HOST\r\n  access_key_id: admin\r\n  secret_access_key: CHANGE_ME_S3_SECRET_KEY\r\n  region: minio\r\n  bucket: corekg-bucket\r\n  use_path_style: true\r\n\r\n"
+- group: knowledge
+  key: mysql_excel_instance
+  name: excel问答 mysql 实例信息
+  value_type: yaml
+  value: "host: mysql\nport: 3306\r\nusername: root \r\npassword: CHANGE_ME_PASSWORD \rcharset: utf8mb4\r\n"

@@ -1,0 +1,58 @@
+.global-itemcard {
+  box-shadow: 0px 0px 20px 0px #00000017;
+  width: 300px;
+  height: 184px;
+  position: relative;
+  border-radius: 0.75rem;
+  & {
+    transition: 200ms;
+    &:hover {
+      scale: 1.02;
+    }
+  }
+  .cardinner {
+    width: 100%;
+    height: 100%;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 1.25rem;
+    padding-bottom: 1rem;
+
+    .avatar {
+      width: 5rem;
+      height: 5rem;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 100% 100%;
+    }
+    .title {
+      font-size: 1.125rem;
+      font-weight: 500;
+    }
+    .extra {
+      font-size: 0.75rem;
+      color: #919497;
+    }
+    .desc {
+      color: #3c4149;
+      height: 3rem;
+      min-height: 3rem;
+      max-height: 3rem;
+    }
+    .op {
+      display: none;
+      position: absolute;
+      right: 1.5rem;
+      top: 1.25rem;
+      z-index: 10;
+      transform: translate(50%, 0);
+      cursor: pointer;
+      &:hover {
+        background-color: #9194971a;
+      }
+    }
+    &:hover .op {
+      display: flex;
+    }
+  }
+}

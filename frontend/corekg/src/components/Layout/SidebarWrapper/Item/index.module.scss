@@ -1,0 +1,95 @@
+.item {
+  display: flex;
+  height: 30px;
+  font-family: Inter;
+  padding: 0 5px;
+  gap: 6px;
+  align-items: center;
+  font-size: 14px;
+  color: #0c1f17;
+  font-weight: 500;
+  overflow: hidden;
+  border-radius: 4px;
+  line-height: 1.5em;
+  cursor: pointer;
+
+  &Fold {
+    // justify-content: center;
+    align-items: center;
+    width: 32px;
+    padding: 0 6px;
+
+    &IconWrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      overflow: hidden;
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &:hover {
+    background-color: rgba(145, 148, 151, 0.08);
+  }
+
+  &:hover>&Menu {
+    opacity: 1;
+  }
+
+  &Menu {
+    opacity: 0;
+    flex-shrink: 0;
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    line-height: 0;
+    cursor: pointer;
+
+    &Icon {
+      display: block;
+    }
+
+    &List {
+      padding: 10px;
+      width: 230px;
+    }
+  }
+
+  &>div:first-child {
+    flex-shrink: 0;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  &>div:nth-child(2) {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    line-height: 1.5em;
+  }
+
+  &Active {
+    background-color: rgba(145, 148, 151, 0.15) !important;
+  }
+
+  &Input {
+    height: 22px;
+  }
+
+  &Text {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    line-height: 1.5em;
+    margin-right: 4px;
+  }
+
+  &TextEllipsis {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "name": "@corekg/kealgo-worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "worker": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc && node -e \"const fs=require('fs');const p='dist/index.js';let c=fs.readFileSync(p,'utf8');if(!c.startsWith('#!')){c='#!/usr/bin/env node\\n'+c;}fs.writeFileSync(p,c);\" && chmod +x dist/index.js",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "test": "vitest run --passWithNoTests --dir src",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@corekg/ai": "workspace:*",
+    "@corekg/chunker": "workspace:*",
+    "@corekg/config": "workspace:*",
+    "@corekg/logger": "workspace:*",
+    "@corekg/nats": "workspace:*",
+    "@corekg/parser": "workspace:*",
+    "@corekg/rpc": "workspace:*",
+    "@corekg/search": "workspace:*",
+    "@corekg/storage": "workspace:*",
+    "@corekg/workers": "workspace:*",
+    "@types/uuid": "^11.0.0",
+    "commander": "^14.0.0",
+    "uuid": "^14.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "tsx": "^4.23.1",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10"
+  }
+}

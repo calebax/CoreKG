@@ -1,0 +1,135 @@
+.segment-rules-modal .ant-modal-content {
+  padding: 24px;
+  border-radius: 4px;
+  box-shadow: 0px 3px 8px 0px rgba(0, 0, 0, 0.1);
+}
+
+.segment-rules-modal .ant-modal-header {
+  margin-bottom: 12px;
+  padding: 0;
+}
+
+.segment-rules-modal .ant-modal-title {
+  font-family: 'Inter ';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: #1e1f28;
+}
+
+.segment-rules-modal .ant-modal-body {
+  padding: 0;
+}
+
+.segment-rules-modal .ant-modal-footer {
+  margin-top: 24px;
+  padding: 0;
+  border-top: none;
+}
+
+.segment-rules-modal .ant-modal-close {
+  top: 24px;
+  right: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.segment-rules-modal .ant-modal-close-x {
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+}
+
+.segment-rules-modal .ant-modal-footer .ant-btn {
+  min-width: 80px;
+  height: 32px;
+  border-radius: 4px;
+  font-size: 13px;
+  padding: 4px 16px;
+}
+
+.segment-rules-modal .ant-modal-footer .ant-btn-default {
+  border-color: #dddddd;
+  color: #333333;
+}
+
+.segment-rules-modal .ant-modal-footer .ant-btn-primary {
+  background-color: #0C99FF;
+  border-color: #0C99FF;
+}
+
+.segment-rules-modal .ant-input-number {
+  width: 100%;
+}
+
+.segment-rules-modal .ant-input-number-group-addon {
+  color: #1e1f28;
+  background-color: transparent;
+  border-left: none;
+}
+
+.segment-rules-modal .ant-slider-track {
+  background-color: #0C99FF;
+}
+
+.segment-rules-modal .ant-slider-handle::after {
+  box-shadow: 0 0 0 2px #0C99FF;
+}
+
+.segment-rules-modal .ant-radio-wrapper {
+  align-items: flex-start;
+}
+
+.segment-rules-modal .ant-radio {
+  top: 3px;
+}
+
+.segment-rules-modal .ant-checkbox-wrapper {
+  font-size: 14px;
+  line-height: 22px;
+  color: #1e1f28;
+}
+
+.segment-rules-modal .ant-tooltip {
+  max-width: 280px;
+}
+
+.segment-rules-modal .ant-select {
+  width: 100%;
+}
+
+/* Form field styles */
+.segment-rules-modal .form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.segment-rules-modal .form-field-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.segment-rules-modal .required {
+  color: #d54941;
+  margin-right: 4px;
+}
+
+.segment-rules-modal .help-icon {
+  color: #999999;
+  margin-left: 4px;
+  cursor: help;
+}
+
+:where(.css-dev-only-do-not-override-2ug2yc).ant-radio-wrapper .ant-radio,
+:where(.css-2ug2yc).ant-radio-wrapper .ant-radio {
+  width: 20px;
+  height: 20px;
+}
+
+:where(.css-dev-only-do-not-override-2ug2yc).ant-radio-wrapper,
+:where(.css-2ug2yc).ant-radio-wrapper {
+  margin-inline-end: 0;
+}

@@ -1,0 +1,67 @@
+.externalDataSource {
+  &Select {
+    &Btn {
+      background-color: #f7f7f7;
+      height: 30px;
+      border: 1px solid #eff1f4;
+      border-radius: 20px;
+      color: #6e757f;
+      font-size: 13px;
+      font-family: Inter;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+      padding: 4px 12px;
+      gap: 5px;
+
+      &Active {
+        color: #cc5de8;
+        border-color: #cc5de833;
+        background-color: #fbe9ff;
+      }
+
+      &Disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+
+    &Wrapper {
+      width: 240px;
+      padding: 10px;
+    }
+
+    &Item {
+      display: flex;
+      align-items: center;
+      height: 30px;
+      position: relative;
+      width: 100%;
+
+      &Image {
+        width: 16px;
+        height: 16px;
+        object-fit: ‌scale-down;
+      }
+
+      :global(.ant-checkbox-label) {
+        position: relative;
+        display: flex;
+        align-items: center;
+        flex: 1;
+        gap: 5px;
+      }
+
+      &AuthBtn {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 12px;
+        color: #0C99FF;
+        cursor: pointer;
+      }
+    }
+  }
+}

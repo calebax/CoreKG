@@ -1,0 +1,88 @@
+# ketask 服务本地开发配置示例。
+# 用法：cp config.yaml.example config.yaml；启动本地依赖后按需修改 change-me 处。
+main:
+  app: ketask
+  env: test
+  http_addr: :8080
+  database_conns:
+    account: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    core: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
+logger:
+  default:
+    - writer: console
+      level: debug
+    - writer: file
+      level: debug
+      filename: ./logs/default.log
+      maxsize: 10
+      maxage: 15
+      maxbackups: 5
+      localtime: true
+      compress: true
+    - writer: workwx
+      level: error
+      key: change-me
+  gorm:
+    - writer: console
+      level: debug
+  access:
+    - writer: console
+      level: debug
+    - writer: file
+      level: debug
+      filename: ./logs/access.log
+      maxsize: 10
+      maxage: 15
+      maxbackups: 5
+      localtime: true
+      compress: true
+
+redis:
+  addr: localhost:6379
+  password: ""
+  db: 1
+
+s3_storages:
+  - bucket: "corekg-bucket"
+    end_point: "http://localhost:9000"
+    access_key_id: "minioadmin"
+    secret_access_key: "change-me"
+    region: "us-east-1"
+    use_path_style: true
+
+elasticsearch:
+  addresses:
+    - "http://localhost:9200"
+  username: "elastic"
+  password: "change-me"
+  max_retries: 3
+
+nebula:
+  address: "localhost"
+  port: 9669
+  username: "root"
+  password: "change-me"
+  prefix: "test_know"
+
+agent:
+  apiUrl: "http://localhost:8080/v1/chat/completions"
+  apiKey: "change-me"
+  chunkSize: 50000
+  maxTokenSize: 200000
+  maxWorkers: 50
+  pool:
+    abstractMD: "change-me"
+    absChunkMD: "change-me"
+    mergeAbstractMD: "change-me"
+    mindmapMD: "change-me"
+    mindChunkMD: "change-me"
+    mergeMindmapMD: "change-me"
+    shortDescMD: "change-me"
+    questionsMD: "change-me"
+  embedding:
+    url: "http://localhost:8000/v1/embeddings"
+    key: "change-me"
+    model_name: "Qwen3-Embedding-0.6B"
+
+nats:
+  url: "nats://localhost:4222"

@@ -1,0 +1,4 @@
+:global(.ant-modal-wrap):has(.resultModal) {
+  pointer-events: none;
+  z-index: 9999;
+}

@@ -1,0 +1,247 @@
+.sidebarContainer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 484px;
+  background: #ffffff;
+  box-shadow: -4px 0px 12px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+  transform: translateX(100%);
+
+  &.visible {
+    transform: translateX(0);
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 0px 16px 0px;
+  margin: 0 36px 0 30px;
+  border-bottom: 1px solid #EFF1F4; // 顶部与内容区的分割线
+
+  .title {
+    font-size: 18px;
+    font-weight: 500;
+    color: #0C1F17;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .iconWrapper {
+      cursor: pointer;
+      color: #4e5969;
+      transition: color 0.2s;
+
+      &:hover {
+        color: #f53f3f;
+      }
+
+      &.active {
+        color: #165dff;
+      }
+    }
+
+    // 顶部删除图标样式
+    .deleteIcon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+  }
+}
+
+.messageList {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 24px;
+}
+
+.messageCard {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #00000033;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+
+  &:hover,
+  &.selected {
+    background-color: #f3f6ff;
+    border-color: #0C99FF;
+
+    .deleteBtn {
+      display: block;
+      color: #0C99FF; // hover或选中时显示为蓝色
+    }
+  }
+
+  .cardHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+
+    .titleRow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .title {
+        font-size: 16px;
+        font-weight: 400;
+        color: #3C4149;
+        line-height: 22px;
+      }
+    }
+  }
+
+  // 内容区域容器：包含内容和图标，图标与内容垂直居中
+  .contentWrapper {
+    display: flex;
+    align-items: flex-start; // 顶部对齐，让图标可以垂直居中
+    gap: 8px; // content和图标之间的间距
+    margin-bottom: 10px;
+  }
+
+  .cardContent {
+    flex: 1; // 占据剩余空间
+    font-size: 14px;
+    color: #919497;
+    font-weight: 400;
+    line-height: 20px;
+
+    &.clamped {
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .cardFooter {
+    font-size: 14px;
+    font-weight: 400;
+    color: #919497;
+    line-height: 20px;
+  }
+
+  .deleteBtn {
+    display: none;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    cursor: pointer;
+    color: #4e5969; // 默认颜色
+    transition: color 0.2s;
+
+    &:hover {
+      color: #0C99FF; // hover时变蓝
+    }
+  }
+
+  // 卡片内删除图标样式
+  .deleteIconSmall {
+    width: 16px;
+    height: 16px;
+  }
+
+  // 展开/收起图标容器
+  .expandToggle {
+    cursor: pointer;
+    display: flex;
+    align-items: center; // 图标自身垂直居中
+    flex-shrink: 0; // 不收缩
+    color: #919497; // 默认颜色
+    transition: color 0.2s;
+    // 通过align-self让图标与content垂直居中
+    align-self: center;
+    margin-right: 4px;
+
+    &:hover {
+      color: #0C99FF; // hover时变蓝
+    }
+
+    // 展开/收起图标样式
+    .expandIcon {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  // 发版公告箭头图标容器
+  .announcementArrow {
+    cursor: pointer;
+    display: flex;
+    align-items: center; // 图标自身垂直居中
+    flex-shrink: 0; // 不收缩
+    color: #919497; // 默认颜色
+    transition: color 0.2s;
+    // 通过align-self让图标与content垂直居中
+    align-self: center;
+    margin-right: 4px;
+
+    &:hover {
+      color: #0C99FF; // hover时变蓝
+    }
+
+    // 箭头图标样式
+    .arrowIcon {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .selectionCheckbox {
+    margin-right: 12px;
+  }
+}
+
+// 卡片内的消息图标 + 红点，与侧边栏「消息与通知」保持一致
+.messageBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  :global(.ant-badge-dot) {
+    width: 6px;
+    height: 6px;
+    border-radius: 4px;
+    background-color: #ff3838;
+    border: 0.6px solid white;
+  }
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  z-index: 999;
+}
+
+.loading {
+  text-align: center;
+  padding: 16px;
+  color: #86909c;
+}

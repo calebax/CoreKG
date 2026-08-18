@@ -1,0 +1,23 @@
+zh-CN:
+  account_reset_password_failed: "重置密码失败，请稍后重试"
+  account_user_not_found: "用户不存在或会话已过期"
+  account_user_email_empty: "邮箱不能为空"
+  account_user_phone_empty: "手机号不能为空"
+  account_update_password_failed: "修改密码失败，请稍后重试"
+  account_uin_invalid: "用户标识无效"
+
+zh-TW:
+  account_reset_password_failed: "重設密碼失敗，請稍後再試"
+  account_user_not_found: "使用者不存在或會話已過期"
+  account_user_email_empty: "電子郵件不可為空"
+  account_user_phone_empty: "手機號碼不可為空"
+  account_update_password_failed: "修改密碼失敗，請稍後再試"
+  account_uin_invalid: "使用者識別無效"
+
+en:
+  account_reset_password_failed: "Failed to reset password. Please try again later."
+  account_user_not_found: "User not found or session has expired."
+  account_user_email_empty: "Email address cannot be empty."
+  account_user_phone_empty: "Phone number cannot be empty."
+  account_update_password_failed: "Failed to update password. Please try again later."
+  account_uin_invalid: "Invalid user identifier."

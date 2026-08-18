@@ -1,0 +1,8 @@
+/* 重要：只调整模型选择 Tree 的勾选框形状为圆形，不改动任何布局 */
+.model-select-tree .ant-tree-checkbox-inner {
+  border-radius: 9999px;
+}
+
+.model-select-tree .ant-tree-checkbox-inner::after {
+  border-radius: 9999px;
+}

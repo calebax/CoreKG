@@ -1,0 +1,9 @@
+.agent-history-skeleton {
+  .ant-skeleton-paragraph > li {
+    height: 32px !important;
+    width: 100% !important;
+    & + li {
+      margin-top: 8px !important;
+    }
+  }
+}

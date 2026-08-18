@@ -1,0 +1,16 @@
+.scroll :global(.rc-virtual-list-scrollbar-thumb) {
+  background-color: #ececed !important;
+  width: 6px !important;
+}
+
+.modelSelect{
+  :global{
+    .ant-select-selector{
+      &:hover{
+        border-color: #0C99FF;
+      }
+    }
+   
+  }
+
+}

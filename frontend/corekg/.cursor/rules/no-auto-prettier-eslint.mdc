@@ -1,0 +1,10 @@
+---
+description: 不要自动执行 prettier 和 eslint，除非用户明确要求
+alwaysApply: true
+---
+
+# 代码格式化与 Lint
+
+- **不要**在编写或修改代码后自动执行 `pnpm prettier` 或 `pnpm eslint`。
+- 仅在用户**明确要求**运行格式化或 lint 时才执行这些命令。
+- 完成代码改动后，直接说明修改内容即可，无需主动跑格式化/lint 作为收尾步骤。

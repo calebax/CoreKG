@@ -1,0 +1,11 @@
+.historyItem {
+  .operator {
+    display: none;
+  }
+  :is(&:hover, &.active) .operator {
+    display: block;
+    &:hover {
+      background-color: #bad8ff;
+    }
+  }
+}

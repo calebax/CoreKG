@@ -1,0 +1,1 @@
+ALTER TABLE chat_coze_mapping DROP INDEX uniq_mapping;

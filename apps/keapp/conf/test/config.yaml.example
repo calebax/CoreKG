@@ -1,0 +1,50 @@
+# keapp 服务本地开发配置示例。
+# 用法：cp config.yaml.example config.yaml；启动本地依赖（含 NATS）后按需修改。
+main:
+  app: keapp
+  env: dev
+  http_addr: :8089
+  database_conns:
+    core: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
+logger:
+  default:
+    - writer: console
+      level: debug
+    - writer: file
+      level: debug
+      filename: ./logs/default.log
+      maxsize: 10
+      maxage: 15
+      maxbackups: 5
+      localtime: true
+      compress: true
+    - writer: workwx
+      level: error
+      key: change-me
+  gorm:
+    - writer: console
+      level: debug
+  access:
+    - writer: console
+      level: debug
+    - writer: file
+      level: debug
+      filename: ./logs/access.log
+      maxsize: 10
+      maxage: 15
+      maxbackups: 5
+      localtime: true
+      compress: true
+
+nats:
+  url: "nats://localhost:4222"
+  stream: "KEAPP_CRAWL"
+
+worker:
+  concurrency: 3
+  cancelCheckInterval: 10
+  streamName: "KEAPP_CRAWL_STREAM"
+  subject: "keapp.crawl.trigger"
+  consumerName: "keapp-crawl-worker"
+  maxDeliver: 3
+  ackWait: "5m"

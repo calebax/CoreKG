@@ -1,0 +1,3 @@
+SET NAMES utf8mb4;
+
+ALTER TABLE company ADD COLUMN user_id BIGINT UNSIGNED DEFAULT 0 COMMENT 'creator id';

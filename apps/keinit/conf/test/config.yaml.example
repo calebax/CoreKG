@@ -1,0 +1,46 @@
+# keinit 服务本地开发配置示例。
+# 用法：cp config.yaml.example config.yaml；启动本地依赖后按需修改。
+main:
+  app: keinit
+  env: test
+  http_addr: :8080
+  database_conns:
+    core: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    account: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    knownow: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    chat: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    coze: mysql://corekg:corekg_dev@localhost:3306/coze_db?charset=utf8mb4&parseTime=true&loc=Local
+logger:
+  default:
+    - writer: console
+      level: debug
+    - writer: file
+      level: debug
+      filename: ./logs/default.log
+      maxsize: 10
+      maxage: 15
+      maxbackups: 5
+      localtime: true
+      compress: true
+    - writer: workwx
+      level: error
+      key: change-me
+  gorm:
+    - writer: console
+      level: debug
+  access:
+    - writer: console
+      level: debug
+    - writer: file
+      level: debug
+      filename: ./logs/access.log
+      maxsize: 10
+      maxage: 15
+      maxbackups: 5
+      localtime: true
+      compress: true
+
+redis:
+  addr: localhost:6379
+  password: ""
+  db: 1

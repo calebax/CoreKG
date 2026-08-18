@@ -1,0 +1,167 @@
+.sidebarList {
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  overflow: hidden;
+
+  &Section {
+    display: flex;
+    flex-direction: column;
+    min-height: 0; // 允许 flex 子元素缩小
+    overflow: hidden; // 限制超出部分
+
+    // 会话分组部分：根据内容自适应，最多占50%高度
+    &:first-child {
+      flex: 0 1 auto; // 根据内容自适应，不强制占满空间
+      max-height: 50%; // 最大不超过父容器一半高度
+    }
+
+    // 未分组部分：占据所有剩余空间，充分利用可用高度
+    &:last-child {
+      flex: 1; // 占据所有剩余空间
+      margin-top: 4px; // 两部分之间的间距
+    }
+  }
+
+  &Header {
+    display: flex;
+    align-items: center;
+    height: 30px;
+    justify-content: space-between;
+    padding: 0 6px;
+    // margin-top: 6px;
+    flex-shrink: 0;
+
+    &Fold {
+      padding: 0;
+    }
+
+    &Title {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: #919497;
+      font-weight: 600;
+      font-size: 14px;
+      font-family: Inter;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+      flex: 1;
+    }
+
+    &Arrow {
+      display: inline-flex;
+      align-items: center;
+      font-size: 12px;
+    }
+
+    &Add {
+      cursor: pointer;
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-right: 8px;
+
+      // Tooltip 触发层：对齐图标点击区域，避免仅包 SVG 时触发 findDOMNode
+      &Trigger {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 0;
+        cursor: pointer;
+      }
+
+      &Fold {
+        display: flex;
+        height: 100%;
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
+  &Content {
+    flex: 1; // 占据剩余空间，让内容区域填充可用高度
+    min-height: 0; // 允许 flex 子元素缩小
+    overflow-y: auto; // 当内容超出时可以滚动
+    overflow-x: hidden;
+    scrollbar-width: none; // Firefox 隐藏滚动条
+    -ms-overflow-style: none; // IE/Edge 隐藏滚动条
+
+    // Chrome/Safari 隐藏滚动条
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &Scroll {
+      padding: 0px 10px;
+      width: calc(100% + 20px);
+      margin-left: -10px;
+      transition:
+        max-height 0.1s ease-out,
+        padding 0.1s ease-out,
+        transform 0.1s ease-out;
+      transform: translateY(0);
+
+      &Hidden {
+        max-height: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        padding: 0 10px;
+      }
+    }
+  }
+}
+
+.pendingSessionItem {
+  display: flex;
+  height: 30px;
+  align-items: center;
+  margin-bottom: 2px;
+  padding: 0 5px;
+  overflow: hidden;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(145, 148, 151, 0.08);
+  }
+
+  &Active {
+    background-color: rgba(145, 148, 151, 0.15) !important;
+  }
+}
+
+.pendingSessionName {
+  position: relative;
+  display: block;
+  width: 92px;
+  height: 14px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #edf0f5;
+
+  &::after {
+    position: absolute;
+    inset: 0;
+    content: '';
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.9) 45%,
+      transparent 100%
+    );
+    transform: translateX(-100%);
+    animation: pending-session-name-loading 1.2s ease-in-out infinite;
+  }
+}
+
+@keyframes pending-session-name-loading {
+  100% {
+    transform: translateX(100%);
+  }
+}

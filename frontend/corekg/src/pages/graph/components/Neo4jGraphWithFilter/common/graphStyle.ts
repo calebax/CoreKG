@@ -1,0 +1,24 @@
+import { GraphStyleModel } from '@/components/Neo4jGraph/models/GraphStyle'
+
+const styleRules = {
+  node: {
+    diameter: '50px',
+    color: '#A5ABB6',
+    'border-color': '#9AA1AC',
+    'border-width': '2px',
+    'text-color-internal': '#FFFFFF',
+    'font-size': '10px',
+  },
+  relationship: {
+    color: '#A5ABB6',
+    'shaft-width': '1px',
+    'font-size': '8px',
+    padding: '3px',
+    'text-color-external': '#000000',
+    'text-color-internal': '#FFFFFF',
+    caption: '<type>',
+  },
+}
+
+export const graphStyle = new GraphStyleModel()
+graphStyle.loadRules(styleRules)

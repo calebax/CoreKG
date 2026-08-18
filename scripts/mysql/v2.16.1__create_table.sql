@@ -1,0 +1,18 @@
+CREATE TABLE `lkx_customer_info` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '客户ID，自动生成的主键',
+  `company_id` BIGINT UNSIGNED NOT NULL COMMENT '公司ID，关联公司',
+  `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '记录创建时间',
+  `updated_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '记录更新时间',
+  `deleted_at` DATETIME(3) DEFAULT NULL COMMENT '记录删除时间，软删除使用',
+  `province` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '客户所在省份',
+  `city` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '客户所在城市',
+  `name` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '客户姓名',
+  `phone` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '客户电话',
+  `company_name` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '客户公司名称',
+  `email` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '客户邮箱',
+  `industry` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '客户行业',
+  `produce` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '客户选择的产品',
+  `description` TEXT NOT NULL COMMENT '客户描述信息',
+  `position` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '客户职位',
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB COMMENT ='客户信息表';

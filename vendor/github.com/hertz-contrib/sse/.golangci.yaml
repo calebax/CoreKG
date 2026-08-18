@@ -1,0 +1,24 @@
+# All available settings of specific linters.
+# Refer to https://golangci-lint.run/usage/linters
+linters-settings:
+  gofumpt:
+    # Choose whether to use the extra rules.
+    # Default: false
+    extra-rules: true
+  govet:
+    # Disable analyzers by name.
+    # Run `go tool vet help` to see all analyzers.
+    disable:
+      - stdmethods
+linters:
+  enable:
+    - gofumpt
+    - gofmt
+  disable:
+    - errcheck
+    - typecheck
+    - deadcode
+    - varcheck
+    - staticcheck
+issues:
+  exclude-use-default: true

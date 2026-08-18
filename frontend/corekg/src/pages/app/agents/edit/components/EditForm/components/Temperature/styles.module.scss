@@ -1,0 +1,8 @@
+.slider {
+  :global(.ant-slider-track) {
+    background-color: #165dff;
+  }
+  :global(.ant-slider-handle)::after {
+    box-shadow: 0 0 0 2.5px #165dff;
+  }
+}

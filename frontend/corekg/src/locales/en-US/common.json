@@ -1,0 +1,79 @@
+{
+  "button": {
+    "clear": "Clear",
+    "search": "Search",
+    "viewMore": "View More",
+    "stopGenerating": "Stop Generating",
+    "send": "Send",
+    "analyse": "{{target}} Analysis",
+    "selected": "Selected",
+    "select": "Select",
+    "upload": "Upload {{target}}",
+    "confirmDelete": "Confirm Delete {{target}}",
+    "cancel": "Cancel",
+    "edit": "Edit {{target}}",
+    "delete": "Delete {{target}}",
+    "import": "Import {{target}}",
+    "create": "Create {{target}}",
+    "download": "Download {{target}}",
+    "addNew": "Add New {{target}}",
+    "save": "Save {{target}}",
+    "clearEmpty": "Clear",
+    "expand": "Expand",
+    "collapse": "Collapse",
+    "submit": "Submit",
+    "confirm": "Confirm",
+    "add": "Add {{target}}",
+    "reset": "Reset {{target}}",
+    "rename": "Rename {{target}}",
+    "goBack": "Go Back",
+    "close": "Close"
+  },
+  "empty": {
+    "noFind": "No relevant content found yet～",
+    "emptyState": "Empty State",
+    "noData": "No Data Available"
+  },
+  "resource": {
+    "data": "Data"
+  },
+  "status": {
+    "uploading": "Uploading...",
+    "loading": "Loading..."
+  },
+  "file": {
+    "file": "File",
+    "image": "Image",
+    "excel": "Excel",
+    "database": "Database",
+    "cad": "CAD",
+    "video": "Video",
+    "doc": "Document",
+    "folder": "Folder"
+  },
+  "custom": {
+    "all": "All",
+    "list": "{{before}} List {{after}}",
+    "name": "Name"
+  },
+  "model": {
+    "model": "Large Model",
+    "selectModel": "Select  model",
+    "knowledge": "Knowledge",
+    "selectKnowledge": "Data source"
+  },
+  "time": {
+    "secondsAgo": "{{count}} Seconds Ago",
+    "minutesAgo": "{{count}} Minutes Ago",
+    "hoursAgo": "{{count}} Hours Ago",
+    "daysAgo": "{{count}} Days Ago"
+  },
+  "agreement": {
+    "youAgreement": "",
+    "and": " and ",
+    "serviceAgreement": "User Agreement",
+    "serviceAgreementLink": "/agreement/en-US/user-agreement.pdf",
+    "privacyAgreement": "Privacy",
+    "privacyAgreementLink": "/agreement/en-US/privacy.pdf"
+  }
+}

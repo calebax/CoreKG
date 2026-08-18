@@ -1,0 +1,113 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-family:
+    'Inter ',
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    segoe ui,
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif,
+    apple color emoji,
+    segoe ui emoji,
+    segoe ui symbol;
+  -webkit-font-smoothing: antialiased;
+  background-color: #f2f3f5;
+  color: #4e5969;
+  font-size: 16px;
+  font-family: 'Inter ' !important;
+  overflow: hidden;
+}
+
+html[lang='zh-CN'],
+html[lang='zh-CN']>body {
+  font-family:
+    PingFang SC,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    segoe ui,
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif,
+    apple color emoji,
+    segoe ui emoji,
+    segoe ui symbol !important;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+.font-din-bold {
+  font-family:
+    'DinBold',
+    'Inter ',
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    segoe ui,
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif,
+    apple color emoji,
+    segoe ui emoji,
+    segoe ui symbol;
+}
+
+.font-alimama-thin {
+  font-family:
+    'AlimamaFangYuanTiVF-Thin',
+    'Inter ',
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    segoe ui,
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif,
+    apple color emoji,
+    segoe ui emoji,
+    segoe ui symbol;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d7d9e5 !important;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #bcbecd !important;
+  cursor: pointer;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+#wxQrcode>iframe {
+  width: 200px;
+  height: 200px;
+}

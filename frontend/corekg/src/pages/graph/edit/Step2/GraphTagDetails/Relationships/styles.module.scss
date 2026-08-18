@@ -1,0 +1,11 @@
+.relationship {
+  .operator {
+    display: none;
+  }
+  &:hover {
+    background-color: #f8f9fd;
+    .operator {
+      display: block;
+    }
+  }
+}

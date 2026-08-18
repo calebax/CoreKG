@@ -1,0 +1,59 @@
+SET NAMES utf8mb4;
+
+START TRANSACTION;
+
+-- 插入 chat_agent 
+INSERT INTO `chat_agent` (`created_at`, `updated_at`, `deleted_at`, `uin`, `company_id`, `avatar_url`, `name`, `show_name`, `public_scope`, `version`, `path`, `created_type`, `publish_status`, `manager_ids`, `agent_type`, `external_status`)
+VALUES
+	('2025-09-04 09:23:35.297', '2025-09-04 14:37:53.878', NULL, 0, 0, '/assets/prompt-CEUUcXkn.png', 'cQs6VSS', '数据库问答@MySQL意图识别-问题对应的数据表范围', 'company', '1584', '/lesson-plan', 'user', 'published', NULL, '', 'disabled');
+
+
+-- 获取 chat_agent.id
+SELECT id INTO @agent_id FROM chat_agent WHERE name = 'cQs6VSS';
+
+-- 如果已存在则更新
+UPDATE `chat_agent`
+SET
+    `name` = 'sys_agent_mysql_choice_table_by_question'
+WHERE id = @agent_id;
+
+-- 插入 chat_agent_version （忽略唯一键冲突）
+INSERT INTO `chat_agent_version` (`created_at`, `updated_at`, `deleted_at`, `agent_id`, `description`, `chat_model_ids`, `temperature`, `agent_type`, `prompt_template`, `greeting_message`, `params`, `forest_option`)
+VALUES
+	('2025-09-04 14:37:53.870', '2025-09-04 14:37:53.870', NULL, @agent_id, '根据用户的问题和建表语句分析涉及到哪些表，用来缩写数据表范围', '[1]', '0.5', 'prompt', '你是一个熟悉数据库结构和自然语言理解的大模型助手。  \n我会提供一个问题，以及若干 MySQL 建表语句。  \n你的任务是：根据用户的问题，从建表语句中识别出可能相关的表名，并以干净的 JSON 形式返回。  \n\n- 我的问题：{{input1}}  \n- MySQL 建表语句：{{input2}}  \n\n要求：  \n1. 输出必须是一个合法的 JSON 对象。  \n2. JSON 格式：{\"tables\": [\"表1\", \"表2\", ...]}  \n3. 不要输出任何解释或额外内容，只返回 JSON。  \n4. 如果用户的问题和任何表都不相关，返回 {\"tables\": []}。  \n\n示例：  \n用户问题：查询订单和客户信息  \n建表语句：CREATE TABLE `orders`(...); CREATE TABLE `customers`(...);  \n输出：{\"tables\": [\"orders\", \"customers\"]}  \n', '', '[{\"input\":\"input1\",\"name\":\" 用户问题\",\"description\":\"\",\"is_title\":false,\"input_type\":\"text\",\"input_array\":[],\"is_required\":true},{\"input\":\"input2\",\"name\":\"MySQL建表语句\",\"description\":\"\",\"is_title\":false,\"input_type\":\"text\",\"input_array\":[],\"is_required\":true}]', '{\"prompt_template\":\"\",\"doc_forest_ids\":null}');
+
+    
+SELECT id INTO @agent_version_id FROM chat_agent_version WHERE agent_id = @agent_id ORDER BY id DESC LIMIT 1;
+UPDATE `chat_agent` SET `version` = @agent_version_id WHERE id = @agent_id;
+
+COMMIT;
+
+
+
+START TRANSACTION;
+
+-- 插入 chat_agent 
+INSERT INTO `chat_agent` (`created_at`, `updated_at`, `deleted_at`, `uin`, `company_id`, `avatar_url`, `name`, `show_name`, `public_scope`, `version`, `path`, `created_type`, `publish_status`, `manager_ids`, `agent_type`, `external_status`)
+VALUES
+	('2025-09-05 11:11:46.329', '2025-09-05 11:14:24.285', NULL, 0, 0, '/assets/prompt-CEUUcXkn.png', 'fEhsp7O', '数据库问答@Echarts生成', 'company', '1586', '/lesson-plan', 'user', 'published', NULL, '', 'disabled');
+
+
+-- 获取 chat_agent.id
+SELECT id INTO @agent_id FROM chat_agent WHERE name = 'fEhsp7O';
+
+-- 如果已存在则更新
+UPDATE `chat_agent`
+SET
+    `name` = 'sys_agent_mysql_generate_echarts'
+WHERE id = @agent_id;
+
+-- 插入 chat_agent_version 
+INSERT INTO `chat_agent_version` (`created_at`, `updated_at`, `deleted_at`, `agent_id`, `description`, `chat_model_ids`, `temperature`, `agent_type`, `prompt_template`, `greeting_message`, `params`, `forest_option`)
+VALUES
+	('2025-09-08 18:22:23.634', '2025-09-08 18:22:23.634', NULL, @agent_id, '基于数据和 sql 生成对应的 echarts 配置', '[1]', '0.5', 'prompt', '为查询出的数据：{{input1}}\n我的问题：{{input2}}\n根据上述数据生成合适的Echarts的图表配置,\n示例 1 月度销售柱状图分析：\n{\n  \"title\": {\n    \"text\": \"月度销售业绩分析\",\n    \"subtext\": \"各月份销量对比\",\n    \"left\": \"center\"\n  },\n  \"tooltip\": {\n    \"trigger\": \"axis\",\n    \"axisPointer\": {\n      \"type\": \"shadow\"\n    }\n  },\n  \"legend\": {\n    \"data\": [\"销量\"],\n    \"left\": \"center\",\n    \"top\": \"8%\"\n  },\n  \"grid\": {\n    \"left\": \"3%\",\n    \"right\": \"4%\",\n    \"bottom\": \"15%\",\n    \"containLabel\": true\n  },\n  \"xAxis\": {\n    \"type\": \"category\",\n    \"data\": [\"一月\", \"二月\", \"三月\", \"四月\", \"五月\", \"六月\"]\n  },\n  \"yAxis\": {\n    \"type\": \"value\",\n    \"name\": \"销量\"\n  },\n  \"series\": [\n    {\n      \"name\": \"销量\",\n      \"type\": \"bar\",\n      \"data\": [120, 200, 150, 80, 70, 110],\n      \"itemStyle\": {\n        \"color\": \"#3b82f6\"\n      }\n    }\n  ]\n}\n\n示例2 用户增长趋势折线图：\n{\n  \"title\": {\n    \"text\": \"用户增长趋势分析\",\n    \"subtext\": \"近6个月用户增长情况\",\n    \"left\": \"center\"\n  },\n  \"tooltip\": {\n    \"trigger\": \"axis\"\n  },\n  \"legend\": {\n    \"data\": [\"新增用户\"],\n    \"left\": \"center\",\n    \"top\": \"8%\"\n  },\n  \"grid\": {\n    \"left\": \"3%\",\n    \"right\": \"4%\",\n    \"bottom\": \"15%\",\n    \"containLabel\": true\n  },\n  \"xAxis\": {\n    \"type\": \"category\",\n    \"data\": [\"1月\", \"2月\", \"3月\", \"4月\", \"5月\", \"6月\"]\n  },\n  \"yAxis\": {\n    \"type\": \"value\",\n    \"name\": \"用户数\"\n  },\n  \"series\": [\n    {\n      \"name\": \"新增用户\",\n      \"type\": \"line\",\n      \"data\": [850, 932, 901, 1234, 1290, 1430],\n      \"smooth\": true,\n      \"itemStyle\": {\n        \"color\": \"#10b981\"\n      },\n      \"lineStyle\": {\n        \"width\": 3\n      }\n    }\n  ]\n}\n\n示例 3 用户来源分布饼图：\n{\n  \"title\": {\n    \"text\": \"用户获取渠道分析\",\n    \"subtext\": \"各渠道用户占比\",\n    \"left\": \"center\"\n  },\n  \"backgroundColor\": \"transparent\",\n  \"tooltip\": {\n    \"trigger\": \"item\",\n    \"formatter\": \"{a} <br/>{b}: {c} ({d}%)\"\n  },\n  \"legend\": {\n    \"orient\": \"vertical\",\n    \"left\": \"left\"\n  },\n  \"series\": [\n    {\n      \"name\": \"用户来源\",\n      \"type\": \"pie\",\n      \"radius\": \"50%\",\n      \"data\": [\n        {\"value\": 335, \"name\": \"搜索引擎\"},\n        {\"value\": 310, \"name\": \"直接访问\"},\n        {\"value\": 234, \"name\": \"邮件营销\"},\n        {\"value\": 135, \"name\": \"联盟广告\"},\n        {\"value\": 148, \"name\": \"视频广告\"}\n      ],\n      \"emphasis\": {\n        \"itemStyle\": {\n          \"shadowBlur\": 10,\n          \"shadowOffsetX\": 0,\n          \"shadowColor\": \"rgba(0, 0, 0, 0.5)\"\n        }\n      }\n    }\n  ]\n}\n\n示例 4 产品评分雷达分析：\n{\n  \"title\": {\n    \"text\": \"产品综合评分分析\",\n    \"subtext\": \"六个维度评估对比\",\n    \"left\": \"center\"\n  },\n  \"tooltip\": {\n    \"trigger\": \"item\"\n  },\n  \"legend\": {\n    \"data\": [\"产品A\", \"产品B\", \"行业平均\"],\n    \"left\": \"center\",\n    \"bottom\": \"5%\"\n  },\n  \"radar\": {\n    \"indicator\": [\n      {\"name\": \"用户体验\", \"max\": 100},\n      {\"name\": \"功能完整度\", \"max\": 100},\n      {\"name\": \"性能表现\", \"max\": 100},\n      {\"name\": \"安全性\", \"max\": 100},\n      {\"name\": \"易用性\", \"max\": 100},\n      {\"name\": \"性价比\", \"max\": 100}\n    ],\n    \"center\": [\"50%\", \"50%\"],\n    \"radius\": \"60%\"\n  },\n  \"series\": [\n    {\n      \"name\": \"产品评分\",\n      \"type\": \"radar\",\n      \"data\": [\n        {\n          \"value\": [85, 90, 78, 92, 88, 85],\n          \"name\": \"产品A\",\n          \"itemStyle\": {\"color\": \"#3b82f6\"}\n        },\n        {\n          \"value\": [75, 85, 82, 88, 82, 90],\n          \"name\": \"产品B\", \n          \"itemStyle\": {\"color\": \"#ef4444\"}\n        },\n        {\n          \"value\": [70, 75, 75, 80, 75, 80],\n          \"name\": \"行业平均\",\n          \"itemStyle\": {\"color\": \"#10b981\"}\n        }\n      ]\n    }\n  ]\n}\n\n示例 5 网站流量热力分析：\n{\n  \"title\": {\n    \"text\": \"用户访问时间分布\",\n    \"subtext\": \"一周内各时段访问量散点分析\",\n    \"left\": \"center\"\n  },\n  \"tooltip\": {\n    \"trigger\": \"item\",\n    \"formatter\": \"时间: {c[0]}点<br/>访问量: {c[1]}\"\n  },\n  \"grid\": {\n    \"left\": \"3%\",\n    \"right\": \"4%\",\n    \"bottom\": \"3%\",\n    \"containLabel\": true\n  },\n  \"xAxis\": {\n    \"type\": \"value\",\n    \"name\": \"小时\",\n    \"min\": 0,\n    \"max\": 24\n  },\n  \"yAxis\": {\n    \"type\": \"value\",\n    \"name\": \"访问量\"\n  },\n  \"series\": [\n    {\n      \"name\": \"访问分布\",\n      \"type\": \"scatter\",\n      \"symbolSize\": 15,\n      \"data\": [\n        [9, 1200], [10, 1500], [11, 1800], [12, 2100],\n        [13, 2000], [14, 2500], [15, 2800], [16, 2600],\n        [17, 2200], [18, 1900], [19, 2100], [20, 2400],\n        [21, 2000], [22, 1600], [23, 1200], [0, 800]\n      ],\n      \"itemStyle\": {\n        \"color\": \"#3b82f6\",\n        \"opacity\": 0.6\n      }\n    }\n  ]\n}\n\n\n要求：\n1、数值比例等内容需要明确展示\n2、仅返回Echarts的图表配置，无需其他多余内容。\n3、当数值出现负数的时候，采用柱状图。\n4、title.label根据问题总结，语种和问题一致\n5、echarts 的所有字段中都不要出现 function ！！！\n6、如果生成的图表没有意义，比如”总共有多少个文件“返回空即可', '', '[{\"input\":\"input1\",\"name\":\" 查询出的数据\",\"description\":\"\",\"is_title\":false,\"input_type\":\"text\",\"input_array\":[],\"is_required\":true},{\"input\":\"input2\",\"name\":\"提问的问题\",\"description\":\"\",\"is_title\":false,\"input_type\":\"text\",\"input_array\":[],\"is_required\":true}]', '{\"prompt_template\":\"\",\"doc_forest_ids\":null}');
+
+    
+SELECT id INTO @agent_version_id FROM chat_agent_version WHERE agent_id = @agent_id ORDER BY id DESC LIMIT 1;
+UPDATE `chat_agent` SET `version` = @agent_version_id WHERE id = @agent_id;
+
+COMMIT;

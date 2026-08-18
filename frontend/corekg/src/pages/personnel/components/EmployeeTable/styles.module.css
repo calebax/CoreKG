@@ -1,0 +1,14 @@
+.table {
+  &:global(.ant-table-wrapper) {
+    @apply overflow-hidden;
+    & > :global(.ant-spin-nested-loading) {
+      @apply overflow-hidden h-full;
+      & > :global(.ant-spin-container) {
+        @apply overflow-hidden h-full flex flex-col;
+        & > :global(.ant-table) {
+          @apply flex-1 overflow-auto;
+        }
+      }
+    }
+  }
+}

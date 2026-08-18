@@ -1,0 +1,5 @@
+# codegen 配置示例（用于私有工具 yggocli，需 SSH 访问 git.yygu.cn）。
+# 用法：cp code_gen.yaml.example code_gen.yaml；将 mysql_dsn 改为本地/可访问的数据库。
+mysql_dsn: corekg:corekg_dev@tcp(localhost:3306)/corekg?charset=utf8mb4&parseTime=true&loc=Local
+
+# keapi 当前优先搭建对外 API 服务框架，后续再按外部资源域补充 codegen 配置。

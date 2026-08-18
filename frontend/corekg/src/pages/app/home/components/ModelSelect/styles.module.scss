@@ -1,0 +1,39 @@
+.modelSelect {
+  background-color: #f9f7ff !important;
+  color: #653ec4 !important;
+  background-color: #f2f0ff !important;
+  border: none !important;
+}
+
+.modelSelect:hover,
+.modelSelect:focus {
+  background-color: #c0b3ff !important;
+  color: #341f68 !important;
+}
+
+.modelSelectDisabled {
+  cursor: not-allowed !important;
+}
+
+.modelSelectDisabled:hover,
+.modelSelectDisabled:focus {
+  background-color: #f2f0ff !important;
+  color: #653ec4 !important;
+}
+
+.listItem {
+  .desc {
+    color: #86909c;
+  }
+  &:hover,
+  &.active {
+    background-color: #e6e8f0;
+    .title {
+      color: #341f68;
+    }
+  }
+}
+
+.searchInput:focus {
+  border-color: #a895fc !important;
+}

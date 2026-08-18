@@ -1,0 +1,11 @@
+.ruleSelect {
+  user-select: none;
+  &:hover :global(.ant-select-selector) {
+    border-color: #099cff !important;
+  }
+  &:global(.ant-select-focused) {
+      :global(.ant-select-selector) {
+        border-color: #099cff !important;
+    }
+}
+}

@@ -1,0 +1,27 @@
+# codegen 配置示例（用于私有工具 yggocli，需 SSH 访问 git.yygu.cn）。
+# 用法：cp code_gen.yaml.example code_gen.yaml；将 mysql_dsn 改为本地/可访问的数据库。
+mysql_dsn: corekg:corekg_dev@tcp(localhost:3306)/corekg?charset=utf8mb4&parseTime=true&loc=Local
+#layer_parent_dir_map:
+#  model: model
+#  dao: dao
+#layer_name_map:
+#  model: mysqlmodel
+#  dao: mysqldao
+module:
+  package_name: user
+  dao_layer_name: patent
+  description: 用户登录记录
+  table_name: user_login_log
+model:
+  package_name: chat
+  dao_layer_name: chat
+  model_layer_name: chattype
+  description: chart图表
+  table_name: chat_chart
+api:
+  package_name: reranksearch
+  target_filename: reranksearch.go
+  function_name: RerankSearchChunk
+  http_method: POST
+  description: 知识库检索rerank版本
+  api_doc_tag: 知识库检索

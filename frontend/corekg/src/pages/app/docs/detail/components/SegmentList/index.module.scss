@@ -1,0 +1,12 @@
+.textWrap{
+    &Operator{
+        opacity: 0;
+        z-index: auto;
+        background-color: #FFFFFF;
+        padding: 4px 10px;
+        border-radius: 6px;
+    }
+    &:hover &Operator {
+        opacity: 1;
+    }
+}

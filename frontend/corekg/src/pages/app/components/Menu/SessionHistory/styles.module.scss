@@ -1,0 +1,53 @@
+.historyItem {
+  .operator {
+    width: auto;
+    cursor: pointer;
+
+    rect {
+      display: none;
+    }
+  }
+
+  &:hover:not(.active) {
+    background-color: #fff;
+  }
+
+  &.active {
+    color: #1d2129;
+    background-color: rgba(145, 148, 151, 0.15) !important;
+  }
+
+  &.active:hover {
+    background-color: rgba(145, 148, 151, 0.15) !important;
+  }
+}
+
+.loadingName {
+  position: relative;
+  display: block;
+  width: 86px;
+  height: 14px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #edf0f5;
+
+  &::after {
+    position: absolute;
+    inset: 0;
+    content: '';
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.85) 45%,
+      transparent 100%
+    );
+    transform: translateX(-100%);
+    animation: session-name-loading 1.2s ease-in-out infinite;
+  }
+}
+
+@keyframes session-name-loading {
+  100% {
+    transform: translateX(100%);
+  }
+}

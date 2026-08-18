@@ -1,0 +1,25 @@
+@mixin scroll {
+  scrollbar-gutter: stable both-edges;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #d7d9e5;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #bcbecd;
+    cursor: pointer;
+  }
+}
+
+.scroll {
+  @include scroll;
+}

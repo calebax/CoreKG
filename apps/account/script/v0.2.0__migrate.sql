@@ -1,0 +1,8 @@
+RENAME TABLE roc_account.account_employee TO roc_account.admin_employee;
+RENAME TABLE roc_account.account_position TO roc_account.admin_position;
+RENAME TABLE roc_account.account_privilege TO roc_account.admin_privilege;
+RENAME TABLE roc_account.account_rel_employee_position TO roc_account.admin_rel_employee_position;
+RENAME TABLE roc_account.account_api_access_key TO roc_account.admin_api_access_key;
+RENAME TABLE roc_account.account_rel_position_privilege TO roc_account.admin_rel_position_privilege;
+
+RENAME TABLE roc_account.account_customers TO roc_account.user;

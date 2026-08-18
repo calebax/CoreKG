@@ -1,0 +1,52 @@
+# keapi 服务本地开发配置示例。
+# 用法：cp config.yaml.example config.yaml；启动本地依赖后按需修改。
+main:
+  app: keapi
+  http_addr: :8086
+  open_docs_api: true
+  env: dev
+  database_conns:
+    core: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    account: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    knownow: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    chat: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
+
+logger:
+  default:
+    - writer: console
+      level: debug
+    - writer: file
+      level: debug
+      filename: ./logs/default.log
+      maxsize: 10
+      maxage: 15
+      maxbackups: 5
+      localtime: true
+      compress: true
+  gorm:
+    - writer: console
+      level: debug
+  access:
+    - writer: console
+      level: debug
+    - writer: file
+      level: debug
+      filename: ./logs/access.log
+      maxsize: 10
+      maxage: 15
+      maxbackups: 5
+      localtime: true
+      compress: true
+
+loc_redis:
+  addr: localhost:6379
+  password: ""
+  db: 10
+
+redis:
+  addr: localhost:6379
+  password: ""
+  db: 10
+
+mcp:
+  addr: "http://localhost:8086"

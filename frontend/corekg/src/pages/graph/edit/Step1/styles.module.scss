@@ -1,0 +1,22 @@
+.template {
+  .nextBtn {
+    color: #653ec4;
+    .activeIcon {
+      display: none;
+    }
+  }
+  &:hover {
+    box-shadow: 0px 4px 10px 0px #0000001a;
+    background-color: #f2f0ff;
+    .nextBtn {
+      color: white;
+      background-color: #653ec4;
+      .icon {
+        display: none;
+      }
+      .activeIcon {
+        display: block;
+      }
+    }
+  }
+}

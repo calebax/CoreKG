@@ -1,0 +1,84 @@
+.createOrganizationModal {
+  :global {
+    .ant-modal-content {
+      padding: 24px;
+    }
+
+    .ant-modal-header {
+      padding-bottom: 16px;
+      border-bottom: 1px solid #EFF1F4;
+      margin-bottom: 0;
+    }
+
+    .ant-modal-title {
+      font-size: 18px;
+      font-weight: 500;
+      color: #0c1f17;
+    }
+
+    .ant-modal-body {
+      padding: 0;
+      margin-top: 24px;
+    }
+
+    .ant-modal-footer {
+      border-top: none;
+      margin-top: 0px;
+    }
+
+    .ant-btn-default {
+      padding: 9px 24.5px;
+      color: #0C1F17;
+      font-weight: 500;
+      border: none;
+      background-color: #F1F5F9;
+      margin-right: 6px;
+      font-size: 14px;
+      border-radius: 6px;
+      width: 77px;
+    }
+
+    .ant-btn-primary {
+      padding: 9px 24.5px;
+      color: #fff;
+      font-weight: 500;
+      border: none;
+      background-color: #0C99FF;
+      margin-right: 6px;
+      font-size: 14px;
+      border-radius: 6px;
+      margin: 0px;
+
+      &:disabled {
+        background-color: #0C99FF;
+        color: #ffffff;
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
+    }
+  }
+}
+
+.input {
+  padding: 9px 10px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #0C1F17;
+  margin-bottom: 16px;
+  border-color: #E3E6ED;
+  border-radius: 4px;
+
+  &:last-child {
+    margin-bottom: 24px;
+  }
+
+  :global {
+    input {
+      color: #0C1F17;
+
+      &::placeholder {
+        color: #919497;
+      }
+    }
+  }
+}

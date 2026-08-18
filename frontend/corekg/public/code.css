@@ -1,0 +1,28 @@
+* {
+  margin: 0;
+  padding: 0
+}
+
+.normalPanel .panelContent {
+  width: 200px;
+  height: 200px
+}
+
+.normalPanel .wrp_code {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 0
+}
+
+.impowerBox .title,
+.normalPanel .info {
+  display: none
+}
+
+.impowerBox .qrcode {
+  margin-top: 0;
+  border: 0;
+  width: 200px;
+  height: 200px
+}

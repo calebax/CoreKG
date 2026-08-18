@@ -1,0 +1,6 @@
+.searchInput :global(.ant-input::placeholder) {
+  color: #abafb2;
+  font-size: 14px;
+  font-weight: 500;
+}
+

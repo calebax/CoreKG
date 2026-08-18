@@ -1,0 +1,13 @@
+/* 对话页面样式调整 - 放大预览调试区域至全屏 */
+.bot-chat-area {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  /* 覆盖预览调试组件的宽度限制 */
+  >div {
+    width: 100%;
+    height: 100%;
+  }
+}

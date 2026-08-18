@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="<%= ASSET_PREFIX %>/config.js"></script>
+    <link rel="icon" href="/icons/saas/favicon-light.ico" />
+    <title>corekg</title>
+    <script>
+      (function () {
+        var fallbackTitle = 'corekg';
+        var normalizeTitle = function () {
+          if (
+            document.title === '扣子' ||
+            document.title === 'Coze' ||
+            document.title === '扣子 Studio'
+          ) {
+            document.title = fallbackTitle;
+          }
+        };
+
+        normalizeTitle();
+
+        var titleElement = document.querySelector('title');
+        if (titleElement && window.MutationObserver) {
+          new MutationObserver(normalizeTitle).observe(titleElement, {
+            childList: true,
+            characterData: true,
+            subtree: true,
+          });
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

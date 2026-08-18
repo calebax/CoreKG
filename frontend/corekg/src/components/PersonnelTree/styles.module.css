@@ -1,0 +1,24 @@
+@import '@/styles/tree.module.css';
+
+.input {
+  @apply border-none shadow-none outline-none bg-[#F5F5F5];
+}
+
+.tree {
+  :global(.ant-tree-checkbox-inner)::after {
+    @apply border-[white];
+  }
+
+  :global(.ant-tree-node-content-wrapper) {
+    :global(.ant-tree-title) {
+      :global(.operator) {
+        @apply invisible;
+      }
+      &:hover {
+        :global(.operator) {
+          @apply visible;
+        }
+      }
+    }
+  }
+}

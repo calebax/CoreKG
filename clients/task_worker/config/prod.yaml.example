@@ -1,0 +1,36 @@
+# task_worker 客户端生产配置示例。
+# 用法：cp prod.yaml.example prod.yaml，填入生产真实值。
+s3_storages:
+  - bucket: "corekg-bucket"
+    end_point: "http://localhost:9000"
+    access_key_id: "minioadmin"
+    secret_access_key: "change-me"
+    region: "us-east-1"
+    use_path_style: true
+
+elasticsearch:
+  addresses:
+    - "http://localhost:9200"
+  username: "elastic"
+  password: "change-me"
+  max_retries: 3
+nebula:
+  address: "localhost"
+  port: 9669
+  username: "root"
+  password: "change-me"
+  prefix: "know"
+agent:
+  apiUrl: "http://localhost:8080/v1/chat/completions"
+  apiKey: "change-me"
+  chunkSize: 60000
+  maxTokenSize: 200000
+  maxWorkers: 50
+  pool:
+    abstractMD: "change-me"
+    absChunkMD: "change-me"
+    mergeAbstractMD: "change-me"
+    mindmapMD: "change-me"
+    mindChunkMD: "change-me"
+    mergeMindmapMD: "change-me"
+    shortDescMD: "change-me"

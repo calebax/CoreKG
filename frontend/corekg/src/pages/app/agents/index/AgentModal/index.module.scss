@@ -1,0 +1,101 @@
+.agent {
+    &Modal {
+        :global {
+            .ant-modal-content {
+                padding: 14px;
+                padding-top: 0;
+
+                .ant-modal-close {
+                    top: 6px;
+                }
+
+                .ant-modal-close-icon {
+                    font-size: 14px;
+                }
+
+                .ant-modal-header {
+                    height: 46px;
+                    display: flex;
+                    align-items: center;
+                    border-bottom: 1px solid rgba(239, 241, 244, 1);
+                    padding: 14px 0;
+
+                    .ant-modal-title {
+                        font-size: 18px;
+                        font-weight: 500;
+                        color: #0C1F17;
+                    }
+                }
+            }
+
+            .ant-modal-footer {
+                margin-top: 8px;
+
+                button {
+                    border: none;
+                    font-weight: 500;
+                    font-size: 14px;
+                    padding: 0 24px;
+                }
+
+                button:first-child {
+                    background-color: #F5F5F5;
+                    color: #0C1F17;
+                }
+
+                button:last-child {
+                    background: #0C99FF;
+                    outline: none;
+                    color: #ffffff;
+                }
+            }
+        }
+
+        &Input {
+            border: 1px solid rgba(227, 230, 237, 1);
+            box-shadow: none !important;
+
+            &:hover,
+            &:focus {
+                border-color: #0C99FF;
+
+            }
+
+            :global {
+                .ant-input::placeholder {
+                    color: rgba(145, 148, 151, 1);
+                }
+            }
+        }
+
+        &FormItem {
+            margin-bottom: 16px;
+
+            :global {
+                .ant-form-item-label {
+                    line-height: 1;
+                    padding-bottom: 10px;
+
+                    &>label {
+                        color: #0C1F17;
+                        font-weight: 500;
+                        line-height: 1;
+                    }
+
+                    &>.ant-form-item-required {
+                        flex-direction: row-reverse;
+
+                        &::before {
+                            display: none;
+                        }
+
+                        &::after {
+                            display: none;
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+}

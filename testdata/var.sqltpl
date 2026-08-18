@@ -1,0 +1,8 @@
+USE `{{ .MYSQL_DBNAME }}`;
+
+SET NAMES utf8mb4;
+
+SET @yg_MYSQL_DBNAME = '{{ .MYSQL_DBNAME }}';
+
+-- 服务地址 CHANGE_ME_HOST
+SET @yg_BASE_URL = ’{{ .BASE_URL }}'

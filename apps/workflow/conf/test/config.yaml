@@ -1,0 +1,85 @@
+main:
+  app: workflow
+  http_addr: :8888
+  env: test
+  database_conns:
+    core: mysql://${COREKG_CORE_USER}:${COREKG_CORE_PASS}@${COREKG_CORE_HOST}:${COREKG_CORE_PORT}/${COREKG_CORE_DB}?charset=utf8mb4&parseTime=true&loc=Local
+    opencoze: mysql://${MYSQL_USER}:${MYSQL_PASS}@${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DB}?charset=utf8mb4&parseTime=True
+
+workflow:
+  log_level: debug
+  max_request_body_size: 1073741824
+  server_host: "http://localhost:8888"
+  admin_uins: ""
+  ssl:
+    enabled: false
+    cert_file: ""
+    key_file: ""
+  redis:
+    addr: "${REDIS_ADDR}"
+    password: "${REDIS_PASSWORD}"
+    db: 0
+  elasticsearch:
+    addr: "${ES_ADDR}"
+    username: "${ES_USERNAME}"
+    password: "${ES_PASSWORD}"
+    version: v8
+    number_of_shards: "1"
+    number_of_replicas: "1"
+  storage:
+    type: minio
+    upload_http_scheme: https
+    bucket: opencoze-test
+    minio:
+      ak: "${MINIO_AK}"
+      sk: "${MINIO_SK}"
+      endpoint: "${MINIO_ENDPOINT}"
+      region: "${MINIO_REGION}"
+      api_host: "${MINIO_API_HOST}"
+    tos:
+      access_key: ""
+      secret_key: ""
+      endpoint: ""
+      region: ""
+    s3:
+      access_key: ""
+      secret_key: ""
+      endpoint: ""
+      region: ""
+      bucket_endpoint: ""
+  mq:
+    type: nsq
+    name_server: "${MQ_NAME_SERVER}"
+    rmq:
+      access_key: ""
+      secret_key: ""
+    pulsar:
+      service_url: ""
+      jwt_token: ""
+    nats:
+      jwt_token: ""
+      nkey_seed: ""
+      username: ""
+      password: ""
+      token: ""
+      use_jetstream: false
+  upload:
+    component_type: storage
+    imagex:
+      ak: ""
+      sk: ""
+      server_id: ""
+      domain: ""
+      template: ""
+      upload_host: "https://imagex.volcengineapi.com"
+
+logger:
+  default:
+    - writer: console
+      level: debug
+  gorm:
+    - writer: console
+      level: debug
+  access:
+    - writer: console
+      level: debug

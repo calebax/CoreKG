@@ -1,0 +1,76 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.statusRow {
+  display: flex;
+  gap: 16px;
+}
+
+.statusCard {
+  flex: 1;
+  padding: 16px;
+  background: #fafafa;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.statusLabel {
+  font-size: 13px;
+  color: #919497;
+}
+
+.statusValue {
+  font-size: 16px;
+  font-weight: 500;
+  color: #0C1F17;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.statCard {
+  text-align: center;
+
+  :global(.ant-card-body) {
+    padding: 16px;
+  }
+}
+
+.statValue {
+  font-size: 24px;
+  font-weight: 500;
+  color: #0C1F17;
+}
+
+.statLabel {
+  font-size: 13px;
+  color: #919497;
+  margin-top: 4px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.actionsTitle {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: #0C1F17;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}

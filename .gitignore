@@ -1,0 +1,143 @@
+# ============================================================================
+# CoreKG 单体仓库统一 .gitignore。
+# 所有忽略规则集中在此处维护，除非存在必须局部例外的情况。
+# ============================================================================
+
+# ------------------------- 编辑器 / IDE / 系统 -------------------------
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+.cursor/
+.history/
+.claude/
+.opencode/
+.superpowers/
+.sisyphus/
+.worktrees/
+*.swp
+*.swo
+*~
+
+# ------------------------- 构建产物 / 缓存 -------------------------
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+*.prof
+*.tgz
+*.log
+logs/
+.cache
+.gocache
+/bundles
+/dist
+/output
+/logs
+/secrets
+.temp
+.pnpm-store
+.pnpm-local
+pnpm-local
+.node_repl_history
+.eslintcache
+
+# Node / 前端
+node_modules/
+jspm_packages/
+.next
+dist/
+dist-*/
+storybook-static
+*.tsbuildinfo
+coverage/
+.nyc_output
+lib-ts
+
+# Rush (frontend/workflow 单点)
+common/deploy/
+common/temp/
+common/autoinstallers/*/.npmrc
+**/.rush/
+**/.rush/temp/
+.rush/
+autoinstaller*.lock
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+*.whl
+dist/
+build/
+.venv/
+venv/
+env/
+.eggs/
+
+# 测试 / 本地临时数据
+temp_data/
+tmp_encryption/
+results/
+*.local
+*.local.yml
+*.localpackage-lock.json
+
+# 生成文件
+/apis/docs/docs.go
+/apis/docs/swagger.json
+/apis/docs/swagger.yaml
+cmd/
+
+# ============================================================================
+# 敏感配置文件（含密钥 / 连接串）：一律不入库，仅提交 *.example。
+# 使用方式：cp <file>.example <file>，编辑 <file> 填入本地/真实值。
+# ============================================================================
+
+# Go 服务运行配置 + codegen DSN
+apps/*/conf/*/config.yaml
+apps/*/conf/*/code_gen.yaml
+
+# 客户端运行配置（如 clients/task_worker/config/*.yaml）
+clients/**/config/*.yaml
+clients/**/config/*.yml
+!clients/**/config/*.example
+
+# 白名单：以下为不含密钥的公开配置，保持追踪
+!apps/workflow/conf/workflow/config.yaml
+!apps/workflow/conf/test/config.yaml
+
+# 环境变量文件（前端 / TypeScript / Python 通用）
+.env
+.env.*
+!.env.example
+!.env.*.example
+!.env.default
+
+# Python pipeline 运行配置（忽略真实配置，仅提交 *.example）
+apps/pipeline/config/*
+!apps/pipeline/config/*.example
+
+# 本地编排文件（提供 docker-compose.yml.example）
+docker-compose.yml
+docker-compose.yaml
+docker-compose.*.yml
+docker-compose.*.yaml
+compose.yml
+compose.yaml
+compose.*.yml
+compose.*.yaml
+
+# 私钥 / 证书兜底
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+*.jks
+*.keystore

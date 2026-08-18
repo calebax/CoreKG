@@ -1,0 +1,14 @@
+export const AUTH_MESSAGE_TYPES = {
+  SYNC_CONTEXT: 'SYNC_CONTEXT',
+  I_AM_READY: 'I_AM_READY',
+  COZE_ROUTE_STATUS: 'COZE_ROUTE_STATUS',
+  AI_NAVIGATE_AGENT_HOME: 'AI_NAVIGATE_AGENT_HOME',
+  AUTH_ERROR: 'AUTH_ERROR',
+  REQUEST_RELOGIN: 'REQUEST_RELOGIN',
+} as const;
+
+export type AuthMessageType =
+  (typeof AUTH_MESSAGE_TYPES)[keyof typeof AUTH_MESSAGE_TYPES];
+
+export const TOKEN_STORAGE_KEY = 'coze_token';
+export const USER_INFO_STORAGE_KEY = 'coze_user_info';

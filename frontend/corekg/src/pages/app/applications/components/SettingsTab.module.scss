@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.dangerZone {
+  margin-top: 24px;
+  padding: 16px;
+  border: 1px dashed #ff4d4f;
+  border-radius: 8px;
+}
+
+.dangerTitle {
+  margin: 0 0 12px 0;
+  color: #ff4d4f;
+  font-size: 14px;
+}

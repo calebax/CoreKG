@@ -1,0 +1,5 @@
+.agent {
+  :global(:is(.ant-tree-checkbox-inner, .ant-checkbox-inner))::after {
+    border-color: #ffffff !important;
+  }
+}
