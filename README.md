@@ -59,7 +59,14 @@ cp docker-compose.yml.example docker-compose.yml
 docker compose up -d
 ```
 
-默认连接信息与各 `*.example` 中的本地默认值一致（MySQL `corekg/corekg_dev@localhost:3306/corekg`；ES `elastic/change-me@localhost:9200`；Redis `localhost:6379`；MinIO `minioadmin/change-me@localhost:9000`）。生产部署请勿使用这些默认值。
+本地基础环境（含中间件端口/凭据、如何启动、各服务初始化）请见 **[docs/local-development.md](docs/local-development.md)**。关键约定如下：
+
+- **宿主机端口统一偏移（规避本机已占用）**：MySQL `3308`(:3306)、Redis `6381`(:6379)、ES `9202`(:9200)/`9302`(:9300)、MinIO `9002`(:9000)/`9003`(:9001)、NATS `4224`(:4222)。
+- **所有中间件明文密码统一为 `123456`**（本地开发默认值）。
+- 容器之间经服务名+容器内端口互连；宿主机进程（各 `make run` 启动的 Go 服务）经上述映射端口访问。
+- 首次启动会通过 `scripts/mysql-docker-init.sh` 额外创建 `opencoze` 库。
+
+以上默认值已与各 `apps/*/conf/*/config.yaml.example` 保持一致；生产部署请勿使用这些默认值。
 
 **全部使用 Docker Hub 官方 multi-arch 镜像**（`mysql`、`elasticsearch`、`redis`、`minio/minio`、`minio/mc`、`nats`），在 `amd64` 与 `arm64` 机器上 `docker compose up` 会自动拉取对应架构，无需维护内网镜像源。可验证：
 

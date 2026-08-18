@@ -4,14 +4,14 @@ main:
   app: knownow-forest
   http_addr: :8080
   open_docs_api: true
-  mysql: corekg:corekg_dev@tcp(localhost:3306)/corekg?charset=utf8mb4&parseTime=true&loc=Local
+  mysql: corekg:123456@tcp(localhost:3308)/corekg?charset=utf8mb4&parseTime=true&loc=Local
   env: dev
   database_conns:
-    core: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
-    account: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
-    knownow: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
-    chat: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
-    sale: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    core: mysql://corekg:123456@localhost:3308/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    account: mysql://corekg:123456@localhost:3308/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    knownow: mysql://corekg:123456@localhost:3308/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    chat: mysql://corekg:123456@localhost:3308/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    sale: mysql://corekg:123456@localhost:3308/corekg?charset=utf8mb4&parseTime=true&loc=Local
 
 logger:
   default:

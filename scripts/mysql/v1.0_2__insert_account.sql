@@ -33,7 +33,7 @@ INSERT INTO admin_login_setting (
   NOW(),              
   NOW(),               
   NULL,               
-  CONCAT(@yg_BASE_HOST, ':30000'),      
+  CONCAT(SUBSTRING_INDEX(@yg_BASE_HOST, '://', -1), ':30000'),      
   NULL,            
   'prod',         
   0,                    
@@ -49,10 +49,10 @@ INSERT INTO admin_login_setting (
   'yygu',       
   'wechat_web_oauth',    
   1,                    
-  CONCAT(@yg_BASE_HOST, ':30000')       
+  CONCAT(SUBSTRING_INDEX(@yg_BASE_HOST, '://', -1), ':30000')       
 );
 
-INSERT INTO user (id, created_at, updated_at, deleted_at, identify, name, bio, avatar_url, email, phone, password, github_id, work_wechat_user_id, wechat_union_id, wechat_web_open_id) VALUES (1, '2024-08-02 14:06:58.225', '2025-07-11 15:20:41.480', NULL, 'admin', 'admin', '', 'https://thirdwx.qlogo.cn/mmopen/vi_32/oAdEUk0YiaJaibAFvFwewct8YggbYiajeahTjliaP5AQb2YwxYs1kW6Cmib9oVonfGtibb2zQADibq0HiaWYgHmMAPFAgmliarWwfM0vcMKRZQ7FfOHg/132', 'author@example.com', '13800000000', @yg_ADMIN_PASSWORD_HASH, NULL, NULL, 'zzzzzzz', 'zzzzz');
+INSERT INTO user (id, created_at, updated_at, deleted_at, identify, name, bio, avatar_url, email, phone, password, github_id, work_wechat_user_id, wechat_union_id, wechat_web_open_id) VALUES (1, '2024-08-02 14:06:58.225', '2025-07-11 15:20:41.480', NULL, 'admin', 'admin', '', 'https://thirdwx.qlogo.cn/mmopen/vi_32/oAdEUk0YiaJaibAFvFwewct8YggbYiajeahTjliaP5AQb2YwxYs1kW6Cmib9oVonfGtibb2zQADibq0HiaWYgHmMAPFAgmliarWwfM0vcMKRZQ7FfOHg/132', 'admin@admin.com', '13800000000', @yg_ADMIN_PASSWORD_HASH, NULL, NULL, 'zzzzzzz', 'zzzzz');
 
 
 
@@ -61,7 +61,11 @@ INSERT INTO user_identification
 VALUES 
 (1, '2024-08-02 14:06:58.225', '2024-08-02 14:06:58.225', NULL, 1, 'company', 1, 'normal', 'yygu', 'admin');
 
-INSERT INTO company (id, created_at, updated_at, deleted_at, name, alias, description, logo, address, tel, email, website, company_status, version, quota) VALUES (1, '2025-01-07 16:53:47.000', '2025-01-07 16:53:49.000', NULL, 'xxxxx', 'xxxxxxxxxx', 'xxxxx', 'xxxxx', 'xxx', 'xxxxx', 'xxxxx', 'xxxxxx', 'passed', 'free_trail', '{\"qa_quota\": 1000, \"disk_quota\": 10737418240, \"agent_quota\": 5, \"employee_quota\": 5}');
+INSERT INTO company (id, created_at, updated_at, deleted_at, name, alias, description, logo, address, tel, email, website, company_status, version, quota) VALUES (1, '2025-01-07 16:53:47.000', '2025-01-07 16:53:49.000', NULL, '默认组织', 'default-organization', '系统默认组织', '', '', '', '', '', 'passed', 'free_trail', '{\"qa_quota\": 1000, \"disk_quota\": 10737418240, \"agent_quota\": 5, \"employee_quota\": 5, \"graph_quota\": 5, \"article_quota\": 5}');
 
 
 INSERT INTO account_employee (id, created_at, updated_at, deleted_at, company_id, user_id, sys_role, uin) VALUES (1, '2025-01-07 16:55:52.000', '2025-03-11 11:40:22.082', NULL, 1, 1, 'sys_admin', 1);
+
+INSERT INTO account_department (id, created_at, updated_at, deleted_at, name, parent_id, sort, company_id) VALUES (1, '2025-01-07 16:55:52.000', '2025-01-07 16:55:52.000', NULL, '默认组织', 0, 1000, 1);
+
+INSERT INTO account_rel_employee_department (id, created_at, updated_at, deleted_at, uin, department_id, is_primary, employee_id, company_id) VALUES (1, '2025-01-07 16:55:52.000', '2025-01-07 16:55:52.000', NULL, 1, 1, 1, 1, 1);

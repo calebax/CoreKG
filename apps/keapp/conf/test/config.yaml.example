@@ -5,7 +5,7 @@ main:
   env: dev
   http_addr: :8089
   database_conns:
-    core: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    core: mysql://corekg:123456@localhost:3308/corekg?charset=utf8mb4&parseTime=true&loc=Local
 logger:
   default:
     - writer: console
@@ -37,7 +37,7 @@ logger:
       compress: true
 
 nats:
-  url: "nats://localhost:4222"
+  url: "nats://localhost:4224"
   stream: "KEAPP_CRAWL"
 
 worker:

@@ -3,8 +3,15 @@
 #   cp docker-compose.yml.example docker-compose.yml
 #   docker compose up -d
 #
-# 默认凭据与各 apps/*/conf/*/config.yaml.example、apps/worker/.env.example 保持一致。
-# 生产环境请勿使用本文件；所有密码均为本地开发默认值。
+# 生产环境请勿使用本文件；所有凭据均为本地开发默认值（欢迎直接使用）。
+#
+# 说明：
+#   - 为规避宿主机上可能已占用的默认端口，宿主机端口在容器默认端口基础上统一 +2：
+#       MySQL 3308(:3306)  Redis 6381(:6379)  ES 9202(:9200)/9302(:9300)
+#       MinIO 9002(:9000)/9003(:9001)  NATS 4224(:4222)
+#   - 所有中间件明文密码统一为 123456（本地开发默认值）。
+#   - 容器之间通过服务名+容器内端口互连；宿主机进程经映射端口访问。
+#   - 首次启动时会通过 scripts/mysql-docker-init.sh 额外创建 opencoze 库。
 
 services:
   mysql:
@@ -12,39 +19,54 @@ services:
     container_name: corekg-mysql
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: corekg_root_dev
+      MYSQL_ROOT_PASSWORD: 123456
       MYSQL_DATABASE: corekg
       MYSQL_USER: corekg
-      MYSQL_PASSWORD: corekg_dev
+      MYSQL_PASSWORD: 123456
+      MYSQL_EXTRA_DATABASES: opencoze
     ports:
-      - "3306:3306"
+      - "3308:3306"
     volumes:
+      - ./scripts/mysql-docker-init.sh:/docker-entrypoint-initdb.d/init.sh:ro
       - mysql_data:/var/lib/mysql
-    command: --default-authentication-plugin=caching_sha2_password
 
   elasticsearch:
     image: elasticsearch:8.18.1
     container_name: corekg-es
     restart: unless-stopped
+    depends_on:
+      es-init:
+        condition: service_completed_successfully
     environment:
       discovery.type: single-node
       ES_JAVA_OPTS: -Xms512m -Xmx512m
-      ELASTIC_PASSWORD: change-me
+      ELASTIC_PASSWORD: 123456
       xpack.security.enabled: "true"
       xpack.security.http.ssl.enabled: "false"
       xpack.security.transport.ssl.enabled: "false"
     ports:
-      - "9200:9200"
-      - "9300:9300"
+      - "9202:9200"
+      - "9302:9300"
     volumes:
       - es_data:/usr/share/elasticsearch/data
+      - es_plugins:/usr/share/elasticsearch/plugins
+
+  # ES 初始化：在 ES 启动前安装 IK 分词插件（ik_max_word / ik_smart）
+  es-init:
+    image: elasticsearch:8.18.1
+    container_name: corekg-es-init
+    entrypoint: elasticsearch-plugin
+    command: ["install", "--batch", "https://get.infini.cloud/elasticsearch/analysis-ik/8.18.1"]
+    volumes:
+      - es_plugins:/usr/share/elasticsearch/plugins
+    restart: "no"
 
   redis:
     image: redis:7
     container_name: corekg-redis
     restart: unless-stopped
     ports:
-      - "6379:6379"
+      - "6381:6379"
     volumes:
       - redis_data:/data
 
@@ -55,10 +77,10 @@ services:
     command: server /data --console-address ":9001"
     environment:
       MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: change-me
+      MINIO_ROOT_PASSWORD: minio123456
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - "9002:9000"
+      - "9003:9001"
     volumes:
       - minio_data:/data
     healthcheck:
@@ -76,7 +98,7 @@ services:
         condition: service_healthy
     entrypoint: >
       /bin/sh -c "
-      mc alias set local http://minio:9000 minioadmin change-me &&
+      mc alias set local http://minio:9000 minioadmin minio123456 &&
       mc mb --ignore-existing local/corekg-bucket &&
       echo 'MinIO bucket corekg-bucket ready'
       "
@@ -87,10 +109,11 @@ services:
     container_name: corekg-nats
     restart: unless-stopped
     ports:
-      - "4222:4222"
+      - "4224:4222"
 
 volumes:
   mysql_data:
   es_data:
+  es_plugins:
   redis_data:
   minio_data:

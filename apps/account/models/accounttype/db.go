@@ -62,6 +62,8 @@ func InitDB() error {
 		&RelEmployeePosition{},
 		&RelPositionPrivilege{},
 		&WechatBinding{},
+		&AccountDepartment{},
+		&AccountRelEmployeeDepartment{},
 
 		//
 		&APIKey{},

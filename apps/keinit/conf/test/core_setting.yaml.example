@@ -2,36 +2,37 @@
 # 由 keinit 的 update-setting / init-mysql 通过 --setting-file 读取并 upsert 到 core_settings 表。
 # 用法：cp core_setting.yaml.example core_setting.yaml；按需修改占位值（change-me）。
 # 默认连接信息与 docker-compose.yml.example 的本地默认值一致：
-#   Redis localhost:6379；ES elastic/change-me@localhost:9200；MinIO minioadmin/change-me@localhost:9000。
-# 所有含密钥/连接串的值一律不写入真实值，仅以 change-me 占位。
+#   Redis localhost:6381；ES elastic/123456@localhost:9202；MinIO minioadmin/123456@localhost:9002；
+#   Nebula root/123456@localhost:9669；MySQL root/123456@localhost:3308。
+# 密钥类占位值均为本地开发默认值，与 docker-compose.yml.example 保持一致，请勿用于生产。
 
 - group: core
   key: redis
   name: Redis
   describe: Redis 配置
   value_type: yaml
-  value: "addr: localhost:6379\r\npassword: \"\"\r\ndb: 1"
+  value: "addr: localhost:6381\r\npassword: \"\"\r\ndb: 1"
 
 - group: knowledge
   key: redis
   name: Redis
   describe: 知识库 Redis 配置
   value_type: yaml
-  value: "addr: localhost:6379\r\npassword: \"\"\r\ndb: 4\r\n"
+  value: "addr: localhost:6381\r\npassword: \"\"\r\ndb: 4\r\n"
 
 - group: core
   key: cos-ke
   name: 知识存储
   describe: 知识库文件对象存储（MinIO）配置
   value_type: yaml
-  value: "purpose: forest-file\r\npresigned_timeout: \"24h\"\r\ns3:\r\n  end_point: http://localhost:9000\r\n  access_key_id: minioadmin\r\n  secret_access_key: change-me\r\n  region: minio\r\n  bucket: corekg-bucket\r\n  use_path_style: true\r\n\r\n"
+  value: "purpose: forest-file\r\npresigned_timeout: \"24h\"\r\ns3:\r\n  end_point: http://localhost:9002\r\n  access_key_id: minioadmin\r\n  secret_access_key: minio123456\r\n  region: minio\r\n  bucket: corekg-bucket\r\n  use_path_style: true\r\n\r\n"
 
 - group: knowledge
   key: es
   name: ES 配置
   describe: Elasticsearch 连接配置
   value_type: yaml
-  value: "addresses:\r\n  - http://localhost:9200\r\nusername: elastic\r\npassword: change-me\r\nmax_retries: 3\r\nslow_threshold: 3s"
+  value: "addresses:\r\n  - http://localhost:9202\r\nusername: elastic\r\npassword: 123456\r\nmax_retries: 3\r\nslow_threshold: 3s"
 
 - group: knowledge
   key: llm_image_parse
@@ -45,7 +46,7 @@
   name: 图数据库配置
   describe: Nebula Graph 连接配置
   value_type: yaml
-  value: "address: \"nebula-graphd-0.nebula-graphd\"\r\nport: 9669\r\nusername: \"root\"\r\npassword: \"change-me\"\r\nprefix: \"know\""
+  value: "address: \"localhost\"\r\nport: 9669\r\nusername: \"root\"\r\npassword: \"123456\"\r\nprefix: \"know\""
 
 - group: knowledge
   key: embedding
@@ -66,18 +67,40 @@
   name: 头像存储
   describe: 用户头像对象存储配置
   value_type: yaml
-  value: "purpose: cu-image\r\npresigned_timeout: \"24h\"\r\ns3:\r\n  end_point: http://localhost:9000\r\n  access_key_id: minioadmin\r\n  secret_access_key: change-me\r\n  region: minio\r\n  bucket: corekg-bucket\r\n  use_path_style: true\r\n\r\n"
+  value: "purpose: cu-image\r\npresigned_timeout: \"24h\"\r\ns3:\r\n  end_point: http://localhost:9002\r\n  access_key_id: minioadmin\r\n  secret_access_key: minio123456\r\n  region: minio\r\n  bucket: corekg-bucket\r\n  use_path_style: true\r\n\r\n"
 
 - group: core
   key: cos-yg-chat
   name: 轻应用头像存储
   describe: 轻应用头像对象存储配置
   value_type: yaml
-  value: "purpose: yg-chat\r\npresigned_timeout: \"24h\"\r\ns3:\r\n  end_point: http://localhost:9000\r\n  access_key_id: minioadmin\r\n  secret_access_key: change-me\r\n  region: minio\r\n  bucket: corekg-bucket\r\n  use_path_style: true\r\n\r\n"
+  value: "purpose: yg-chat\r\npresigned_timeout: \"24h\"\r\ns3:\r\n  end_point: http://localhost:9002\r\n  access_key_id: minioadmin\r\n  secret_access_key: minio123456\r\n  region: minio\r\n  bucket: corekg-bucket\r\n  use_path_style: true\r\n\r\n"
 
 - group: knowledge
   key: mysql_excel_instance
   name: Excel 问答 MySQL 实例
   describe: Excel 问答连接的外部 MySQL 实例信息
   value_type: yaml
-  value: "host: localhost\r\nport: 3306\r\nusername: root\r\npassword: change-me\r\ncharset: utf8mb4\r\n"
+  value: "host: localhost\r\nport: 3308\r\nusername: root\r\npassword: 123456\r\ncharset: utf8mb4\r\n"
+
+# --- 账号登录必需的系统设置（缺失会导致 account 登录接口报错/无法启动）---
+- group: account
+  key: max_login_try
+  name: 最大登录失败次数
+  describe: 登录失败次数上限，超过后触发限流
+  value_type: text
+  value: "5"
+
+- group: account
+  key: pkl_connect_providers
+  name: 连接提供商配置
+  describe: 第三方登录连接提供商配置（非必需，空列表即可）
+  value_type: yaml
+  value: "providers: []"
+
+- group: core
+  key: loc_redis
+  name: Redis（开发环境）
+  describe: dev 环境下 account 等服务实际读取的 Redis 连接配置
+  value_type: yaml
+  value: "addr: localhost:6381\r\npassword: \"\"\r\ndb: 1"

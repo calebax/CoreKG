@@ -63,7 +63,7 @@ SET @yg_MYSQL_USER = '{{ .MYSQL_USER }}';
 -- MySQL 密码，例如 123456
 SET @yg_MYSQL_PASSWORD = '{{ .MYSQL_PASSWORD }}';
 
--- admin 用户密码 hash（bcrypt），例如 CHANGE_ME
-SET @yg_ADMIN_PASSWORD_HASH = '{{ .ADMIN_PASSWORD_HASH }}';
+-- admin 用户密码 hash（bcrypt）：已设置则用注入值，否则回退到默认密码 admin123456 的哈希
+SET @yg_ADMIN_PASSWORD_HASH = '{{ if and .ADMIN_PASSWORD_HASH (ne .ADMIN_PASSWORD_HASH "") }}{{ .ADMIN_PASSWORD_HASH }}{{ else }}$2a$10$844pm5yT0GcnDzsh9YYi4e2sqTLgZWuDtJAogYzwR2pHSA5rnVlm.{{ end }}';
 
 

@@ -5,14 +5,14 @@ main:
   http_addr: :8081
   open_docs_api: true
   base_url: http://localhost:8081
-  mysql: corekg:corekg_dev@tcp(localhost:3306)/corekg?charset=utf8mb4&parseTime=true&loc=Local
+  mysql: corekg:123456@tcp(localhost:3308)/corekg?charset=utf8mb4&parseTime=true&loc=Local
   web_dir: ./web/dist/
   env: dev
   database_conns:
-    core: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
-    account: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
-    knownow: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
-    chat: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    core: mysql://corekg:123456@localhost:3308/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    account: mysql://corekg:123456@localhost:3308/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    knownow: mysql://corekg:123456@localhost:3308/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    chat: mysql://corekg:123456@localhost:3308/corekg?charset=utf8mb4&parseTime=true&loc=Local
 
 logger:
   default:

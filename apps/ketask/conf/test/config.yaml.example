@@ -5,8 +5,8 @@ main:
   env: test
   http_addr: :8080
   database_conns:
-    account: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
-    core: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    account: mysql://corekg:123456@localhost:3308/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    core: mysql://corekg:123456@localhost:3308/corekg?charset=utf8mb4&parseTime=true&loc=Local
 logger:
   default:
     - writer: console
@@ -38,30 +38,30 @@ logger:
       compress: true
 
 redis:
-  addr: localhost:6379
+  addr: localhost:6381
   password: ""
   db: 1
 
 s3_storages:
   - bucket: "corekg-bucket"
-    end_point: "http://localhost:9000"
+    end_point: "http://localhost:9002"
     access_key_id: "minioadmin"
-    secret_access_key: "change-me"
+    secret_access_key: "123456"
     region: "us-east-1"
     use_path_style: true
 
 elasticsearch:
   addresses:
-    - "http://localhost:9200"
+    - "http://localhost:9202"
   username: "elastic"
-  password: "change-me"
+  password: "123456"
   max_retries: 3
 
 nebula:
   address: "localhost"
   port: 9669
   username: "root"
-  password: "change-me"
+  password: "123456"
   prefix: "test_know"
 
 agent:
@@ -85,4 +85,4 @@ agent:
     model_name: "Qwen3-Embedding-0.6B"
 
 nats:
-  url: "nats://localhost:4222"
+  url: "nats://localhost:4224"

@@ -5,11 +5,11 @@ main:
   env: dev
   http_addr: :8080
   database_conns:
-    core: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
-    account: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
-    knownow: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
-    chat: mysql://corekg:corekg_dev@localhost:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
-    coze: mysql://corekg:corekg_dev@localhost:3306/opencoze?charset=utf8mb4&parseTime=true&loc=Local
+    core: mysql://corekg:123456@localhost:3308/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    account: mysql://corekg:123456@localhost:3308/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    knownow: mysql://corekg:123456@localhost:3308/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    chat: mysql://corekg:123456@localhost:3308/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    coze: mysql://corekg:123456@localhost:3308/opencoze?charset=utf8mb4&parseTime=true&loc=Local
 logger:
   default:
     - writer: console
@@ -41,6 +41,6 @@ logger:
       compress: true
 
 redis:
-  addr: localhost:6379
+  addr: localhost:6381
   password: ""
   db: 1
