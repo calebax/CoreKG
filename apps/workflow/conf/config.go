@@ -10,6 +10,9 @@ type AppConfig struct {
 }
 
 type WorkflowConfig struct {
+	Enabled            bool             `yaml:"enabled"` // 聚合模式下是否拉启 workflow；false 时不启动
+	Required           bool             `yaml:"required"` // 启动失败时是否拖垮宿主进程
+	HttpAddr           string           `yaml:"http_addr"` // 独立监听地址（聚合模式优先于此字段）
 	LogLevel           string           `yaml:"log_level"`
 	MaxRequestBodySize int64            `yaml:"max_request_body_size"`
 	ServerHost         string           `yaml:"server_host"`

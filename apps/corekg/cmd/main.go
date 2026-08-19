@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"net"
 	"time"
 
@@ -15,6 +16,7 @@ import (
 	"github.com/insmtx/corekg/apps/kesearch/models/chunk"
 	"github.com/insmtx/corekg/apps/kesearch/models/essearch"
 	"github.com/insmtx/corekg/apps/kesearch/models/globalsearch"
+	wfstartup "github.com/insmtx/corekg/apps/workflow/startup"
 	"github.com/insmtx/corekg/resource/locales"
 	"github.com/insmtx/corekg/pkgs/connectors"
 	"github.com/insmtx/corekg/pkgs/global"
@@ -164,6 +166,10 @@ func mainRun() func(cmd *cobra.Command, args []string) {
 
 		kecore.RunJob(ctx)
 
+		// 按配置决定是否在 corekg 进程内拉启 workflow Hertz server（双 server 聚合）。
+		// 默认 enabled=false 时不启动，行为与改造前一致。
+		maybeStartWorkflow(ctx, configFile)
+
 		l, err := net.Listen("tcp", cfg.MainConf.HttpAddr)
 		if err != nil {
 			logs.FatalContextf(cmd.Context(), "[main] listen at %s failed, %s", cfg.MainConf.HttpAddr, err)
@@ -178,4 +184,28 @@ func mainRun() func(cmd *cobra.Command, args []string) {
 		jobs.RunRoutines(lifecycle.Std().Context())
 		lifecycle.Std().WaitExit()
 	}
+}
+
+// maybeStartWorkflow 依据配置的 workflow.enabled 决定是否在 corekg 进程内拉启
+// workflow Hertz server。默认关闭不启动；开启后按 required 决定失败语义。
+func maybeStartWorkflow(ctx context.Context, configFile string) {
+	appCfg, enabled, ok := loadWorkflowConfig(configFile)
+	if !ok {
+		return
+	}
+	if !enabled {
+		logs.InfoContextf(ctx, "[main] workflow is disabled, skip starting workflow server.")
+		return
+	}
+
+	err := wfstartup.Start(ctx, appCfg)
+	if err != nil {
+		if appCfg.Workflow.Required {
+			logs.FatalContextf(ctx, "[main] start workflow server failed (required): %v", err)
+			return
+		}
+		logs.ErrorContextf(ctx, "[main] start workflow server failed (module unavailable, continue): %v", err)
+		return
+	}
+	logs.InfoContextf(ctx, "[main] workflow server started on %s", appCfg.Workflow.HttpAddr)
 }

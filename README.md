@@ -67,6 +67,8 @@ docker compose up -d
 
 以上默认值已与各 `apps/*/conf/*/config.yaml.example` 保持一致；生产部署请勿使用这些默认值。
 
+> 初始化所需补齐的环境变量与占位符清单（对话/视觉/Embedding 模型地址、JWT、PDF 转换服务等），及对应的初始化命令，见 **[docs/local-config-checklist.md](docs/local-config-checklist.md)**。
+
 **全部使用 Docker Hub 官方 multi-arch 镜像**（`mysql`、`elasticsearch`、`redis`、`minio/minio`、`minio/mc`、`nats`），在 `amd64` 与 `arm64` 机器上 `docker compose up` 会自动拉取对应架构，无需维护内网镜像源。可验证：
 
 ```bash

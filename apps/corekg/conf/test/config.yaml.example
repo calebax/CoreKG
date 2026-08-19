@@ -25,6 +25,72 @@ redis:
   password: ""
   db: 1
 
+# workflow 聚合开关：默认 disabled，不启动。开启后 corekg 进程内额外在独立
+# 端口拉起 workflow（Hertz）server，经网关转发对外。
+workflow:
+  enabled: false            # 是否在 corekg 进程内拉启 workflow
+  required: false           # true=启动失败则 corekg 整体退出；false=仅告警继续
+  http_addr: ":8899"        # workflow Hertz server 独立监听地址
+  max_request_body_size: 1073741824
+  log_level: info
+  server_host: "http://localhost:8899"
+  admin_uins: ""
+  ssl:
+    enabled: false
+    cert_file: ""
+    key_file: ""
+  redis:
+    addr: "${REDIS_ADDR}"
+    password: "${REDIS_PASSWORD}"
+    db: 0
+  elasticsearch:
+    addr: "${ES_ADDR}"
+    username: "${ES_USERNAME}"
+    password: "${ES_PASSWORD}"
+    version: v8
+    number_of_shards: "1"
+    number_of_replicas: "1"
+  storage:
+    type: minio
+    upload_http_scheme: https
+    bucket: opencoze-test
+    minio:
+      ak: "${MINIO_AK}"
+      sk: "${MINIO_SK}"
+      endpoint: "${MINIO_ENDPOINT}"
+      region: "${MINIO_REGION}"
+      api_host: "${MINIO_API_HOST}"
+    tos:
+      access_key: ""
+      secret_key: ""
+      endpoint: ""
+      region: ""
+    s3:
+      access_key: ""
+      secret_key: ""
+      endpoint: ""
+      region: ""
+      bucket_endpoint: ""
+  mq:
+    type: nats
+    name_server: "${NATS_URL}"
+    nats:
+      jwt_token: ""
+      nkey_seed: ""
+      username: ""
+      password: ""
+      token: ""
+      use_jetstream: true
+  upload:
+    component_type: storage
+    imagex:
+      ak: ""
+      sk: ""
+      server_id: ""
+      domain: ""
+      template: ""
+      upload_host: "https://imagex.volcengineapi.com"
+
 account:
   jwt_secret: change-me
   plt_jwt_secret: change-me
