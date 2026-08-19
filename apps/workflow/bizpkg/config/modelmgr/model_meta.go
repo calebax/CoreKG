@@ -26,6 +26,7 @@ import (
 
 	config "github.com/insmtx/corekg/apps/workflow/api/model/admin/config"
 	"github.com/insmtx/corekg/apps/workflow/api/model/app/developer_api"
+	"github.com/insmtx/corekg/apps/workflow/bizpkg/fileutil"
 	"github.com/ygpkg/yg-go/logs"
 )
 
@@ -44,14 +45,9 @@ type ModelMeta struct {
 var modelMetaConf *ModelMetaConf
 
 func initModelMetaConf() (*ModelMetaConf, error) {
-	wd, err := os.Getwd()
-	if err != nil {
-		return nil, err
-	}
-
-	const modelMetaConfPath = "resources/conf/model/model_meta.json"
-	configRoot := filepath.Join(wd, modelMetaConfPath)
-	jsonData, err := os.ReadFile(configRoot)
+	configRoot := fileutil.GetAppRoot()
+	const modelMetaConfPath = "conf/model/model_meta.json"
+	jsonData, err := os.ReadFile(filepath.Join(configRoot, modelMetaConfPath))
 	if err != nil {
 		return nil, fmt.Errorf("error reading model_meta.json: %w", err)
 	}

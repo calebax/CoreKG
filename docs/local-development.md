@@ -10,8 +10,8 @@
 | MySQL（opencoze 附加库） | - | - | - | 同一 MySQL |
 | Elasticsearch | elasticsearch:8.18.1 | 9200 / 9300 | **9202** / **9302** | elastic / `123456` |
 | Redis | redis:7 | 6379 | **6381** | 无密码 |
-| MinIO | minio/minio:latest | 9000 / 9001 | **9002** / **9003** | minioadmin / `123456` |
-| NATS | nats:2 | 4222 | **4224** | 无认证 |
+| MinIO | minio/minio:latest | 9000 / 9001 | **9002** / **9003** | minioadmin / `minio123456` |
+| NATS | nats:2 | 4222 | **4225** | 无认证 |
 
 > **端口设计说明**：容器内部保留各服务默认端口（互连时用服务名+内部端口）；宿主机端口统一在默认端口基础上 **+2**，以避免本地可能已安装的 MySQL/Redis/ES/MinIO 占用默认端口导致启动冲突。如某端口仍被占，可自行在 `docker-compose.yml` 中改映射端口，并同步修改对应 `config.yaml`。
 
@@ -50,7 +50,7 @@ redis-cli -p 6381 ping
 ## 3. 各服务进程如何连接
 
 - **容器间互连**：各 Docker 服务之间用 `服务名 + 容器内部端口`（如 `minio:9000`、`mysql:3306`）。
-- **宿主机进程访问**：`make run` 启动的 Go 服务（keinit / corekg / keapi / ketask 等）跑在宿主机上，一律通过 **宿主机映射端口** 连接，因此 `config.yaml` 中连接的地址为 `localhost:3308`、`localhost:9202`、`localhost:6381`、`localhost:9002`、`nats://localhost:4224` 等。
+- **宿主机进程访问**：`make run` 启动的 Go 服务（keinit / corekg / keapi / ketask 等）跑在宿主机上，一律通过 **宿主机映射端口** 连接，因此 `config.yaml` 中连接的地址为 `localhost:3308`、`localhost:9202`、`localhost:6381`、`localhost:9002`、`nats://localhost:4225` 等。
 
 ### 连接字符串速查（写入各 config.yaml）
 
@@ -58,8 +58,9 @@ redis-cli -p 6381 ping
 - **MySQL（opencoze）DSN**：`mysql://corekg:123456@localhost:3308/opencoze?charset=utf8mb4&parseTime=true&loc=Local`
 - **Redis**：`addr: localhost:6381`
 - **Elasticsearch**：`addresses: [http://localhost:9202]`，`username: elastic`，`password: 123456`
-- **MinIO**：`end_point: http://localhost:9002`，`access_key_id: minioadmin`，`secret_access_key: 123456`
-- **NATS**：`nats://localhost:4224`
+- **MinIO**：`end_point: http://localhost:9002`，`access_key_id: minioadmin`，`secret_access_key: minio123456`
+  > ⚠️ **workflow 的 MinIO 连接是例外**：workflow 用 `minio-go` 客户端，其 `endpoint` 必须是**裸 host:port**（`localhost:9002`，不带 `://`），scheme 由 config 的 `storage.upload_http_scheme`（本地应填 `http`）决定。若写成 `http://localhost:9002` 会报 `Endpoint url cannot have fully qualified paths.`。凭证需与 docker-compose 的 `MINIO_ROOT_USER/MINIO_ROOT_PASSWORD`（`minioadmin` / `minio123456`）一致；`storage.bucket` 不存在时 workflow 会自动创建。
+- **NATS**：`nats://localhost:4225`
 
 ## 4. 初始化一次数据（keinit）
 
@@ -115,8 +116,8 @@ make local APP=keinit ENV=test
   | `MYSQL_USER` / `MYSQL_PASS` / `MYSQL_HOST` / `MYSQL_PORT` / `MYSQL_DB` | `corekg` / `123456` / `localhost` / `3308` / `opencoze` | opencoze 库连接 |
   | `ES_ADDR` / `ES_USERNAME` / `ES_PASSWORD` | `http://localhost:9202` / `elastic` / `123456` | Elasticsearch |
   | `REDIS_ADDR` / `REDIS_PASSWORD` | `localhost:6381` / 空 | Redis（无密码） |
-  | `MINIO_ENDPOINT` / `MINIO_AK` / `MINIO_SK` / `MINIO_REGION` / `MINIO_API_HOST` | `http://localhost:9002` / `minioadmin` / `123456` / `us-east-1` / `http://localhost:9002` | MinIO 对象存储 |
-  | `NATS_URL` | `nats://localhost:4224` | NATS 消息总线 |
+  | `MINIO_ENDPOINT` / `MINIO_AK` / `MINIO_SK` / `MINIO_REGION` / `MINIO_API_HOST` | `localhost:9002` / `minioadmin` / `minio123456` / `us-east-1` / `localhost:9002` | MinIO 对象存储（`*_HOST/ENDPOINT` 为**裸 host:port**，scheme 取自 `upload_http_scheme`） |
+  | `NATS_URL` | `nats://localhost:4225` | NATS 消息总线 |
 
 ## 7. 常见问题
 

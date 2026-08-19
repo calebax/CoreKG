@@ -28,6 +28,7 @@ import (
 	"github.com/cloudwego/eino/compose"
 	"gorm.io/gorm"
 
+	"github.com/insmtx/corekg/apps/workflow/bizpkg/fileutil"
 	"github.com/insmtx/corekg/apps/workflow/bizpkg/llm/modelbuilder"
 	knowledge "github.com/insmtx/corekg/apps/workflow/domain/knowledge/service"
 	dbservice "github.com/insmtx/corekg/apps/workflow/domain/memory/database/service"
@@ -62,11 +63,7 @@ type ServiceComponents struct {
 }
 
 func initWorkflowConfig() (workflow.WorkflowConfig, error) {
-	wd, err := os.Getwd()
-	if err != nil {
-		return nil, err
-	}
-	configBs, err := os.ReadFile(filepath.Join(wd, "resources/conf/workflow/config.yaml"))
+	configBs, err := os.ReadFile(filepath.Join(fileutil.GetAppRoot(), "conf/workflow/config.yaml"))
 	if err != nil {
 		return nil, err
 	}

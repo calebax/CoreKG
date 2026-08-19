@@ -33,7 +33,7 @@ func New(ctx context.Context) (MessagesToQuery, error) {
 		return nil, err
 	}
 
-	filePath := filepath.Join(fileutil.GetWorkingDirectory(), "resources/conf/prompt/messages_to_query_template_jinja2.json")
+	filePath := filepath.Join(fileutil.GetAppRoot(), "conf/prompt/messages_to_query_template_jinja2.json")
 	rewriterTemplate, err := fileutil.ReadJinja2PromptTemplate(filePath)
 	if err != nil {
 		return nil, err

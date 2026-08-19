@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"time"
 
-	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 
 	"github.com/insmtx/corekg/apps/workflow/conf"
@@ -24,7 +23,9 @@ func New() (*gorm.DB, error) {
 }
 
 func newWithDSN(dsn string, maxIdle, maxOpen, maxLifetime, maxIdleTime int) (*gorm.DB, error) {
-	db, err := gorm.Open(mysql.Open(dsn))
+	// 统一走 yg-go dbtools：其 mysqldrv 会把 mysql:// 前缀归一化为 tcp(host:port)/db，
+	// 与 corekg/keinit 的 DB 打开方式保持一致（直接 gorm.Open(mysql.Open(dsn)) 不认 mysql://）。
+	db, err := dbtools.Open(dsn)
 	if err != nil {
 		return nil, fmt.Errorf("mysql open, dsn: %s, err: %w", dsn, err)
 	}

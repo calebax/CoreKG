@@ -31,6 +31,7 @@ import (
 
 	config "github.com/insmtx/corekg/apps/workflow/api/model/admin/config"
 	"github.com/insmtx/corekg/apps/workflow/api/model/app/developer_api"
+	"github.com/insmtx/corekg/apps/workflow/bizpkg/fileutil"
 	"github.com/insmtx/corekg/apps/workflow/infra/storage"
 	"github.com/insmtx/corekg/apps/workflow/pkg/ctxcache"
 	"github.com/insmtx/corekg/apps/workflow/pkg/envkey"
@@ -46,12 +47,7 @@ import (
 var oldModels []*Model
 
 func initOldModelConf(ctx context.Context, oss storage.Storage, c *ModelConfig) error {
-	wd, err := os.Getwd()
-	if err != nil {
-		return err
-	}
-
-	mo, err := initModelByTemplate(wd, "resources/conf/model")
+	mo, err := initModelByTemplate(fileutil.GetAppRoot(), "conf/model")
 	if err != nil {
 		return err
 	}

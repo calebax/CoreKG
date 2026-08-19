@@ -8,7 +8,7 @@
 # 说明：
 #   - 为规避宿主机上可能已占用的默认端口，宿主机端口在容器默认端口基础上统一 +2：
 #       MySQL 3308(:3306)  Redis 6381(:6379)  ES 9202(:9200)/9302(:9300)
-#       MinIO 9002(:9000)/9003(:9001)  NATS 4224(:4222)
+#       MinIO 9002(:9000)/9003(:9001)  NATS 4225(:4222)
 #   - 所有中间件明文密码统一为 123456（本地开发默认值）。
 #   - 容器之间通过服务名+容器内端口互连；宿主机进程经映射端口访问。
 #   - 首次启动时会通过 scripts/mysql-docker-init.sh 额外创建 opencoze 库。
@@ -110,8 +110,9 @@ services:
     image: nats:2
     container_name: corekg-nats
     restart: unless-stopped
+    command: ["-js"]   # 用默认入口 + 显式启用 JetStream（workflow 依赖）；避免用镜像 config 触发的 cluster 模式
     ports:
-      - "4224:4222"
+      - "4225:4222"
 
 volumes:
   mysql_data:

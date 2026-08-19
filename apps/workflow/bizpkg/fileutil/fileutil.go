@@ -18,6 +18,7 @@ package fileutil
 import (
 	"encoding/json"
 	"os"
+	"path/filepath"
 
 	"github.com/cloudwego/eino/components/prompt"
 	"github.com/cloudwego/eino/schema"
@@ -32,6 +33,34 @@ func GetWorkingDirectory() string {
 		root = os.Getenv("PWD")
 	}
 	return root
+}
+
+// GetAppRoot 返回 workflow 应用根目录（apps/workflow 的绝对路径）。
+//
+// workflow 的 model_meta.json、prompt 模板、workflow 运行配置等后端资源统一位于
+// apps/workflow/conf 下。这里从进程工作目录（聚合进 corekg 时为仓库根、独立运行时为
+// apps/workflow）向上查找含 go.mod 的仓库根，再拼上固定的相对段 apps/workflow，
+// 从而在两种运行形态下都能正确定位，避免依赖业务代码随机调用 os.Getwd() 猜测 cwd。
+// 调用方应基于该根拼接 "conf/..."。
+func GetAppRoot() string {
+	dir, err := os.Getwd()
+	if err != nil {
+		dir = os.Getenv("PWD")
+	}
+
+	for {
+		if _, err := os.Stat(filepath.Join(dir, "go.mod")); err == nil {
+			return filepath.Join(dir, "apps", "workflow")
+		}
+		parent := filepath.Dir(dir)
+		if parent == dir {
+			break
+		}
+		dir = parent
+	}
+
+	// 兜底：找不到仓库根时回到进程工作目录（独立运行时 cwd=apps/workflow）。
+	return GetWorkingDirectory()
 }
 
 func ReadJinja2PromptTemplate(jsonFilePath string) (prompt.ChatTemplate, error) {

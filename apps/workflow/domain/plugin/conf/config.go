@@ -25,17 +25,11 @@ import (
 
 	"github.com/bytedance/sonic"
 
-	"github.com/ygpkg/yg-go/logs"
+	"github.com/insmtx/corekg/apps/workflow/bizpkg/fileutil"
 )
 
 func InitConfig(ctx context.Context) (err error) {
-	cwd, err := os.Getwd()
-	if err != nil {
-		logs.WarnContextf(ctx,"[InitConfig] Failed to get current working directory: %v", err)
-		cwd = os.Getenv("PWD")
-	}
-
-	basePath := path.Join(cwd, "resources", "conf", "plugin")
+	basePath := path.Join(fileutil.GetAppRoot(), "conf", "plugin")
 
 	err = loadPluginProductMeta(ctx, basePath)
 	if err != nil {

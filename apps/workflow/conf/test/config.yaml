@@ -28,7 +28,7 @@ workflow:
     number_of_replicas: "1"
   storage:
     type: minio
-    upload_http_scheme: https
+    upload_http_scheme: http
     bucket: opencoze-test
     minio:
       ak: "${MINIO_AK}"

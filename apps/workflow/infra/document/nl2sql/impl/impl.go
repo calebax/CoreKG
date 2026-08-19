@@ -33,7 +33,7 @@ func New(ctx context.Context) (nl2sql.NL2SQL, error) {
 		return nil, err
 	}
 
-	filePath := filepath.Join(fileutil.GetWorkingDirectory(), "resources/conf/prompt/nl2sql_template_jinja2.json")
+	filePath := filepath.Join(fileutil.GetAppRoot(), "conf/prompt/nl2sql_template_jinja2.json")
 	n2sTemplate, err := fileutil.ReadJinja2PromptTemplate(filePath)
 	if err != nil {
 		return nil, err
