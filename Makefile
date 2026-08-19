@@ -1,5 +1,6 @@
 PRJ := corekg
-APP ?= roc
+# APP 没有可用的默认值：历史默认 'roc' 已不存在。必须显式传入，如 make local APP=keapi。
+APP ?=
 ENV ?= test
 PKGDIR := github.com/insmtx/corekg
 
@@ -54,13 +55,17 @@ ver:
 image-tag:
 	@echo ${IMAGE_TAG}
 
-run: local
+# 需要具体应用名（APP）的目标统一走此检查，避免沿用已删除的默认值导致失败。
+check-app:
+	@test -n "$(APP)" || (echo "请显式传入 APP=，例如: make local APP=keapi"; exit 1)
+
+run: check-app local
 	./bundles/$(APP) -c ${CONFIG_PATH}
 
-local:
+local: check-app
 	$(GO) build -ldflags="$(LD_FLAGS)" -v -o bundles/$(APP) ./apps/${APP}/cmd/
 
-linux:
+linux: check-app
 	GOOS=linux GOARCH=$(GOARCH) $(GO) build -ldflags="$(LD_FLAGS)" -v -o bundles/$(APP)-linux ./apps/${APP}/cmd/
 
 puppyui-windows:
@@ -78,7 +83,7 @@ test-indocker:
 	-w /go/src/${PKGDIR} \
 	golang:1.24 make test
 
-generate-docs:
+generate-docs: check-app
 	-which swag || go install github.com/swaggo/swag/cmd/swag@latest
 	-swag i --parseDependency --parseInternal -g app.go --output ./apps/${APP}/internal/docs --dir ./apps/${APP} --outputTypes=go --instanceName ${APP}
 
@@ -91,7 +96,7 @@ COMMA := ,
 MULTI_ARCH := $(findstring $(COMMA),$(BUILD_PLATFORMS))
 BUILDER ?= default
 
-build-base-image:
+build-base-image: check-app
 ifeq ($(MULTI_ARCH),)
 	docker build --platform ${TARGET_PLATFORM} -f ./apps/${APP}/script/Dockerfile.base -t ${BASE_IMAGE} .
 else
@@ -103,7 +108,7 @@ else
 		--push .
 endif
 
-build-image:
+build-image: check-app
 ifeq ($(MULTI_ARCH),)
 	docker build \
 		--platform ${TARGET_PLATFORM} \
@@ -129,10 +134,10 @@ push-image: build-image push-image-exist
 push-image-exist:
 	docker push ${IMAGE}
 
-linux-client:
+linux-client: check-app
 	GOOS=linux GOARCH=amd64 go build -ldflags="$(LD_FLAGS)" -v -o bundles/${APP}-linux ./clients/${APP}
 	
-release-windows:
+release-windows: check-app
 	mkdir -p ./bundles/${APP_VERSION}/
 	GOOS=windows GOARCH=386 go build -ldflags="$(LD_FLAGS)" -v -o bundles/${APP_VERSION}/main.exe ./cmds/${APP}
 	cd bundles/${APP_VERSION} && zip dist_windows.zip main.exe
@@ -145,3 +150,9 @@ dev-mysql:
 
 dev-es:
 	docker compose up -d elasticsearch
+
+# Pipeline（apps/pipeline）是独立的 Python 构建体系，逻辑与根 Makefile 不兼容，
+# 故不合并，仅在此提供统一委派入口：make pipeline-<target> 转交 apps/pipeline/Makefile。
+# 用法：make pipeline-build MODULE=graphrag APP=chunker
+pipeline-%:
+	$(MAKE) -C apps/pipeline $(patsubst pipeline-%,%,$@)
