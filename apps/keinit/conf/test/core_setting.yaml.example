@@ -104,3 +104,29 @@
   describe: dev 环境下 account 等服务实际读取的 Redis 连接配置
   value_type: yaml
   value: "addr: localhost:6381\r\npassword: \"\"\r\ndb: 1"
+
+# --- workflow（coze）与 CoreKG 互相访问所需的内网地址配置 ---
+# 缺失会导致 workflow 的 requestyygu 客户端做 space_sync / 公司信息解析时报
+# "failed to get core kg url"（record not found）。corekg_url 指向 CoreKG 聚合服务，
+# coze_url 指向 workflow 应用自身。本地默认值见 apps/corekg/conf/test/config.yaml。
+- group: corekg
+  key: corekg_url
+  name: CoreKG 服务地址
+  describe: workflow 内部调用 CoreKG 聚合服务的 BaseURL
+  value_type: text
+  value: "http://localhost:8080"
+
+- group: corekg
+  key: coze_url
+  name: Workflow 服务地址
+  describe: CoreKG 反向调用 workflow 服务的 BaseURL
+  value_type: text
+  value: "http://localhost:8888"
+
+# --- 搜索高亮配置（缺失会导致 corekg 启动时 InitHighLightConfig FATAL）---
+- group: knowledge
+  key: highlight
+  name: 搜索高亮配置
+  describe: 搜索高亮前缀后缀
+  value_type: yaml
+  value: "highlight_prefix: '<span style=\"color: #3D7FFF; font-weight: 500;\">'\nhighlight_suffix: '</span>'"
