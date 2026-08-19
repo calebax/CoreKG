@@ -19,11 +19,15 @@ import { GlobalLayout, useAppInit } from '@coze-foundation/global-adapter';
 import { useBrandingFavicon } from './hooks/useBrandingFavicon';
 import { useIframeSync } from './hooks/useHostSync';
 
-export const Layout = () => {
-  const { isReady } = useIframeSync();
-
+const InitializedLayout = () => {
   useBrandingFavicon();
   useAppInit();
+
+  return <GlobalLayout />;
+};
+
+export const Layout = () => {
+  const { isReady } = useIframeSync();
 
   const hasCachedToken = !!localStorage.getItem('coze_token');
 
@@ -35,5 +39,5 @@ export const Layout = () => {
     );
   }
 
-  return <GlobalLayout key={isReady ? 'ready' : 'loading'} />;
+  return <InitializedLayout />;
 };

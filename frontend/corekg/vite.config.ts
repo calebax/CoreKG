@@ -3,11 +3,15 @@ import react from '@vitejs/plugin-react-swc'
 import { fileURLToPath, URL } from 'node:url'
 import { visualizer } from 'rollup-plugin-visualizer'
 import AutoImport from 'unplugin-auto-import/vite'
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import svgr from 'vite-plugin-svgr'
 
 // https://vite.dev/config/
 export default defineConfig((options) => {
+  const env = loadEnv(options.mode, process.cwd(), '')
+  const apiProxyTarget = env.VITE_API_URL || 'http://localhost:8080'
+  const workflowProxyTarget =
+    env.VITE_WORKFLOW_URL || 'http://localhost:8088'
   const rollupPlugins = []
   if (options.mode === 'test') {
     // test build时 增加一个分析插件
@@ -73,25 +77,25 @@ export default defineConfig((options) => {
       host: '127.0.0.1',
       proxy: {
         '/v2': {
-          target: 'https://tapi.example.com',
+          target: apiProxyTarget,
           changeOrigin: true,
         },
         '/v3': {
-          target: 'https://tapi.example.com',
+          target: apiProxyTarget,
           changeOrigin: true,
         },
         // Coze 本地服务（默认 8088），勿把具体 space 路径写进 target
         '/coze': {
-          target: 'http://localhost:8088',
+          target: workflowProxyTarget,
           changeOrigin: true,
         },
         // Coze 构建产物使用根路径绝对引用，iframe 嵌入时需转发到 Coze 服务
         '^/vendors-.*\\.js$': {
-          target: 'http://localhost:8088',
+          target: workflowProxyTarget,
           changeOrigin: true,
         },
         '^/index~\\d+\\.js$': {
-          target: 'http://localhost:8088',
+          target: workflowProxyTarget,
           changeOrigin: true,
         },
       },

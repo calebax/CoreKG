@@ -22,7 +22,7 @@ const AgentResources: FC = () => {
   const subjectId = currentOrg?.subjectId ?? ''
   // 本地开发：iframe 直连 Coze 服务，避免经 Vite 代理时静态资源路径错乱
   const cozeOrigin = import.meta.env.DEV
-    ? import.meta.env.VITE_COZE_DEV_URL || 'http://localhost:8088'
+    ? import.meta.env.VITE_WORKFLOW_URL || 'http://localhost:8088'
     : window.location.origin
   const iframeUrl = subjectId
     ? `${cozeOrigin}/coze/space/${subjectId}/develop`
@@ -129,6 +129,7 @@ const AgentResources: FC = () => {
         <iframe
           ref={iframeRef}
           src={iframeUrl}
+          onLoad={syncDataToChild}
           title='Resources Library'
           className='w-full flex-1 border-0'
           sandbox='allow-scripts allow-same-origin allow-forms allow-popups'
