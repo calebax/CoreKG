@@ -1,11 +1,19 @@
 # core_setting.yaml 样例：CoreKG 系统设置项（core_settings 表）。
 # 由 keinit 的 update-setting / init-mysql 通过 --setting-file 读取并 upsert 到 core_settings 表。
 # 用法：cp core_setting.yaml.example core_setting.yaml；按需修改占位值（change-me）。
+#
+# 本文件按 group（分类）就近放置：core / knowledge / ketask / account / corekg。
+# 模型相关配置统一共用一套 LLM 网关与 api_key（见「模型配置」小节），
+# embedding / rerank 因属向量与重排服务，保留各自端点模型名。
+#
 # 默认连接信息与 docker-compose.yml 的本地默认值一致：
 #   Redis localhost:6381；ES elastic/123456@localhost:9202；MinIO minioadmin/123456@localhost:9002；
 #   Nebula root/123456@localhost:9669；MySQL root/123456@localhost:3308。
 # 密钥类占位值均为本地开发默认值，与 docker-compose.yml 保持一致，请勿用于生产。
 
+# ==================== core ====================
+
+# --- Redis ---
 - group: core
   key: redis
   name: Redis
@@ -13,54 +21,20 @@
   value_type: yaml
   value: "addr: localhost:6381\r\npassword: \"\"\r\ndb: 1"
 
-- group: knowledge
-  key: redis
-  name: Redis
-  describe: 知识库 Redis 配置
+- group: core
+  key: loc_redis
+  name: Redis（开发环境）
+  describe: dev 环境下 account 等服务实际读取的 Redis 连接配置
   value_type: yaml
-  value: "addr: localhost:6381\r\npassword: \"\"\r\ndb: 4\r\n"
+  value: "addr: localhost:6381\r\npassword: \"\"\r\ndb: 1"
 
+# --- 对象存储（MinIO）---
 - group: core
   key: cos-ke
   name: 知识存储
   describe: 知识库文件对象存储（MinIO）配置
   value_type: yaml
   value: "purpose: forest-file\r\npresigned_timeout: \"24h\"\r\ns3:\r\n  end_point: http://localhost:9002\r\n  access_key_id: minioadmin\r\n  secret_access_key: minio123456\r\n  region: minio\r\n  bucket: corekg-bucket\r\n  use_path_style: true\r\n\r\n"
-
-- group: knowledge
-  key: es
-  name: ES 配置
-  describe: Elasticsearch 连接配置
-  value_type: yaml
-  value: "addresses:\r\n  - http://localhost:9202\r\nusername: elastic\r\npassword: 123456\r\nmax_retries: 3\r\nslow_threshold: 3s"
-
-- group: knowledge
-  key: llm_image_parse
-  name: LLM 多模态解析
-  describe: 多模态（视觉）模型配置，用于图片/文件解析
-  value_type: yaml
-  value: "api_key: change-me\r\nbase_url: https://change-me/v1/chat/completions\r\nmodel_name: \"qwen2.5-vl-72b-instruct\""
-
-- group: knowledge
-  key: nebula
-  name: 图数据库配置
-  describe: Nebula Graph 连接配置
-  value_type: yaml
-  value: "address: \"localhost\"\r\nport: 9669\r\nusername: \"root\"\r\npassword: \"123456\"\r\nprefix: \"know\""
-
-- group: knowledge
-  key: embedding
-  name: Embedding 模型配置
-  describe: 向量化模型配置
-  value_type: yaml
-  value: "url: https://change-me/v1/embeddings\r\nkey: \"change-me\"\r\nmodel_name: \"embedding\""
-
-- group: knowledge
-  key: convert_pdf
-  name: 文件转 PDF
-  describe: 文件格式转换服务配置
-  value_type: yaml
-  value: "default:\n  url: \"http://change-me/forms/libreoffice/convert\"\n  api_key: \"\"\n  file_field: \"files\"\n  response_is_file: true\n  file_url_field: \"\"\nofd:\n  url: \"http://change-me/forms/ofd/convert\"\n  api_key: \"\"\n  file_field: \"file\"\n  response_is_file: false\n  file_url_field: \"response.pdf_url\""
 
 - group: core
   key: cos-cu-image
@@ -76,6 +50,46 @@
   value_type: yaml
   value: "purpose: yg-chat\r\npresigned_timeout: \"24h\"\r\ns3:\r\n  end_point: http://localhost:9002\r\n  access_key_id: minioadmin\r\n  secret_access_key: minio123456\r\n  region: minio\r\n  bucket: corekg-bucket\r\n  use_path_style: true\r\n\r\n"
 
+# --- 站点信息 ---
+- group: core
+  key: website-info
+  name: 站点信息
+  describe: 官网站点 logo / 名称，可由 account 接口写入
+  value_type: yaml
+  value: "website_logo: \"\"\r\nwebsite_name: \"\""
+
+# ==================== knowledge ====================
+
+# --- Redis ---
+- group: knowledge
+  key: redis
+  name: Redis
+  describe: 知识库 Redis 配置
+  value_type: yaml
+  value: "addr: localhost:6381\r\npassword: \"\"\r\ndb: 4\r\n"
+
+- group: knowledge
+  key: loc_redis
+  name: Redis（开发环境）
+  describe: dev 环境下 kechat/kecore/keapi 实际读取的 Redis 连接配置
+  value_type: yaml
+  value: "addr: localhost:6381\r\npassword: \"\"\r\ndb: 4"
+
+# --- 索引 / 存储 ---
+- group: knowledge
+  key: es
+  name: ES 配置
+  describe: Elasticsearch 连接配置
+  value_type: yaml
+  value: "addresses:\r\n  - http://localhost:9202\r\nusername: elastic\r\npassword: 123456\r\nmax_retries: 3\r\nslow_threshold: 3s"
+
+- group: knowledge
+  key: nebula
+  name: 图数据库配置
+  describe: Nebula Graph 连接配置
+  value_type: yaml
+  value: "address: \"localhost\"\r\nport: 9669\r\nusername: \"root\"\r\npassword: \"123456\"\r\nprefix: \"know\""
+
 - group: knowledge
   key: mysql_excel_instance
   name: Excel 问答 MySQL 实例
@@ -83,7 +97,109 @@
   value_type: yaml
   value: "host: localhost\r\nport: 3308\r\nusername: root\r\npassword: 123456\r\ncharset: utf8mb4\r\n"
 
-# --- 账号登录必需的系统设置（缺失会导致 account 登录接口报错/无法启动）---
+# --- 模型配置（共用同一网关与 api_key）---
+# 所有 LLM 类模型共用同一接入点与 api_key（model_name 可按用途各保留一个）；
+# embedding / rerank 因属向量/重排服务，保留各自端点与模型名。
+- group: knowledge
+  key: llm_image_parse
+  name: LLM 多模态解析
+  describe: 多模态（视觉）模型配置，用于图片/文件解析
+  value_type: yaml
+  value: "api_key: change-me\r\nbase_url: https://change-me/v1/chat/completions\r\nmodel_name: \"qwen2.5-vl-72b-instruct\""
+
+- group: knowledge
+  key: system_llm_api_key
+  name: 系统 LLM API Key
+  describe: 内部 agent / chat 使用的系统 LLM 调用 API Key（与 LLM 类模型共用同一 key）
+  value_type: text
+  value: "change-me"
+
+- group: knowledge
+  key: embedding
+  name: Embedding 模型配置
+  describe: 向量化模型配置
+  value_type: yaml
+  value: "url: https://change-me/v1/embeddings\r\nkey: \"change-me\"\r\nmodel_name: \"Qwen3-Embedding-0.6B\""
+
+- group: knowledge
+  key: rerank
+  name: Rerank 模型配置
+  describe: 结果重排模型服务配置
+  value_type: yaml
+  value: "url: https://change-me/v1/chat/completions\r\nkey: \"change-me\"\r\nmodel_name: \"bge-reranker-v2-m3\""
+
+# --- 文件转换 ---
+- group: knowledge
+  key: convert_pdf
+  name: 文件转 PDF
+  describe: 文件格式转换服务配置
+  value_type: yaml
+  value: "default:\n  url: \"http://change-me/forms/libreoffice/convert\"\n  api_key: \"\"\n  file_field: \"files\"\n  response_is_file: true\n  file_url_field: \"\"\nofd:\n  url: \"http://change-me/forms/ofd/convert\"\n  api_key: \"\"\n  file_field: \"file\"\n  response_is_file: false\n  file_url_field: \"response.pdf_url\""
+
+- group: knowledge
+  key: convert_to_pdf
+  name: 文件转 PDF（副本）
+  describe: convert_to_pdf：文件格式转换服务配置（decoupler 场景）
+  value_type: yaml
+  value: "default:\n  url: \"http://change-me/forms/libreoffice/convert\"\n  api_key: \"\"\n  file_field: \"files\"\n  response_is_file: true\n  file_url_field: \"\"\nofd:\n  url: \"http://change-me/forms/ofd/convert\"\n  api_key: \"\"\n  file_field: \"file\"\n  response_is_file: false\n  file_url_field: \"response.pdf_url\""
+
+# --- 搜索高亮 ---
+- group: knowledge
+  key: highlight
+  name: 搜索高亮配置
+  describe: 搜索高亮前缀后缀
+  value_type: yaml
+  value: "highlight_prefix: '<span style=\"color: #3D7FFF; font-weight: 500;\">'\nhighlight_suffix: '</span>'"
+
+# --- 检索参数 ---
+- group: knowledge
+  key: reranksearchcfg
+  name: Rerank 检索参数配置
+  describe: reranksearchcfg：chunk 权重 / 阈值 / topk 等检索参数
+  value_type: yaml
+  value: "description_weight: 1\r\nembedding_weight: 1\r\nenabel_abstract: true\r\nenable_rerank: false\r\ntopn: 10\r\ntopm: 20\r\ntopk: 10\r\nneighbor_size: 3\r\nrerank_threshold: 0.1\r\nfetch_factor: 3\r\nfall_back_to_topk: true"
+
+- group: knowledge
+  key: graphsearchcfg
+  name: 图谱检索参数配置
+  describe: graphsearchcfg：图检索相关参数
+  value_type: yaml
+  value: "description_weight: 1\r\nembedding_weight: 1\r\nenabel_abstract: true\r\nenable_rerank: false\r\ntopn: 10\r\ntopm: 20\r\ntopk: 10\r\nneighbor_size: 3\r\nrerank_threshold: 0.1\r\nfetch_factor: 3\r\nfall_back_to_topk: true"
+
+# --- 部署 / 定时任务 ---
+- group: knowledge
+  key: deploy
+  name: 部署模式
+  describe: 部署模式标识（部署链路读取）
+  value_type: text
+  value: ""
+
+- group: knowledge
+  key: mysql_corn_expression
+  name: MySQL 定时任务表达式
+  describe: kecore jobs 读取的定时任务 cron 表达式
+  value_type: text
+  value: ""
+
+- group: knowledge
+  key: notify_expiring_quotas_corn_expression
+  name: 配额到期通知定时表达式
+  describe: 配额到期通知任务 cron 表达式
+  value_type: text
+  value: ""
+
+# ==================== ketask ====================
+
+- group: ketask
+  key: redis
+  name: Redis
+  describe: ketask 使用的 Redis 配置
+  value_type: yaml
+  value: "addr: localhost:6381\r\npassword: \"\"\r\ndb: 1"
+
+# ==================== account ====================
+
+# --- 登录 ---
 - group: account
   key: max_login_try
   name: 最大登录失败次数
@@ -98,14 +214,24 @@
   value_type: yaml
   value: "providers: []"
 
-- group: core
-  key: loc_redis
-  name: Redis（开发环境）
-  describe: dev 环境下 account 等服务实际读取的 Redis 连接配置
+- group: account
+  key: wechat_web_oauth
+  name: 微信网页登录
+  describe: 微信网页授权登录配置（appid/appsecret）
   value_type: yaml
-  value: "addr: localhost:6381\r\npassword: \"\"\r\ndb: 1"
+  value: "appid: change-me\r\nappsecret: change-me"
 
-# --- workflow（coze）与 CoreKG 互相访问所需的内网地址配置 ---
+# --- 安全 / 加密 ---
+- group: account
+  key: aeskey
+  name: 账号加密密钥
+  describe: account 敏感字段加密 AesKey
+  value_type: secret
+  value: "change-me"
+
+# ==================== corekg ====================
+
+# --- 内网互访地址 ---
 # 缺失会导致 workflow 的 requestyygu 客户端做 space_sync / 公司信息解析时报
 # "failed to get core kg url"（record not found）。corekg_url 指向 CoreKG 聚合服务，
 # coze_url 指向 workflow 应用自身。本地默认值见 apps/corekg/conf/test/config.yaml。
@@ -123,10 +249,46 @@
   value_type: text
   value: "http://localhost:8888"
 
-# --- 搜索高亮配置（缺失会导致 corekg 启动时 InitHighLightConfig FATAL）---
-- group: knowledge
-  key: highlight
-  name: 搜索高亮配置
-  describe: 搜索高亮前缀后缀
+# --- Agent / 运营服务 ---
+- group: corekg
+  key: agentenv
+  name: agent依赖服务
+  describe: ReactAgent 执行环境：sandbox（Code 工具）与 mcp.chart（图表 MCP 服务）
   value_type: yaml
-  value: "highlight_prefix: '<span style=\"color: #3D7FFF; font-weight: 500;\">'\nhighlight_suffix: '</span>'"
+  value: "sandbox:\n  # 沙箱模式，可选值：auto, remote_http, local_command\n  mode: remote_http\n  http_base_url: https://change-me\n  http_token: change-me\n  timeout: 120\n\nmcp:\n  chart:\n    # streamable（推荐）, sse\n    mode: streamable\n    url: https://change-me/mcp\n"
+
+- group: corekg
+  key: baidu_bce_api_key
+  name: 百度搜索 API Key
+  describe: 百度网页搜索工具使用的 API Key
+  value_type: text
+  value: "change-me"
+
+- group: corekg
+  key: yg_api_analysis_file
+  name: 文件分析服务
+  describe: 附件解析服务配置（url/token）
+  value_type: yaml
+  value: "url: \"http://change-me/analyze\"\r\ntoken: \"change-me\""
+
+- group: corekg
+  key: core_file_convert
+  name: 文件转换服务
+  describe: 文件格式转换服务（fileconvert）
+  value_type: yaml
+  value: "url_prefix: \"http://change-me\""
+
+# --- 授权 / 业务 ---
+- group: corekg
+  key: raw_license
+  name: License
+  describe: CoreKG 授权 License 原文
+  value_type: yaml
+  value: "{}"
+
+- group: corekg
+  key: llm_role_name
+  name: 问答角色名
+  describe: 问答 / Agent 场景使用的角色名
+  value_type: text
+  value: "AI 助手"

@@ -77,18 +77,20 @@ kechat 的 excel 问答有三条落地路径，settings 配置不同：
   调用独立 sandbox 服务 `POST /run`）。
 - 图表输出落库到 `chat_type.ChatChart`（`saveChartFunc`）。
 
-`corekg/agentenv` 配置样例：
+`corekg/agentenv` 配置样例（结构以 `apps/keinit/conf/test/core_setting.yaml.example` 为准）：
 
 ```yaml
 sandbox:
-  mode: local_command        # 或 remote_http
+  # 沙箱模式，可选值：auto, remote_http, local_command
+  mode: remote_http        # 或 local_command（即地执行）
+  http_base_url: https://change-me
+  http_token: change-me
   timeout: 120
-  http_base_url: "http://change-me/run"
-  http_token: ""
 mcp:
   chart:
-    mode: streamable | sse
-    url: "http://change-me/mcp"
+    # streamable（推荐）, sse
+    mode: streamable
+    url: https://change-me/mcp
 ```
 
 **部署含义**：启用 Chart 工具时，需要独立部署/连通 **EChart MCP Server** 与
@@ -126,7 +128,8 @@ mcp:
 | `corekg/raw_license` | License | corekg licensectl |
 | `corekg/llm_role_name` | Agent/问答角色名 | kechat/einotools |
 | `core/website-info` | 站点信息 | account |
-| `account/aeskey`、`employee_jwt`、`wechat_web_oauth` | 账号/加密/JWT | account |
+| `account/aeskey` | 账号敏感字段加密 AesKey | account（开源版保留占位） |
+| `account/employee_jwt`、`wechat_web_oauth`（管理员后台/企微登录） | 账号/加密/JWT | account（仅需管理后台时启用，开源版种子已移除，如需要可自行补回） |
 | `chat/llm`、`knownow/llm_image_parse`、`knowledge/llm_image_parse` | LLM/多模态 | 各链 |
 
 涵盖的完整配置样例以 `apps/keinit/conf/test/core_setting.yaml.example` 为准。
@@ -135,28 +138,85 @@ mcp:
 
 keinit 的种子来源有两处：`core_setting.yaml(.example)` 与
 `scripts/mysql/v1.0_3__insert_setting.sql`（历史 SQL）。两者并集后，仍有以下
-代码会读取但**未在种子中**的 Key（按部署影响分两类）：
+代码会读取但**种子中曾有缺失**的 Key（按部署影响分两类）。**以下 §6.1 / §6.2
+的 Key 已全部补进 `apps/keinit/conf/test/core_setting.yaml(.example)`。**
 
-### 6.1 部署必需，建议补进种子
+### 6.1 部署必需（已补齐）
 
-| group/key | 缺失影响 |
+| group/key | 说明 |
 |---|---|
-| `knowledge/system_llm_api_key` | 内部 agent/chat 无法拿到系统 LLM key |
-| `knowledge/mysql_excel_instance_readonly` | excel 问答只读连接缺失 |
-| `knowledge/rerank`、`reranksearchcfg`、`graphsearchcfg` | 重排/图谱检索不生效 |
-| `knowledge/convert_to_pdf` | 部分文件转换路径配置缺失 |
-| `knowledge/deploy` | 部署模式判断默认空值 |
-| `knowledge/mysql_corn_expression`、`notify_expiring_quotas_corn_expression` | 定时任务表达式默认缺失 |
-| `corekg/agentenv` | ReactAgent 的 sandbox / **mcp.chart** 端点未配置 |
-| `corekg/baidu_bce_api_key` | 搜索 Tool 无 key |
+| `knowledge/system_llm_api_key` | 内部 agent/chat 系统 LLM key |
+| `knowledge/rerank`、`reranksearchcfg`、`graphsearchcfg` | 重排/图谱检索配置 |
+| `knowledge/convert_to_pdf` | 文件转换配置（decoupler 场景） |
+| `knowledge/deploy` | 部署模式标识 |
+| `knowledge/mysql_corn_expression`、`notify_expiring_quotas_corn_expression` | 定时任务表达式 |
+| `corekg/agentenv` | ReactAgent sandbox + **mcp.chart**（EChart MCP 端点） |
+| `corekg/baidu_bce_api_key` | 搜索 Tool API Key |
 
-### 6.2 建议预留（多为运行期由运营/接口写入）
+### 6.2 建议预留（已补齐，多为运行期由运营/接口写入）
 
-`corekg/raw_license`、`corekg/official_*wechat_webhook_url`、
-`corekg/yg_api_analysis_file`、`corekg/core_file_convert`、
-`corekg/llm_role_name`、`core/website-info`、`core/proxy_url`、
-`account/aeskey`、`account/employee_jwt`、`account/wechat_web_oauth`。
+`corekg/raw_license`、`corekg/yg_api_analysis_file`、`corekg/core_file_convert`、
+`corekg/llm_role_name`、`core/website-info`、`account/aeskey`。
 
-> 结论：keinit 的 `core_setting.yaml(.example)` **不完整**——它与历史 SQL
-> 并集后仍缺若干代码实际读取的 Key。其中直接卡功能的（§6.1）应补进种子；
-> 运行期才下发的（§6.2）可随初始化或对应管理接口写入。
+> 注：开源版按运行需要，以下管理/企业级 Key **已从种子移除（不再在
+> `core_setting.yaml(.example)` 中）**：`account/employee_jwt`、`account/wechat_web_oauth`、
+> `corekg/official_website_wechat_webhook_url`、`corekg/official_dotpen_website_wechat_webhook_url`；
+> 需要对应功能时自行补回即可。
+
+### 6.3 ⚠️ 勿用「TRUNCATE + 仅 update-setting」重置（会丢非 yaml 设置）
+
+`core_settings` 表有两个种子来源（上文 §6 开头）：`core_setting.yaml(.example)`
+与 `scripts/mysql/v1.0_3__insert_setting.sql`。**`core_setting.yaml` 并不包含全部
+框架/agent 设置**，以下 Key 只由 SQL 迁移种子化，不在 yaml 里：
+
+| group/key | 说明 | 缺失影响 |
+|---|---|---|
+| `core/jwt-yygu` | 登录 JWT 签名密钥（`auth.GetJwtSetting("yygu")`） | **登录接口报 `获取登录设置失败` / code 500** |
+| `chat/llm`、`knownow/llm_image_parse` | 聊天/视觉 LLM（旧 group，不同于 `knowledge/llm_image_parse`） | 对应链路缺 LLM 配置 |
+| `knowledge/forest_prompt` | 知识库问答 prompt | 问答缺默认 prompt |
+| `knowledge/agent_es_chat`、`agent_intention_recognition`、`agent_subquestion_chat` | es 问答/意图识别/子问题 agent | agent 链路缺配置 |
+| `knowledge/nebulacount`、`preset_forest`、`system_config` | 图谱数量/预置知识库/全局配置 | 对应功能缺默认值 |
+
+**正确做法**：不要只 `TRUNCATE` 后重跑 `update-setting`。需要重置时：
+1. 重跑 keinit **完整初始化**，或
+2. `TRUNCATE core_settings` 后，除 `update-setting` 外，**额外补回上述 key**
+   （参考 `scripts/mysql/v1.0_3__insert_setting.sql` 里的 INSERT 值），否则
+   登录等依赖框架 JWT 的链路会失效。
+
+> 更新状态：`core_setting.yaml(.example)` 按 group 分组整理，模型类设置共用同一
+> LLM 网关与 api_key（embedding / rerank 保留各自向量/重排端点），两个文件均通过
+> `gopkg.in/yaml.v3` 解析校验（各 36 项、无重复 group/key）。其中地址/密钥占位为
+> `change-me`/空，需按环境替换后执行 `keinit ... update-setting` 下发；运行期才下发的
+> （§6.2）可保留默认值或由管理接口写入。
+> 另：`knowledge/mysql_excel_instance_readonly` 与 `core/proxy_url` 已确认不再使用
+> （分别对应 Excel 问答旧链路 `excel_chat.go`、已不活跃的 OAuth 代理），已从种子移除。
+
+---
+
+## 7. 配置主源结论：以 `core_settings` 为准
+
+> 现状是出现了**双来源**（`core_settings` 表与各 app `config.yaml`），且二者 key 名
+> 或语义重叠，易混乱。以下为对各配置域的**实际消费点核对结论**。唯一主源是
+> **`core_settings` 表**（由 keinit 通过 `core_setting.yaml` 下发）。
+
+### 7.1 各配置域「以什么为准」
+
+| 配置域 | 唯一主源 | 说明 / config.yaml 里的对应块 |
+|---|---|---|
+| **Redis** | settings：`knowledge/redis`（corekg/kesearch/kechat/kecore/keapi）、`core/redis`（account/admin）、`ketask/redis`（ketask）、dev 用 `knowledge/loc_redis`/`core/loc_redis` | config.yaml 顶层 `redis:` **无 Go 消费**（yg-go `MainConfig` 只解析 `main:`/`logger:`）；只有 `workflow:` 块内嵌套 redis 属于 workflow 自身 |
+| **JWT** | settings：`core/jwt-<issuer>`（框架 `auth.GetJwtSecret`）、`account/employee_jwt`（员工/管理后台登录，开源版种子未下发）、`core/jwt-yyguadmin` | config.yaml `account.jwt_secret/plt_jwt_secret/jwt_expire` **全仓库无解析**（死配置） |
+| **对象存储** | settings：`core/cos-ke`、`core/cos-<purpose>`（知识库文件，kecore/account） | config.yaml `workflow.storage` 是 workflow 独立存储，作用域不同、非冲突；若共用同一 MinIO 才存在"同一凭据两处配" |
+| **ES / LLM / Embedding / 图 / 转换** | settings（`knowledge/es`、`embedding`、`llm_image_parse`、`nebula`、`convert_pdf` 等） | 相关 config.yaml 块无消费 |
+| **其它（wecom/notify/tencent_cloud/local_storage/zmrobot）** | — | config.yaml 顶层这些块**全仓库无 yaml tag 解析**（死配置） |
+
+### 7.2 唯一有消费的 config.yaml 块
+- `main:` — yg-go `MainConfig`（app/http/database_conns/env）。
+- `logger:` — yg-go 日志。
+- `workflow:` — corekg 通过 `wfconf.AppConfig` 对**同一文件二次解析**（corekg/cmd/init.go `loadWorkflowConfig`），只消费 workflow 嵌套的 redis/es/storage/mq 等。
+
+### 7.3 清理方向（以 core_settings 为主源）
+1. **删除/注明**各 app config.yaml 顶层 `redis:`、`account:`、`wecom:`、`notify:`、
+   `tencent_cloud:`、`local_storage:`、`zmrobot:` 等死/冗余块；
+   **保留** `main:`、`logger:`、`workflow:`。
+2. Redis/JWT/存储统一只维护 settings；补充种子缺口：`ketask/redis`、dev 档 `knowledge/loc_redis`。
+3. 重新初始化流程：停服务 → 删除数据库 → 重跑 keinit 全量初始化 → 验证接口。

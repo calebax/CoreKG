@@ -75,7 +75,18 @@ default.url = <your-pdf-convert-host>/forms/libreoffice/convert
 ofd.url     = <your-pdf-convert-host>/forms/libreoffice/convert
 ```
 
-### 6. JWT 密钥（随机定义）
+### 6. Agent 依赖服务（sandbox + 图表 MCP）
+`core_setting.yaml` → `corekg/agentenv`：
+```
+sandbox.mode          = remote_http | local_command | auto
+sandbox.http_base_url = <your-sandbox-host>
+sandbox.http_token    = <your-sandbox-token>
+mcp.chart.mode        = streamable | sse
+mcp.chart.url         = <your-chart-mcp-host>/mcp
+```
+> 对应 `docs/settings-deployment-dependency.md` §4.1；未配置时图表工具不注册，excel 问答仍可运行但无图。
+
+### 7. JWT 密钥（随机定义）
 `apps/corekg/conf/test/config.yaml`（已脱敏，本地生成后写入，勿提交以下示例值）：
 ```
 jwt_secret: <your-random-jwt-secret>
@@ -86,7 +97,7 @@ plt_jwt_secret: <your-random-plt-jwt-secret>
 openssl rand -base64 32 | tr -d '/+=' | head -c 24
 ```
 
-### 7. 未填（本次无需 / 生产环境再注入）
+### 8. 未填（本次无需 / 生产环境再注入）
 - 企微三应用密钥、腾讯云 SecretId/Key、SMTP 密码：`config.yaml` 中为历史生产凭据，本地无需启用；生产通过真实值替换。
 - `LICENSE`：本次未启用（`kinit.env` 占位 `0`）。
 
@@ -120,6 +131,13 @@ set -a; . apps/keinit/conf/test/kinit.env; . apps/keinit/conf/test/kinit.env.loc
     --setting-file apps/keinit/conf/test/core_setting.yaml \
     update-setting
 ```
+
+> ⚠️ **重置 core_settings 时勿用 `TRUNCATE` + 仅 `update-setting`**：`core_setting.yaml`
+> 不包含全部框架/agent 设置（如 `core/jwt-yygu` 登录 JWT 密钥、`chat/llm`、
+> `knowledge/forest_prompt`、`agent_*`、`nebulacount`、`preset_forest`、`system_config`，
+> 它们由 `scripts/mysql/v1.0_3__insert_setting.sql` 种子化）。截断后需按该 SQL 补回，
+> 否则登录等依赖框架 JWT 的链路会报 `获取登录设置失败`/code 500。
+> 完整重置请重跑§三完整初始化。详见 `docs/settings-deployment-dependency.md` §6.3。
 
 ---
 
