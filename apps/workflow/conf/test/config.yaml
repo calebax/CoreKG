@@ -3,8 +3,8 @@ main:
   http_addr: :8888
   env: test
   database_conns:
-    core: mysql://${COREKG_CORE_USER}:${COREKG_CORE_PASS}@${COREKG_CORE_HOST}:${COREKG_CORE_PORT}/${COREKG_CORE_DB}?charset=utf8mb4&parseTime=true&loc=Local
-    opencoze: mysql://${MYSQL_USER}:${MYSQL_PASS}@${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DB}?charset=utf8mb4&parseTime=True
+    core: mysql://corekg:123456@localhost:3308/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    opencoze: mysql://corekg:123456@localhost:3308/opencoze?charset=utf8mb4&parseTime=True
 
 workflow:
   log_level: debug
@@ -16,13 +16,13 @@ workflow:
     cert_file: ""
     key_file: ""
   redis:
-    addr: "${REDIS_ADDR}"
-    password: "${REDIS_PASSWORD}"
+    addr: localhost:6381
+    password: ""
     db: 0
   elasticsearch:
-    addr: "${ES_ADDR}"
-    username: "${ES_USERNAME}"
-    password: "${ES_PASSWORD}"
+    addr: http://localhost:9202
+    username: elastic
+    password: "123456"
     version: v8
     number_of_shards: "1"
     number_of_replicas: "1"
@@ -31,11 +31,11 @@ workflow:
     upload_http_scheme: http
     bucket: opencoze-test
     minio:
-      ak: "${MINIO_AK}"
-      sk: "${MINIO_SK}"
-      endpoint: "${MINIO_ENDPOINT}"
-      region: "${MINIO_REGION}"
-      api_host: "${MINIO_API_HOST}"
+      ak: minioadmin
+      sk: minio123456
+      endpoint: localhost:9002
+      region: us-east-1
+      api_host: localhost:9002
     tos:
       access_key: ""
       secret_key: ""
@@ -49,7 +49,7 @@ workflow:
       bucket_endpoint: ""
   mq:
     type: nats
-    name_server: "${NATS_URL}"
+    name_server: nats://localhost:4225
     nats:
       jwt_token: ""
       nkey_seed: ""

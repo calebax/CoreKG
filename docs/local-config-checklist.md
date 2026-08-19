@@ -29,7 +29,7 @@ docker compose up -d
 | Elasticsearch | localhost:9202 | `elastic` / `123456` |
 | Redis | localhost:6381 | 无密码 |
 | MinIO | localhost:9002 / 9003 | `minioadmin` / `minio123456` |
-| NATS | localhost:4224 | 无认证 |
+| NATS | localhost:4225 | 无认证 |
 
 ---
 

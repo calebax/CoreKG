@@ -119,7 +119,6 @@ clients/**/config/*.yml
 # 环境变量文件（前端 / TypeScript / Python 通用）
 .env
 .env.*
-!.env.example
 !.env.*.example
 !.env.default
 

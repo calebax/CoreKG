@@ -75,7 +75,7 @@ cp apps/keinit/conf/test/core_setting.yaml.example apps/keinit/conf/test/core_se
 make local APP=keinit ENV=test
 ./bundles/keinit -c apps/keinit/conf/test/config.yaml \
     --setting-file apps/keinit/conf/test/core_setting.yaml \
-    --env-file apps/keinit/conf/test/.env   # 可选：若需注入 LLM 模型/APIKEY 等变量
+    --env-file apps/keinit/conf/test/kinit.env   # 可选：若需注入 LLM 模型/APIKEY 等变量
 ```
 
 > `kechat` 等应用中的聊天模型（`chat_model`）与 `chat_agent` 种子数据依赖 `scripts/mysql` 的 SQL 脚本；其中 `@yg_*` 变量来自 `scripts/mysql/variable.sqltpl`（由 `--env-file` 或进程环境变量注入）。本地若暂时没有 LLM API Key，可先在 `variable.sqltpl` 对应 `@yg_llm_*` 填占位值并跳过模型连通性验证。
@@ -99,25 +99,23 @@ make local APP=keinit ENV=test
 - **前端**：`frontend/corekg/.env.development.example`、`.env.production.example`（API 地址指向对应后端应用映射端口）。
 - **TS worker**：`apps/worker/.env.example`。
 - **Python pipeline**：`apps/pipeline/config/*.yaml.example`。
-- **workflow 应用**：其 `config.yaml` 通过进程环境变量（`${VAR}`）读取连接信息。仓库根目录提供了一份可直接使用的 **[`.env.example`](../.env.example)**，覆盖其全部环境变量：
+- **workflow 应用**：其 `config.yaml`（`apps/workflow/conf/test/config.yaml`，以及聚合进 `apps/corekg/conf/test/config.yaml(.example)` 的 workflow 配置块）**不再依赖环境变量**，所有连接信息已收敛为与 `docker-compose.yml` 一致的**字面值**，直接运行即可：
 
   ```bash
-  cp .env.example .env
-  set -a; . .env; set +a
-  make run APP=workflow ENV=test
+  make run APP=workflow ENV=test          # 独立 workflow 服务
+  make run APP=corekg  ENV=test           # 聚合服务（进程内拉启 workflow）
   ```
 
-  workflow 用到的环境变量与默认值如下（端口/凭据已按本方案统一偏移 +2、密码 `123456`）：
+  各字段默认值如下（端口/凭据已按本方案统一偏移 +2、密码 `123456`；改动中间件时直接改这些字面值即可）：
 
-  | 变量 | 默认值 | 说明 |
+  | 配置字段（`workflow:` 下） | 字面值 | 说明 |
   |---|---|---|
-  | `COREKG_CORE_USER` / `COREKG_CORE_PASS` | `corekg` / `123456` | core 库账号 / 密码 |
-  | `COREKG_CORE_HOST` / `COREKG_CORE_PORT` / `COREKG_CORE_DB` | `localhost` / `3308` / `corekg` | core 库地址 / 端口 / 库名 |
-  | `MYSQL_USER` / `MYSQL_PASS` / `MYSQL_HOST` / `MYSQL_PORT` / `MYSQL_DB` | `corekg` / `123456` / `localhost` / `3308` / `opencoze` | opencoze 库连接 |
-  | `ES_ADDR` / `ES_USERNAME` / `ES_PASSWORD` | `http://localhost:9202` / `elastic` / `123456` | Elasticsearch |
-  | `REDIS_ADDR` / `REDIS_PASSWORD` | `localhost:6381` / 空 | Redis（无密码） |
-  | `MINIO_ENDPOINT` / `MINIO_AK` / `MINIO_SK` / `MINIO_REGION` / `MINIO_API_HOST` | `localhost:9002` / `minioadmin` / `minio123456` / `us-east-1` / `localhost:9002` | MinIO 对象存储（`*_HOST/ENDPOINT` 为**裸 host:port**，scheme 取自 `upload_http_scheme`） |
-  | `NATS_URL` | `nats://localhost:4225` | NATS 消息总线 |
+  | `main.database_conns.core` | `mysql://corekg:123456@localhost:3308/corekg` | core 库 DSN |
+  | `main.database_conns.opencoze` | `mysql://corekg:123456@localhost:3308/opencoze` | opencoze 库 DSN |
+  | `redis.addr` / `password` | `localhost:6381` / 空 | Redis（无密码） |
+  | `elasticsearch.addr` / `username` / `password` | `http://localhost:9202` / `elastic` / `123456` | Elasticsearch |
+  | `storage.minio.ak` / `sk` / `endpoint` / `region` / `api_host` | `minioadmin` / `minio123456` / `localhost:9002` / `us-east-1` / `localhost:9002` | MinIO 对象存储（`endpoint`/`api_host` 为**裸 host:port**，scheme 取自 `upload_http_scheme`） |
+  | `mq.name_server` | `nats://localhost:4225` | NATS 消息总线 |
 
 ## 7. 常见问题
 

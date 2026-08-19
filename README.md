@@ -60,7 +60,7 @@ docker compose up -d
 
 本地基础环境（含中间件端口/凭据、如何启动、各服务初始化）请见 **[docs/local-development.md](docs/local-development.md)**。关键约定如下：
 
-- **宿主机端口统一偏移（规避本机已占用）**：MySQL `3308`(:3306)、Redis `6381`(:6379)、ES `9202`(:9200)/`9302`(:9300)、MinIO `9002`(:9000)/`9003`(:9001)、NATS `4224`(:4222)。
+- **宿主机端口统一偏移（规避本机已占用）**：MySQL `3308`(:3306)、Redis `6381`(:6379)、ES `9202`(:9200)/`9302`(:9300)、MinIO `9002`(:9000)/`9003`(:9001)、NATS `4225`(:4222)。
 - **所有中间件明文密码统一为 `123456`**（本地开发默认值）。
 - 容器之间经服务名+容器内端口互连；宿主机进程（各 `make run` 启动的 Go 服务）经上述映射端口访问。
 - 首次启动会通过 `scripts/mysql-docker-init.sh` 额外创建 `opencoze` 库。
@@ -81,14 +81,14 @@ docker compose ps
 
 **NATS 是本项目唯一的消息中间件**：既承担知识库异步任务分发（`ketask`/`kecore`/`keapp` 的 JetStream 任务系统），也是 `workflow` 的事件总线（`workflow.mq.type: nats`）。无需额外部署 NSQ/Kafka/Pulsar/RocketMQ/RabbitMQ。
 
-启用 `workflow` 应用时，其 `config.yaml` 通过进程环境变量（`${VAR}`）读取连接信息。可准备一个 `.env` 并先 source 进当前 shell：
+启用 `workflow` 应用时，直接运行即可——`apps/workflow/conf/test/config.yaml` 及 `apps/corekg/conf/test/config.yaml(.example)` 中嵌入的 workflow 配置块已把连接信息收敛为与 `docker-compose.yml` 一致的**字面值**（本地端口 +2、密码一律 `123456`），不再依赖任何环境变量：
 
 ```bash
-cp .env.example .env
-# 按需修改连接信息
-set -a; . .env; set +a
-make run APP=workflow ENV=test
+# 依赖就绪：docker compose up -d
+make run APP=workflow ENV=test   # 或 make run APP=corekg ENV=test（聚合进程内拉启 workflow）
 ```
+
+如需改动中间件端口/凭据，直接改 `docker-compose.yml` 与上述 `config.yaml` 里的字面值即可，无需导出环境变量。
 
 * **API文档**:
 * Account: http://tapi.ckeyer.com/v2/account.docs/index.html#/
