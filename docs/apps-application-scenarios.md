@@ -49,6 +49,26 @@
 |------|------|---------|
 | **pipeline** | 文档知识摄入/切块管线 | 两个 Python worker 微服务：`corekg_analyser`（S3 下载 → MinerU 解析 PDF/图片 → Markdown 上传回 S3）、`corekg_chunk`（拉取 MD → 多种策略切块 → 图片/表格大模型增强 → Embedding → 写入 ES）。以任务队列 Worker 模式运行，支持 Docker/Nuitka 加密私有化交付。 |
 
+### pipeline 与 corekg 的任务闭环
+
+pipeline 以 **HTTP 轮询**方式消费 corekg 的任务系统（MySQL `core_task` + NATS 派发）：
+
+```
+corekg（上传文档 → 写 core_task + PushTaskQueue→NATS）
+   │
+   ▼  POST {api_url}/v3/knowledge.GetPendingTask      ← 返回 {task_id, payload}
+pipeline worker（S3 下载 → MinerU 解析/切块 → Embedding → ES 入库）
+   │
+   ▼  POST {api_url}/v3/knowledge.TaskCallBack        ← 回报 status/result
+```
+
+- **Analyser**（`doc_worker_main.py`）消费 `ke.prase_pdf_task`：S3 下载 → MinerU `/file_parse`（multipart 上传 PDF，返回 ZIP：`content.md` + `content_list.json`）→ 生成 Markdown 传回 S3。
+- **Chunk**（`chunk_worker_main.py`）消费 `ke.knowledge_task`：按 `payload.upload_path` 取 Markdown → 切块 → 图片/表格 LLM 增强 → Embedding → 写 ES（索引名来自 `payload.es_index`）。
+
+配置（键名与代码读取严格一致，勿照抄 `.example`）：见 `docs/pipeline-integration.md`；本地调试/启动见 `.vscode/launch.json` 的 `pipeline Analyser (doc_worker)` / `pipeline Chunk (chunk_worker)`。
+
+> 详细排障、命令与地址清单见 **[docs/pipeline-integration.md](pipeline-integration.md)**。
+
 ---
 
 ## 关键架构关系

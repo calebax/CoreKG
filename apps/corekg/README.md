@@ -22,7 +22,7 @@ CoreKG 是平台的**聚合单体（All-in-One）部署模式**。它将六个�
 
 - **License 验证中间件** — RSA 签名的 License 校验，绑定 K8s 集群 UID 或物理机，72小时有效期窗口，每日定时验证
 - **FinishedParseFileRoutine** — 后台协程，轮询已完成的文件解析任务并执行后处理
-- **DeployMode（部署模式）** — on_premise / openpo / tencent_free，控制功能开关
+- **DeployMode（部署模式）** — on_premise / openpo / tencent_free，控制功能开关。**额度检查**（问答/成员/图谱/磁盘等中间件）以 `version.DeployMode() != ""` 为跳过条件：非空即不校验额度。
 
 ## 启动初始化序列
 
@@ -94,6 +94,15 @@ make local APP=corekg
 make run APP=corekg ENV=test
 make generate-docs APP=corekg
 ```
+
+> **聚合单体默认不做额度检查（需构建期显式指定）**：`version.deployMode` 是构建期通过 ldflags 注入的（`DEPLOY_MODE`）。Makefile 默认不注入（`DEPLOY_MODE ?=`），因此 `DeployMode()` 为空串，额度检查**生效**。若要让聚合单体（及任意部署）跳过全部额度检查，构建时必须显式传入私有化部署模式，例如：
+>
+> ```bash
+> make local APP=corekg DEPLOY_MODE=on_premise
+> make push-image APP=corekg DEPLOY_MODE=on_premise
+> ```
+>
+> 未指定时聚合单体仍按 SaaS 逻辑校验问答/成员/图谱/磁盘等额度（问答额度用完会出现「您的问答额度已用完…」提示）。
 
 ## 与其他服务的关系
 

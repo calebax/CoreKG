@@ -7,6 +7,7 @@ import (
 
 	"github.com/insmtx/corekg/apps/corekg"
 	"github.com/insmtx/corekg/apps/corekg/internal/jobs"
+	"github.com/insmtx/corekg/apps/corekg/internal/taskbiz"
 	"github.com/insmtx/corekg/apps/corekg/mds"
 	"github.com/insmtx/corekg/apps/kechat/models/chatquestion"
 	"github.com/insmtx/corekg/apps/kecore"
@@ -76,6 +77,17 @@ func mainRun() func(cmd *cobra.Command, args []string) {
 		dbutil.InitializePlugins()
 
 		initTask(ctx)
+
+		// 可选：初始化 NATS 任务桥接，使上传文档后的任务能派发（严格 NATS 派发）。
+		// NATS 不可用时仅告警不阻断启动，HTTP 轮询路径不依赖 NATS。
+		if nc, natErr := initNATS(ctx); natErr != nil {
+			logs.WarnContextf(ctx, "[main] init NATS task bridge failed (continue): %s", natErr)
+		} else if nc != nil {
+			defer nc.Close()
+		}
+
+		// 注册文档摄入链路回调，使 HTTP worker 回报后能推进下一阶段 / 更新文件状态。
+		taskbiz.RegisterForestCallbacks(ctx)
 
 		opts := []server.RouterOption{
 			server.WithPrefixes([]string{global.PrefixAPIV2}),

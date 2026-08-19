@@ -1,13 +1,27 @@
-# Analyser（文档解析）服务配置示例。
-# 用法：cp analyser_config.yaml.example analyser_config.yaml，填入本地/真实值。
+# =====================================================================
+# Analyser（文档解析）Worker 配置示例（入库模板）。
+# 用法：cp analyser_config.yaml.example analyser_config.yaml，填入你的真实值。
+# key 名必须与 tools/s3_minio.py 实际读取一致（小写）：
+#   endpoint_url / access_key_id / secret_access_key / region / bucket
+# 本模板面向本仓库本地环境（端口统一 +2）；生产按实际地址替换。
+# =====================================================================
 
-api_url: http://localhost:8080
+# corekg（聚合服务）HTTP 地址；worker 轮询/回调拼接 {api_url}/knowledge.GetPendingTask
+api_url: http://localhost:8080/v3
 
-analyser_api_url: http://localhost:5000/local.Run
+# TODO 填 MinerU PDF 解析接口地址（analyser_process.py 读 config.get("analyser_api_url")），
+# 如 http://<mineru-host>:5000/local.Run。用 txt/md 跑通链路可留空。
+analyser_api_url: ""
 
+# ---- S3（本地 MinIO，键名须为小写）----
 s3:
-  endpoint_url: http://localhost:9000
+  endpoint_url: http://localhost:9002
   access_key_id: minioadmin
-  secret_access_key: change-me
+  secret_access_key: change-me   # TODO 填你的 MinIO 密码
   region: us-east-1
   bucket: corekg-bucket
+
+# 可选：企微报警 webhook，为空则不告警
+WEBHOOK: ""
+
+ENV: test

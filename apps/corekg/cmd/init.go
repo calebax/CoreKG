@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"os"
 
 	wfconf "github.com/insmtx/corekg/apps/workflow/conf"
 	"github.com/insmtx/corekg/apps/account/models/accounttype"
@@ -12,6 +13,7 @@ import (
 	"github.com/insmtx/corekg/pkgs/task"
 	"github.com/insmtx/corekg/pkgs/utils/dbutil"
 	"github.com/insmtx/corekg/pkgs/wecoms"
+	"github.com/nats-io/nats.go"
 	"github.com/ygpkg/yg-go/cache"
 	"github.com/ygpkg/yg-go/cache/redis"
 	ygconfig "github.com/ygpkg/yg-go/config"
@@ -67,6 +69,31 @@ func initTask(ctx context.Context) {
 		logs.FatalContextf(ctx, "init task db failed, %s", err)
 		return
 	}
+}
+
+// initNATS 初始化 NATS 任务桥接，使 PushTaskQueue 能向 JetStream dispatch/result
+// 流派发任务（corekg 单体内仅有 HTTP worker 消费，NATS 供自有 worker/ketask 消费）。
+// 优先读环境变量 NATS_URL，缺省使用本地 docker-compose 映射地址。
+func initNATS(ctx context.Context) (*nats.Conn, error) {
+	natsURL := os.Getenv("NATS_URL")
+	if natsURL == "" {
+		natsURL = "nats://localhost:4225"
+	}
+	opts := []nats.Option{
+		nats.Name("corekg"),
+		nats.MaxReconnects(-1),
+	}
+	nc, err := nats.Connect(natsURL, opts...)
+	if err != nil {
+		return nil, err
+	}
+	bridge := task.NewNATSBridge(nc)
+	task.SetNATSBridge(bridge)
+	if streamErr := bridge.EnsureStreams(); streamErr != nil {
+		return nil, streamErr
+	}
+	logs.Infof("[main] NATS task bridge connected: %s", natsURL)
+	return nc, nil
 }
 
 // loadWorkflowConfig 从同一 configFile 独立解析 workflow 配置段。

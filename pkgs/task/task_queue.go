@@ -18,7 +18,7 @@ func PushTaskQueue(ctx context.Context, taskType string) error {
 	if natsBridge == nil {
 		return fmt.Errorf("nats bridge not initialized")
 	}
-	tsk, err := GetOnePendingTask(taskType, "nats-dispatcher")
+	tsk, err := PeekOnePendingTask(taskType)
 	if err != nil {
 		return fmt.Errorf("get pending task: %w", err)
 	}

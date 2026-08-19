@@ -1,37 +1,53 @@
-# Chunk 服务配置示例。
-# 用法：cp chunk_config.yaml.example chunk_config.yaml，填入本地/真实值。
+# =====================================================================
+# Chunk（知识切块 + 向量化 + ES 入库）Worker 配置示例（入库模板）。
+# 用法：cp chunk_config.yaml.example chunk_config.yaml，填入你的真实值。
+# 键名必须与 corekg_chunk 代码实际读取一致，否则运行时报 KeyError：
+#   Work.API_URl / Work.TASK_TYPE / ES.PASS / ES.POOL_SIZE / General.VERSION
+# 注意：不是 .example 里的 PASSWORD / api_url / task_type。
+# 本模板面向本仓库本地环境（端口统一 +2）；生产按实际地址替换。
+# =====================================================================
 
+# ---- 表格摘要 LLM（表增强）。STATUS=false 时跳过 ----
 LLM:
-  STATUS: true
-  MODEL: deepseek-v3
-  API_KEY: change-me
-  BASE_URL: http://localhost:8080/v1/chat/completions
+  STATUS: false                # 有真实 LLM 且要做表摘要时改 true
+  MODEL: deepseek-v3           # TODO 填你的 LLM 模型名
+  API_KEY: change-me           # TODO 填你的 LLM api_key
+  BASE_URL: http://localhost:8031/v1/chat/completions   # TODO 填你的 LLM /v1/chat/completions
 
+# ---- 视觉大模型 VLLM（图片描述增强）。STATUS=false 时跳过 ----
 VLLM:
-  STATUS: true
-  MODEL: qwen3-vl-plus
-  API_KEY: change-me
-  BASE_URL: http://localhost:8080/v1/chat/completions
+  STATUS: false                # 有真实视觉模型且要做图片增强时改 true
+  MODEL: qwen3-vl-plus         # TODO 填你的视觉模型名
+  API_KEY: change-me           # TODO 填你的 VLLM api_key
+  BASE_URL: http://localhost:8031/v1/chat/completions   # TODO 填你的视觉 /v1/chat/completions
 
+# ---- Embedding 向量化模型（必需）----
 Embedding:
-  MODEL: Qwen3-Embedding-0.6B
-  API_KEY: change-me
-  BASE_URL: http://localhost:8000/v1
+  MODEL: Qwen3-Embedding-0.6B  # TODO 填你的 embedding 模型名
+  API_KEY: change-me           # TODO 填你的 embedding api_key
+  BASE_URL: http://localhost:8031/v1           # TODO 填你的 embedding /v1（本地 mock 端口 8031）
 
+# ---- Elasticsearch ----
 ES:
-  HOST: http://localhost:9200
+  HOST: http://localhost:9202
   ACCOUNT: elastic
-  PASSWORD: change-me
+  PASS: "123456"               # 注意键名 PASS（不是 PASSWORD）
+  POOL_SIZE: 10
+  # 说明：实际索引名来自任务 payload 的 es_index（corekg 生成任务时带入，如 ke_0）；
+  # 此处 INDEX 仅供参考。
   INDEX: ke_0
 
+# ---- 并发 ----
 Concurrency:
-  EB_WORKS: 30
-  LLM_WORKS: 30
+  EB_WORKS: 10
+  LLM_WORKS: 10
   LLM_TIMEOUT: 300
 
+# ---- 版本号（写入 ES 文档 version 字段）----
 General:
   VERSION: "1.0.0"
 
+# ---- 任务接入（corekg 聚合 HTTP 端点）----
 Work:
-  api_url: http://localhost:8080
-  task_type: chunk
+  API_URl: http://localhost:8080/v3    # 注意键名 API_URl；指 corekg 聚合 /v3
+  TASK_TYPE: ke.knowledge_task
