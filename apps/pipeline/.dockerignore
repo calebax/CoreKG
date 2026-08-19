@@ -1,0 +1,7 @@
+# Pipeline 构建镜像时应排除的内容
+.venv
+private
+logs
+.DS_Store
+__pycache__
+*.pyc

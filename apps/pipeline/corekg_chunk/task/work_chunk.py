@@ -1,4 +1,4 @@
-﻿import json
+import json
 import threading
 import yaml
 import socket
@@ -159,7 +159,10 @@ class TaskQueue:
             logger.info("Task response: %s" % data)
 
             task_data = data.get("Response", {})
-            if not task_data:
+            actual_id = task_data.get("task_id", 0)
+            # corekg 在无任务时返回 HTTP 200 + code=404 + Response:{task_id:0,payload:""}，
+            # 需把空任务识别为“无任务”，否则会误当成真实任务触发失败回调风暴 + 端口耗尽。
+            if not task_data or not actual_id or not task_data.get("payload"):
                 logger.debug("No tasks available")
                 return None
 

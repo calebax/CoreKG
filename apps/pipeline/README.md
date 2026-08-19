@@ -1,4 +1,4 @@
-﻿# CoreKG Pipeline
+# CoreKG Pipeline
 
 CoreKG 知识引擎文档知识摄入管线，负责将上传的各类文档和知识文件自动解析、切块、向量化并存入知识库。系统包含两个核心微服务工作模块：
 
@@ -160,6 +160,9 @@ python chunk_worker_main.py
 APP=chunker USE=private make push-image
 APP=analyser USE=private make push-image
 ```
+
+> 也可从仓库根目录统一入口调用（转发到本目录的 Makefile）：
+> `make pipeline-push-image MODULE=graphrag APP=chunker USE=private`，等价于上面第一条命令。
 
 ### 构建流程说明
 

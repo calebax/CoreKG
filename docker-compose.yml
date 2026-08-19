@@ -1,5 +1,6 @@
-# CoreKG 本地开发依赖编排。
+# CoreKG 本地开发完整编排：中间件 + 聚合服务 corekg + pipeline worker。
 # 用法：
+#   docker compose build          # 先构建 corekg / pipeline 镜像
 #   docker compose up -d
 #   docker compose ps
 #
@@ -8,10 +9,18 @@
 # 说明：
 #   - 为规避宿主机上可能已占用的默认端口，宿主机端口在容器默认端口基础上统一 +2：
 #       MySQL 3308(:3306)  Redis 6381(:6379)  ES 9202(:9200)/9302(:9300)
-#       MinIO 9002(:9000)/9003(:9001)  NATS 4225(:4222)
+#       MinIO 9002(:9000)/9003(:9001)  NATS 4225(:4222)  corekg 8080(:8080)
 #   - 所有中间件明文密码统一为 123456（本地开发默认值）。
 #   - 容器之间通过服务名+容器内端口互连；宿主机进程经映射端口访问。
 #   - 首次启动时会通过 scripts/mysql-docker-init.sh 额外创建 opencoze 库。
+#
+# 服务名（容器内端口）：
+#   mysql:3306  elasticsearch:9200  minio:9000  nats:4222  redis:6379
+#   corekg:8080  chunker（chunk worker）  analyser（doc worker）
+#
+# pipeline worker 的 LLM/Embedding/MinerU 地址在以下文件里配置（默认指向占位，请按你的真实环境填写）：
+#   apps/pipeline/config/chunk_config.docker.yaml   # chunker：LLM/VLLM/Embedding/ES/Work
+#   apps/pipeline/config/analyser_config.docker.yaml # analyser：s3/analyser_api_url (MinerU)/api_url
 
 services:
   mysql:
@@ -29,6 +38,11 @@ services:
     volumes:
       - ./scripts/mysql-docker-init.sh:/docker-entrypoint-initdb.d/init.sh:ro
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-ucorekg", "-p123456"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
 
   elasticsearch:
     image: elasticsearch:8.18.1
@@ -50,6 +64,14 @@ services:
     volumes:
       - es_data:/usr/share/elasticsearch/data
       - es_plugins:/usr/share/elasticsearch/plugins
+      # IK 分词词典（main.dic/stopword.dic/I KAnalyzer.cfg.xml 等）固化在仓库 scripts/es-ik-config，
+      # 挂载到 ES 默认配置目录，供 ik_max_word/ik_smart 分词初始化（缺失会触发 _StopWords 空指针）。
+      - ./scripts/es-ik-config:/usr/share/elasticsearch/config/analysis-ik:ro
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf -u elastic:123456 http://127.0.0.1:9200/_cluster/health | grep -qE 'yellow|green'"]
+      interval: 10s
+      timeout: 10s
+      retries: 30
 
   # ES 初始化：在 ES 启动前幂等安装 IK 分词插件（ik_max_word / ik_smart）。
   # 使用仓库 scripts/init-image/ 构建的统一初始化镜像（corekg-init:latest）。
@@ -71,6 +93,11 @@ services:
       - "6381:6379"
     volumes:
       - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
 
   minio:
     image: minio/minio:latest
@@ -114,9 +141,74 @@ services:
     ports:
       - "4225:4222"
 
+  # ---------- corekg（聚合服务：kecore + kechat + account + keapi + keparser + kesearch） ----------
+  corekg:
+    build:
+      context: .
+      dockerfile: apps/corekg/script/Dockerfile
+    image: corekg:latest
+    container_name: corekg-app
+    environment:
+      ENABLE_NEBULA_GRAPH: "false"
+      NATS_URL: nats://nats:4222   # 指向本编排内 nats 服务；必需，否则 initNATS/task 桥接与 SaveTask 派发失败
+    command: ["/usr/local/bin/corekg", "-c", "/data/config.yaml"]
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./apps/corekg/conf/docker/config.yaml:/data/config.yaml:ro
+      - corekg_data:/data
+    depends_on:
+      mysql:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      nats:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "/bin/bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/8080"]
+      interval: 10s
+      timeout: 10s
+      retries: 30
+      start_period: 30s
+
+  # ---------- pipeline：chunk 切块 worker ----------
+  chunker:
+    build:
+      context: apps/pipeline
+      dockerfile: Dockerfile
+    image: corekg-pipeline:latest
+    container_name: corekg-pipeline-chunker
+    command: ["python", "chunk_worker_main.py"]
+    volumes:
+      - ./apps/pipeline/config/chunk_config.docker.yaml:/app/config/chunk_config.yaml:ro
+      - pipeline_logs:/app/logs
+    depends_on:
+      corekg:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  # ---------- pipeline：文档解析 worker（S3 下载 → MinerU 转 Markdown → 上传回 S3） ----------
+  analyser:
+    image: corekg-pipeline:latest
+    container_name: corekg-pipeline-analyser
+    command: ["python", "doc_worker_main.py"]
+    volumes:
+      - ./apps/pipeline/config/analyser_config.docker.yaml:/app/config/analyser_config.yaml:ro
+      - pipeline_logs:/app/logs
+    depends_on:
+      corekg:
+        condition: service_healthy
+
 volumes:
   mysql_data:
   es_data:
   es_plugins:
   redis_data:
   minio_data:
+  corekg_data:
+  pipeline_logs:
