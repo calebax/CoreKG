@@ -18,6 +18,7 @@
 #   mysql:3306  elasticsearch:9200  minio:9000  nats:4222  redis:6379
 #   nebula：metad0:9559  storaged0:9779  graphd:9669（单节点 Nebula，3 容器）
 #   corekg:8080  chunker（chunk worker）  analyser（doc worker）
+#   doc2pdf（PDF 预览）  description（file_description 摘要 worker）
 #
 # ---------- Nebula Graph（图数据库）----------
 #   - 单节点 Nebula 由三个容器组成（vesoft 官方镜像一律一个进程一个镜像，无内置 all-in-one）：
@@ -343,6 +344,43 @@ services:
       - ./apps/pipeline/config/analyser_config.docker.yaml:/app/config/analyser_config.yaml:ro
       - pipeline_logs:/app/logs
     depends_on:
+      corekg:
+        condition: service_healthy
+
+  # ---------- doc2pdf / copy worker（ketask 二进制：docx/ppt/ofd → PDF 预览） ----------
+  doc2pdf:
+    build:
+      context: .
+      dockerfile: apps/ketask/script/Dockerfile
+    image: corekg-keask:latest
+    container_name: corekg-keask-doc2pdf
+    command: ["doc2pdf", "-c", "/data/config.yaml", "-t", "ke.doc_to_pdf_task", "-b", "http://corekg-app:8080/", "-r", "1"]
+    volumes:
+      - ./apps/ketask/conf/docker/config.yaml:/data/config.yaml:ro
+      - corekg_data:/data
+    depends_on:
+      mysql:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      corekg:
+        condition: service_healthy
+
+  # ---------- description worker（ketask 二进制：生成 file_description/摘要写 ES） ----------
+  description:
+    image: corekg-keask:latest
+    container_name: corekg-keask-description
+    command: ["description", "-c", "/data/config.yaml", "-t", "ke.description_task", "-b", "http://corekg-app:8080/", "-r", "1"]
+    volumes:
+      - ./apps/ketask/conf/docker/config.yaml:/data/config.yaml:ro
+      - corekg_data:/data
+    depends_on:
+      mysql:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
       corekg:
         condition: service_healthy
 

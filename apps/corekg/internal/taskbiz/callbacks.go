@@ -6,6 +6,7 @@ import (
 
 	"github.com/insmtx/corekg/apps/kecore/models/coretask"
 	"github.com/insmtx/corekg/apps/kecore/models/forest"
+	"github.com/insmtx/corekg/apps/kecore/models/fs"
 	"github.com/insmtx/corekg/apps/ketask/models/ragtask"
 	"github.com/insmtx/corekg/pkgs/task"
 	"github.com/insmtx/corekg/pkgs/utils/dbutil"
@@ -35,6 +36,8 @@ func RegisterForestCallbacks(ctx context.Context) {
 		task.RegisterCallBack(taskType, forestCallBack(ctx, taskType))
 	}
 	task.RegisterCallBack(coretask.KnowledgeTask, forestCallBack(ctx, coretask.KnowledgeTask))
+	// DescriptionTask 是并行叶子任务：成功回调更新 desc_status，并触发文件是否全部完成的汇聚检查。
+	task.RegisterCallBack(coretask.DescriptionTask, forestCallBack(ctx, coretask.DescriptionTask))
 	logs.InfoContextf(ctx, "[taskbiz] registered forest task callbacks")
 }
 
@@ -81,6 +84,19 @@ func createAndPushNextTask(ctx context.Context, prevTask *task.Task, nextTaskTyp
 		}
 	}
 
+	// prase 任务的 FileURL 指向原始预览文件；推进到 knowledge_task 时必须改为
+	// 解析产物目录（content.md），否则 chunker 会把原始二进制当正文切块入库，
+	// 导致 ES 的 description 是一堆乱码/二进制（见「总结文档」检索到二进制乱码的问题）。
+	if nextTaskType == coretask.KnowledgeTask && payload.FileID > 0 {
+		if fileInfo, err := forest.GetForestFileByID(payload.FileID); err == nil {
+			payload.FileURL = fs.Forest.GetPublicURL(fs.FileContentPath(fileInfo.GetAlgoFilePath(), payload.FileID), false)
+			payload.UploadPath = fs.FileKnowledgeDirPath(fileInfo.GetAlgoFilePath(), payload.FileID)
+			logs.InfoContextf(ctx, "[taskbiz] knowledge_task redirect file_url to parsed content: file_id=%d url=%s", payload.FileID, payload.FileURL)
+		} else {
+			logs.ErrorContextf(ctx, "[taskbiz] createNextTask resolve parsed content path failed: %v", err)
+		}
+	}
+
 	nextTask := &task.Task{
 		Uin:               prevTask.Uin,
 		CompanyID:         prevTask.CompanyID,
@@ -97,7 +113,44 @@ func createAndPushNextTask(ctx context.Context, prevTask *task.Task, nextTaskTyp
 		return err
 	}
 	logs.InfoContextf(ctx, "[taskbiz] created next task: type=%s id=%d prev=%d", nextTaskType, nextTask.ID, prevTask.ID)
+
+	// 解析完成后，除了建库分块（KnowledgeTask），还要并行派发 DescriptionTask，
+	// 用于生成 file_description 类文档，支撑知识库层面的“总结/摘要”检索。
+	if nextTaskType == coretask.KnowledgeTask {
+		if err := createAndPushDescriptionTask(ctx, prevTask, payload); err != nil {
+			logs.ErrorContextf(ctx, "[taskbiz] createAndPushDescriptionTask failed: %v", err)
+			return err
+		}
+	}
 	return nil
+}
+
+// createAndPushDescriptionTask 创建并派发文件描述生成任务（ke.description_task）。
+// 描述结果会写入 ES 的 file_description 文档，供 knowledge_summary 检索使用。
+func createAndPushDescriptionTask(ctx context.Context, prevTask *task.Task, payload ragtask.TaskPayload) error {
+	if payload.ForestID == 0 || payload.FileID == 0 || payload.FileURL == "" {
+		logs.WarnContextf(ctx, "[taskbiz] desc task skipped: missing forest/file/file_url")
+		return nil
+	}
+	descPayload := payload
+	descPayload.TaskType = coretask.DescriptionTask
+	desc := &task.Task{
+		Uin:               prevTask.Uin,
+		CompanyID:         prevTask.CompanyID,
+		TaskType:          coretask.DescriptionTask,
+		TaskStatus:        task.TaskStatusPending,
+		SubjectID:         prevTask.SubjectID,
+		AppGroup:          prevTask.AppGroup,
+		Payload:           descPayload.String(),
+		TaskConfigTimeout: prevTask.TaskConfigTimeout,
+		TaskConfigRedo:    prevTask.TaskConfigRedo,
+		Priority:          prevTask.Priority,
+	}
+	if err := task.CreateTask(desc); err != nil {
+		return err
+	}
+	logs.InfoContextf(ctx, "[taskbiz] created desc task: id=%d prev=%d", desc.ID, prevTask.ID)
+	return task.PushTaskQueue(ctx, coretask.DescriptionTask)
 }
 
 func checkAllTasksDone(ctx context.Context, subjectID uint) error {

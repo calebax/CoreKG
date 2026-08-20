@@ -321,7 +321,7 @@ flowchart LR
 
 | Step | 当前执行单元 | 主要输入/输出 | 强依赖 |
 |---|---|---|---|
-| `ke.doc_to_pdf_task` | `doc2pdf-worker` | 原文件 -> PDF preview | MinIO、`word2pdf`/`ofd2pdf`、corekg callback |
+| `ke.doc_to_pdf_task` | `doc2pdf-worker`（本地为 `ketask doc2pdf`，见 `scripts/dev-up.sh`） | 原文件 -> PDF preview | MinIO、`word2pdf`/`ofd2pdf`、corekg callback |
 | `ke.prase_pdf_task` | `doc-analyzer` | PDF -> `content.md` 等目录产物 | MinIO、外部 PDF parser、corekg callback |
 | `ke.knowledge_task` | `graphrag-chunker` | Markdown -> chunks/index | 外部 `/split`、ES、Embedding、MinIO，当前 worker 配置还涉及 Nebula |
 | `ke.description_task` | `ai-summary-worker` | chunk/文档 -> 摘要、描述、推荐问题 | ES、LLM、Embedding、corekg callback |

@@ -144,3 +144,5 @@ compose.*.yaml
 *.pfx
 *.jks
 *.keystore
+# dev-up.sh 本地运行状态（PID 文件）
+.dev-up/

@@ -156,3 +156,29 @@ dev-es:
 # 用法：make pipeline-build MODULE=graphrag APP=chunker
 pipeline-%:
 	$(MAKE) -C apps/pipeline $(patsubst pipeline-%,%,$@)
+
+# 本地开发一键启停（转交 scripts/dev-up.sh，逻辑单一来源）。
+# 两种模式均为「中间件 docker 容器 + 宿主 corekg + 宿主 pipeline worker」。
+#   make dev-up           local 模式启动（默认）
+#   make dev-up-docker    docker 模式启动
+#   make dev-down         停止（--keep-compose 保留中间件：make dev-down KEEP=1）
+#   make dev-status       查看中间件/宿主进程/端口就绪状态
+dev-up:
+	./scripts/dev-up.sh up --mode local
+
+dev-up-docker:
+	./scripts/dev-up.sh up --mode docker
+
+dev-down:
+	@if [ "$(KEEP)" = "1" ]; then ./scripts/dev-up.sh stop --keep-compose; \
+	else ./scripts/dev-up.sh stop; fi
+
+dev-status:
+	./scripts/dev-up.sh status
+
+# 前端（frontend/corekg，Vite dev server :3001）单独启动。
+# 复用 frontend/corekg/Makefile 的 dev target（npm run dev）；需先起后端再联调：
+#   make dev-up && make dev-up-fe
+# 该进程为前台长驻，Ctrl-C 停止。
+dev-up-fe:
+	$(MAKE) -C frontend/corekg dev

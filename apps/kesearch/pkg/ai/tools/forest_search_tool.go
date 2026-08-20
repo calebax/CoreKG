@@ -118,13 +118,18 @@ func (t *forestSearchTool) invoke(ctx context.Context, req *SearchRequest) (*Sea
 			return nil, err
 		}
 
-		searchResult := SearchResult{
-			ResultType: "knowledge_summary",
-			ResultData: searchResultStr,
-		}
-		t.conf.ReferencesResult.Append(searchRes...)
+		// 若文件级描述/摘要检索不到任何内容（例如该文件未生成 file_description 文档），
+		// 回退到普通 chunk 检索，用已入库的正文片段继续回答，避免直接返回空结果。
+		if len(searchRes) != 0 && searchResultStr != "" && searchResultStr != "[]" {
+			searchResult := SearchResult{
+				ResultType: "knowledge_summary",
+				ResultData: searchResultStr,
+			}
+			t.conf.ReferencesResult.Append(searchRes...)
 
-		return &searchResult, nil
+			return &searchResult, nil
+		}
+		logs.InfoContextf(ctx, "[NewForestSearchTool] knowledge_summary empty (file_description missing), fallback to common_questions for file_ids=%v", t.conf.FileIDs)
 	}
 
 	// 正常检索

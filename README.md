@@ -99,7 +99,9 @@ make run APP=workflow ENV=test   # 或 make run APP=corekg ENV=test（聚合进�
 
 `scripts/verify/verify-kb.sh` 可自动跑通**登录 → 新建知识库 → 上传文件 → 等待解析(拆 chunk/向量/入库) → 基于文件问答**的完整闭环。
 
-前提：中间件 + corekg + **pipeline 摄入 worker** 均已在跑（解析依赖 pipeline 的 analyser/chunker）：
+前提：中间件 + corekg + **pipeline 摄入 worker** 均已在跑（解析依赖 pipeline 的 analyser/chunker；
+若要验证 Office(.docx/.ppt/.ofd) 上传预览/解析，还需要 **doc2pdf(ketask)** worker）：
+`make dev-up` 会一并拉起。手动启动：
 
 ```bash
 # 本地宿主模式（corekg 二进制 :8080，pipeline 跑在宿主机 venv）
@@ -107,9 +109,12 @@ cd apps/pipeline && source .venv/bin/activate
 python doc_worker_main.py &   # 消费 ke.prase_pdf_task
 python chunk_worker_main.py & # 消费 ke.knowledge_task（拆 chunk + 向量 + 写 ES）
 cd ../..
+make local APP=ketask
+./bundles/ketask doc2pdf -c apps/ketask/conf/test/config.yaml \
+  -t ke.doc_to_pdf_task -b http://localhost:8080/ &  # 消费 ke.doc_to_pdf_task（Office → PDF 预览）
 ./scripts/verify/verify-kb.sh --mode local --cleanup
 
-# docker-compose 全容器模式
+# docker-compose 全容器模式（含 doc2pdf 服务）
 docker compose -f docker-compose.pipeline.yml up -d --build
 ./scripts/verify/verify-kb.sh --mode compose --cleanup
 ```

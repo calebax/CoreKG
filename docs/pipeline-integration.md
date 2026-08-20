@@ -14,27 +14,29 @@
 
 ### pipeline 是什么
 
-`apps/pipeline` 是从其他项目 copy 过来的 Python 摄入管线，含两个 worker：
+`apps/pipeline` 是从其他项目 copy 过来的 Python 摄入管线，含两个 worker（加上 `apps/ketask` 的 Go
+doc2pdf worker，共用同一套 HTTP 拉任务/回报协议）：
 
 | Worker | 入口 | 角色 | 消费任务类型 |
 |---|---|---|---|
 | **Doc Analyser** | `doc_worker_main.py` | S3 下载文档 → MinerU 解析/转 Markdown → 上传回 S3 | `ke.prase_pdf_task` |
 | **Chunk Splitter** | `chunk_worker_main.py` | 下载 Markdown → 清洗/切块 → 图片/表格增强 → Embedding → 写入 ES | `ke.knowledge_task` |
+| **doc2pdf (ketask)** | `ketask doc2pdf` | 下载 Office/OFD → 调 `word2pdf`/LibreOffice 转 PDF → 写回预览路径 | `ke.doc_to_pdf_task` |
 
-两个 worker 都以「**HTTP 轮询**」方式工作：定时 POST 到
+三个 worker 都以「**HTTP 轮询**」方式工作：定时 POST 到
 `{api_url}/knowledge.GetPendingTask` 拉任务、处理完 POST 到 `{api_url}/knowledge.TaskCallBack` 汇报。
 
 ```
    corekg（上传文档后写 core_task 任务 + 分发）
         │
         ▼
-  knowledge.GetPendingTask  ←────────  pipeline 轮询（HTTP，无服务端实现！）
+  knowledge.GetPendingTask  ←────────  pipeline / ketask 轮询（HTTP）
         │  返回 task_id + payload
         ▼
-  pipeline worker 处理（S3/MinerU/切块/ES）
+  worker 处理（S3/MinerU/切块/ES / LibreOffice 转 PDF）
         │
         ▼
-  knowledge.TaskCallBack  ───────────  回报任务结果（HTTP，无服务端实现！）
+  knowledge.TaskCallBack  ───────────  回报任务结果（HTTP，推进下一步）
 ```
 
 ### corekg 里的任务系统
@@ -160,6 +162,13 @@ export ENABLE_NEBULA_GRAPH=false
 cd apps/pipeline && source .venv/bin/activate
 python doc_worker_main.py    # 消费 ke.prase_pdf_task（先手动/经上传产生任务）
 python chunk_worker_main.py  # 消费 ke.knowledge_task
+
+# 5) 拉起 doc2pdf worker（处理 Office→PDF 预览；dev-up 会自动完成，见 scripts/dev-up.sh）
+make local APP=ketask                          # -> bundles/ketask
+./bundles/ketask doc2pdf \
+  -c apps/ketask/conf/test/config.yaml \
+  -t ke.doc_to_pdf_task \
+  -b http://localhost:8080/  # 轮询 corekg，处理 ke.doc_to_pdf_task（docx/ppt/ofd → PDF）
 ```
 
 > NATS 不可用时聚合进程仅告警不退出，`GetPendingTask`/`TaskCallBack` 等 HTTP 路径仍可用；
@@ -277,3 +286,26 @@ mineru-api --host 0.0.0.0 --port 8000     # 提供 /file_parse
 > - pipeline 报 KeyError → 配置键名不对（缺口 D）。
 > - 解析 PDF 失败 → MinerU 未起（`analyser_api_url`）。
 > - 入库成功但搜不到 → ES 索引名/字段契约不符（缺口 C）。
+
+---
+
+## 7. Office 文档上传：预览 PDF 404 / 未解析
+
+上传 `.docx/.pdf/.ppt/.ofd` 时，`forest.UploadFileCallBack` 只落一条「预览 PDF」的 DB 记录
+（`buildPreviewFileEntity`，`services/svcforestfile/forest_file_upload.go`），真正的 docx→PDF 由异步
+**doc2pdf worker** 完成：读原文件 → 调 `word2pdf`/LibreOffice（`knowledge:convert_to_pdf` 配置）转 PDF
+→ 写回 `payload.upload_path`（预览路径）→ 回报 `knowledge.TaskCallBack` 成功，corekg 才推进
+`ke.doc_to_pdf_task → ke.prase_pdf_task`。
+
+因此 Office 文档若出现「预览 URL 404」或「文件一直未解析」，几乎都是**没有 doc2pdf worker 在消费
+`ke.doc_to_pdf_task`**（PDF/图片/文本直接走 `ke.prase_pdf_task`，由 `analyser` 处理，不会诱发此问题）：
+
+| 现象 | 根因 | 处理 |
+|---|---|---|
+| 预览 `.pdf` 预签名 URL 404 | 预览记录已建，但对象未写入 MinIO（doc2pdf 未跑） | 启动 `ketask doc2pdf`，否则重新上传让它重dispatch |
+| `parse_status` 一直不变/pending | 管线停在 `doc_to_pdf`，未推进 `prase` | 同上；看 `logs/doc2pdf-dev.log` |
+
+本地开发（`make dev-up`）已自动拉起 `doc2pdf(ketask)` 宿主进程（`scripts/dev-up.sh`）。
+doc2pdf 依赖 `knowledge:convert_to_pdf` 配置（libreoffice/word2pdf 服务），测试环境默认指向
+`https://api.yygu.cn/forms/libreoffice/convert`（`apps/keinit/conf/test/core_setting.yaml`）。
+
