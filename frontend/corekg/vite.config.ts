@@ -10,8 +10,8 @@ import svgr from 'vite-plugin-svgr'
 export default defineConfig((options) => {
   const env = loadEnv(options.mode, process.cwd(), '')
   const apiProxyTarget = env.VITE_API_URL || 'http://localhost:8080'
-  const workflowProxyTarget =
-    env.VITE_WORKFLOW_URL || 'http://localhost:8088'
+  const minioProxyTarget = env.VITE_MINIO_URL || 'http://localhost:9002'
+  const workflowProxyTarget = env.VITE_WORKFLOW_URL || 'http://localhost:8088'
   const rollupPlugins = []
   if (options.mode === 'test') {
     // test build时 增加一个分析插件
@@ -83,6 +83,11 @@ export default defineConfig((options) => {
         '/v3': {
           target: apiProxyTarget,
           changeOrigin: true,
+        },
+        // 私有化部署的预签名 URL 使用当前站点域名，必须保留 Host 才能通过签名校验
+        '/corekg-bucket': {
+          target: minioProxyTarget,
+          changeOrigin: false,
         },
         // Coze 本地服务（默认 8088），勿把具体 space 路径写进 target
         '/coze': {

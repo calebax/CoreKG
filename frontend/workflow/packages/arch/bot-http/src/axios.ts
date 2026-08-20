@@ -18,6 +18,8 @@ import axios, { type AxiosResponse, isAxiosError } from 'axios';
 import { redirect } from '@coze-arch/web-context';
 import { logger } from '@coze-arch/logger';
 import {
+  AUTH_MESSAGE_TYPES,
+  TOKEN_STORAGE_KEY,
   isInIframe,
   notifyAuthError,
   requestRelogin,
@@ -45,7 +47,43 @@ export const axiosInstance = axios.create();
 
 const HTTP_STATUS_COE_UNAUTHORIZED = 401;
 
-const SYNCED_TOKEN_KEY = 'coze_token';
+let pendingTokenSync: Promise<string | null> | undefined;
+
+const getSyncedToken = async (): Promise<string | null> => {
+  const existingToken = localStorage.getItem(TOKEN_STORAGE_KEY);
+  if (existingToken || !isInIframe()) {
+    return existingToken;
+  }
+
+  if (!pendingTokenSync) {
+    pendingTokenSync = new Promise(resolve => {
+      const cleanup = (token: string | null) => {
+        window.removeEventListener('message', handleMessage);
+        window.clearTimeout(timeoutId);
+        resolve(token);
+      };
+      const handleMessage = (event: MessageEvent) => {
+        const token = event.data?.payload?.token;
+        if (
+          event.source === window.parent &&
+          event.data?.type === AUTH_MESSAGE_TYPES.SYNC_CONTEXT &&
+          typeof token === 'string' &&
+          token
+        ) {
+          localStorage.setItem(TOKEN_STORAGE_KEY, token);
+          cleanup(token);
+        }
+      };
+      const timeoutId = window.setTimeout(() => cleanup(null), 5000);
+
+      window.addEventListener('message', handleMessage);
+    }).finally(() => {
+      pendingTokenSync = undefined;
+    });
+  }
+
+  return pendingTokenSync;
+};
 
 type ResponseInterceptorOnFulfilled = (res: AxiosResponse) => AxiosResponse;
 const customInterceptors = {
@@ -136,7 +174,7 @@ axiosInstance.interceptors.response.use(
   },
 );
 
-axiosInstance.interceptors.request.use(config => {
+axiosInstance.interceptors.request.use(async config => {
   const setHeader = (key: string, value: string) => {
     if (typeof config.headers.set === 'function') {
       config.headers.set(key, value);
@@ -165,7 +203,7 @@ axiosInstance.interceptors.request.use(config => {
 
   try {
     const url = config.url || '';
-    
+
     // 将以 /api、/v1、/v2、/v3、/corekg-bucket 开头的相对路径，统一加上 /coze 前缀
     // 这样线上环境下请求会变为 /coze/api/xxx
     const shouldPrefixApi = /^\/(api|v1|v2|v3|corekg-bucket)(\/|$)/.test(url);
@@ -176,7 +214,7 @@ axiosInstance.interceptors.request.use(config => {
     }
 
     // 添加Auth请求头
-    const syncedToken = localStorage.getItem(SYNCED_TOKEN_KEY);
+    const syncedToken = await getSyncedToken();
 
     if (syncedToken) {
       setHeader('Authorization', `Bearer ${syncedToken}`);
