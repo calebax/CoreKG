@@ -181,22 +181,20 @@ func CreateKeepFile(ctx context.Context, client *s3.Client, bucket string) error
 // UploadCozeFile 上传coze文件到opencoze桶
 func UploadCozeFile(ctx context.Context, cfg config.StorageConfig) error {
 	logs.InfoContextf(ctx, "UploadCozeFile start")
+	const sourceDir = "./scripts/minio"
+	if _, err := os.Stat(sourceDir); errors.Is(err, os.ErrNotExist) {
+		logs.WarnContextf(ctx, "UploadCozeFile skipped: %s does not exist", sourceDir)
+		return nil
+	} else if err != nil {
+		return err
+	}
+
 	st, err := storage.NewStorageWithCfg(cfg)
 	if err != nil {
 		logs.ErrorContextf(ctx, "file storage init error: %v")
 		return err
 	}
-	// 开源仓库不含私有的 coze 种子资源目录 scripts/minio；目录缺失时跳过上传，
-	// 避免 init 在 CreateCozeBucket 阶段反复重试失败。目录存在时才执行上传。
-	if _, err := os.Stat("./scripts/minio"); err != nil {
-		if os.IsNotExist(err) {
-			logs.WarnContextf(ctx, "UploadCozeFile skip: ./scripts/minio not exist in open-source repo")
-			return nil
-		}
-		logs.ErrorContextf(ctx, "UploadCozeFile stat ./scripts/minio error: %v", err)
-		return err
-	}
-	_, err = st.UploadDirectory("./scripts/minio", "")
+	_, err = st.UploadDirectory(sourceDir, "")
 	if err != nil {
 		logs.ErrorContextf(ctx, "UploadCozeFile UploadDirectory error: %v")
 		return err

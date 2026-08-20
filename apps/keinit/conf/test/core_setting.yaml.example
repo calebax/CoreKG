@@ -249,7 +249,7 @@
   name: Workflow 服务地址
   describe: CoreKG 反向调用 workflow 服务的 BaseURL
   value_type: text
-  value: "http://localhost:8888"
+  value: "http://localhost:8899"
 
 # --- Agent / 运营服务 ---
 - group: corekg
