@@ -7,6 +7,9 @@
 
 ## 文档
 
+- [前端开发指南](frontend/README.md)
+- [本地开发指南](docs/local-development.md)
+
 ### 共用账号
 
 ### 开发、测试环境
@@ -327,6 +330,5 @@ INSERT INTO `t1` (`id`, `name`) VALUES (1, 'a-xxxxyyyyzzzz-b');
 SET @t1_id = LAST_INSERT_ID();
 UPDATE `t1` SET `name` = REPLACE(`name`, 'xxxxyyyyzzzz', @yg_VAR_NAME) WHERE `id` = @t1_id;
 ```
-
 
 
