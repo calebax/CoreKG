@@ -263,7 +263,7 @@ services:
       metad0:
         condition: service_healthy
       storaged0:
-        condition: service_healthy
+        condition: service_started
       graphd:
         condition: service_healthy
     entrypoint: ["sh", "-c"]
