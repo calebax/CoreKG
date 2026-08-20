@@ -31,6 +31,11 @@ func InitDB() error {
 		&ChatAgentCollect{},
 		&ChatMigrate{},
 		&ChatCozeMapping{},
+		&ChatQuestionDbDataset{},
+		&ChatChartCanvas{},
+		&ChatChart{},
+		&ChatRecentUsedModel{},
+		&CozeModelInstance{},
 	)
 
 	if err != nil {

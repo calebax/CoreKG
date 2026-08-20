@@ -77,17 +77,33 @@ func InitDB() error {
 		&KeCompanyDB{},
 
 		&ForestGraphVersion{},
-		// &GraphNode{},
+		&ForestGraph{},
+		&GraphNode{},
 		&GraphTagNode{},
 		&GraphTag{},
 		&GraphEdge{},
 		&GraphEdgeTag{},
+		&KeGraphResourceChunk{},
 
 		&KnownowProject{},
 
 		&KeArticle{},
 		&KeArticleTemplate{},
 		&KeArticleHistory{},
+
+		&KePackage{},
+		&KeCompanyQuota{},
+		&KeMessageTemplate{},
+		&KeUinMessage{},
+
+		&TagGroup{},
+		&Tag{},
+		&ResourceTag{},
+		&RecentUsedTag{},
+		&Keywords{},
+		&ForestHotWord{},
+		&UinLikes{},
+		&UinCollections{},
 	)
 
 	if err != nil {
