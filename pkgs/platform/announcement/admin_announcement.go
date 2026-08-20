@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/insmtx/corekg/apps/admin/models/admintype"
+	"github.com/insmtx/corekg/pkgs/platform/admintype"
 	"github.com/ygpkg/yg-go/apis/apiobj"
 	"github.com/ygpkg/yg-go/logs"
 	"gorm.io/gorm"

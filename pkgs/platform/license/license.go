@@ -13,8 +13,8 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/insmtx/corekg/apps/admin/models/admintype"
 	license2 "github.com/insmtx/corekg/apps/corekg/models/license"
+	"github.com/insmtx/corekg/pkgs/platform/admintype"
 	"github.com/insmtx/corekg/pkgs/utils/dbutil"
 	"github.com/ygpkg/yg-go/apis/apiobj"
 	"github.com/ygpkg/yg-go/logs"

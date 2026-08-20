@@ -7,8 +7,8 @@ import (
 
 	"github.com/insmtx/corekg/apps/account/models/account"
 	"github.com/insmtx/corekg/apps/account/models/accounttype"
-	"github.com/insmtx/corekg/apps/admin/models/user"
 	"github.com/insmtx/corekg/pkgs/global"
+	"github.com/insmtx/corekg/pkgs/platform/user"
 	"github.com/insmtx/corekg/pkgs/utils/dbutil"
 	"github.com/ygpkg/yg-go/apis/apiobj"
 	"github.com/ygpkg/yg-go/logs"

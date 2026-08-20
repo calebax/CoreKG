@@ -13,8 +13,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/insmtx/corekg/apps/admin/models/admintype"
 	"github.com/insmtx/corekg/apps/corekg/models/license"
+	"github.com/insmtx/corekg/pkgs/platform/admintype"
 	dbtools "github.com/ygpkg/yg-go/dbtools/v2"
 	_ "github.com/ygpkg/yg-go/dbtools/v2/mysqldrv"
 	"github.com/ygpkg/yg-go/logs"

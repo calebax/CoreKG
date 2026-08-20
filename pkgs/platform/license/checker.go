@@ -14,9 +14,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/insmtx/corekg/apps/admin/models/admintype"
 	corekglicense "github.com/insmtx/corekg/apps/corekg/models/license"
 	"github.com/insmtx/corekg/pkgs/global"
+	"github.com/insmtx/corekg/pkgs/platform/admintype"
 	"github.com/ygpkg/yg-go/logs"
 	"github.com/ygpkg/yg-go/types"
 	"gorm.io/gorm"
