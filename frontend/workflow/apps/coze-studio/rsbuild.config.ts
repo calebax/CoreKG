@@ -21,7 +21,12 @@ import { GLOBAL_ENVS } from '@coze-arch/bot-env';
 
 /** 项目路径和静态资源的前缀 */
 const prefix = '/coze';
-const API_PROXY_TARGET = 'https://example.com';
+const COREKG_API_PROXY_TARGET =
+  process.env.COREKG_API_PROXY_TARGET ?? 'http://localhost:8080';
+const WORKFLOW_API_PROXY_TARGET =
+  process.env.WORKFLOW_API_PROXY_TARGET ?? 'http://localhost:8899';
+const MINIO_PROXY_TARGET =
+  process.env.MINIO_PROXY_TARGET ?? 'http://localhost:9002';
 
 const mergedConfig = defineConfig({
   server: {
@@ -29,26 +34,23 @@ const mergedConfig = defineConfig({
     base: prefix,
     proxy: [
       {
-        context: ['/coze/api', '/coze/corekg-bucket'],
-        target: API_PROXY_TARGET,
+        context: ['/coze/api'],
+        target: WORKFLOW_API_PROXY_TARGET,
+        pathRewrite: { '^/coze': '' },
         secure: false,
         changeOrigin: true,
       },
       {
-        context: ['/v1'],
-        target: API_PROXY_TARGET,
+        context: ['/coze/corekg-bucket'],
+        target: MINIO_PROXY_TARGET,
+        pathRewrite: { '^/coze': '' },
         secure: false,
         changeOrigin: true,
       },
       {
-        context: ['/v2'],
-        target: API_PROXY_TARGET,
-        secure: false,
-        changeOrigin: true,
-      },
-      {
-        context: ['/v3'],
-        target: API_PROXY_TARGET,
+        context: ['/v1', '/v2', '/v3', '/coze/v1', '/coze/v2', '/coze/v3'],
+        target: COREKG_API_PROXY_TARGET,
+        pathRewrite: { '^/coze': '' },
         secure: false,
         changeOrigin: true,
       },
