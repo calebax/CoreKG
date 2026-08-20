@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 
 	"github.com/insmtx/corekg/apps/kecore/models/coretask"
+	"github.com/insmtx/corekg/apps/kecore/models/forest"
 	"github.com/insmtx/corekg/apps/ketask/models/ragtask"
 	"github.com/insmtx/corekg/pkgs/task"
 	"github.com/insmtx/corekg/pkgs/utils/dbutil"
@@ -69,6 +70,17 @@ func createAndPushNextTask(ctx context.Context, prevTask *task.Task, nextTaskTyp
 		return err
 	}
 	payload.TaskType = nextTaskType
+
+	// prase_pdf_task 的 payload 由 buildTaskPayload 构造，未含 es_index；推进到
+	// knowledge_task 时若为空则按森林补上，否则 pipeline chunker 无法写 ES。
+	if nextTaskType == coretask.KnowledgeTask && payload.ESIndex == "" && payload.ForestID > 0 {
+		if forestInfo, err := forest.GetForestByID(ctx, payload.ForestID); err == nil {
+			payload.ESIndex = forestInfo.EsIndex()
+		} else {
+			logs.ErrorContextf(ctx, "[taskbiz] createNextTask fill es_index failed: %v", err)
+		}
+	}
+
 	nextTask := &task.Task{
 		Uin:               prevTask.Uin,
 		CompanyID:         prevTask.CompanyID,

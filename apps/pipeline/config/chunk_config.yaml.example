@@ -26,6 +26,10 @@ Embedding:
   MODEL: Qwen3-Embedding-0.6B  # TODO 填你的 embedding 模型名
   API_KEY: change-me           # TODO 填你的 embedding api_key
   BASE_URL: http://localhost:8031/v1           # TODO 填你的 embedding /v1（本地 mock 端口 8031）
+  # 说明：chunker 向量化走本配置（tools/llm_chat.py 的 chat_with_embedding），**不读 DB 的
+  # knowledge/embedding**。无真实模型时可把 BASE_URL 指向 scripts/mock_embedding.py：
+  #     python3 scripts/mock_embedding.py --port 8031
+  # 有真实模型时填真实端点，如 http://embed-qwen3.003.yygu.cn:58080/v1。
 
 # ---- Elasticsearch ----
 ES:
@@ -51,3 +55,7 @@ General:
 Work:
   API_URl: http://localhost:8080/v3    # 注意键名 API_URl；指 corekg 聚合 /v3
   TASK_TYPE: ke.knowledge_task
+  # API_URl 主机名取决于 corekg 如何暴露：
+  #   - 本地宿主模式：corekg 二进制跑 :8080 → http://localhost:8080/v3
+  #   - docker-compose 拉起：corekg 服务名 = corekg → http://corekg:8080/v3
+  #   - corekg 是手动 docker run 的容器（无 `corekg` 别名，容器名 corekg-app）→ http://corekg-app:8080/v3

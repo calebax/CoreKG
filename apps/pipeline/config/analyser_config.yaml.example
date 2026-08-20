@@ -8,9 +8,14 @@
 
 # corekg（聚合服务）HTTP 地址；worker 轮询/回调拼接 {api_url}/knowledge.GetPendingTask
 api_url: http://localhost:8080/v3
+# api_url 主机名取决于 corekg 如何暴露：
+#   - 本地宿主模式：corekg 二进制跑 :8080 → http://localhost:8080/v3
+#   - docker-compose 拉起：corekg 服务名 = corekg → http://corekg:8080/v3
+#   - corekg 是手动 docker run 容器（无 `corekg` 别名，容器名 corekg-app）→ http://corekg-app:8080/v3
 
 # TODO 填 MinerU PDF 解析接口地址（analyser_process.py 读 config.get("analyser_api_url")），
-# 如 http://<mineru-host>:5000/local.Run。用 txt/md 跑通链路可留空。
+# 如 http://<mineru-host>:5000/local.Run。用 txt/md 跑通链路可留空（analyser 对
+# .txt/.md/.log/.csv/.json 走 others_process，无需 MinerU）。
 analyser_api_url: ""
 
 # ---- S3（本地 MinIO，键名须为小写）----

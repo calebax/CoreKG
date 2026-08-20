@@ -127,6 +127,63 @@ make local APP=keinit ENV=test
 
 > 如需修改初始密码，请勿改已发布的基线 SQL（已写入 bcrypt 哈希）；应在系统运行后通过账号体系接口/后台修改。
 
+## 5.5 一键自动化验证（知识库闭环）
+
+`scripts/verify/verify-kb.sh` 自动跑通 **登录 → 新建知识库 → 上传文件 → 等待解析完成 → 基于文件问答** 的完整闭环，替代原来的 `verify-paths.sh`（只探路由）。模块化脚本位于 `scripts/verify/`：
+
+| 文件 | 职责 |
+|---|---|
+| `verify-kb.sh` | 主入口，串起完整链路（两种模式：local / compose） |
+| `lib.sh` | 公共库：HTTP/JSON 断言、计数、汇总 |
+| `auth.sh` | `account.LoginByPassword` 登录取 JWT |
+| `forest.sh` | `forest.CreateForest` / `ListFile` / `DeleteForest` |
+| `upload.sh` | multipart `forest.UploadFile` 上传样例 |
+| `wait_parse.sh` | 轮询 `forest.ListFile` 的 `knowledge_status` 直至 `success`（超时给排障提示） |
+| `qa.sh` | 内部 `chat.*` 流式 RAG：建会话→提问→断言答案 + RAG 引用命中本知识库 |
+
+### 运行前提
+
+解析闭环**依赖 pipeline worker**（corekg 只负责写任务 `ke.prase_pdf_task → ke.knowledge_task` 到 `core_task` 表，真正的拆 chunk/向量/ES 入库由 `apps/pipeline` 的 analyser + chunker 完成）。两种模式对应两套启动方式：
+
+**本地宿主模式**（corekg 是宿主二进制 `:8080`，pipeline 跑在宿主机 venv）：
+
+```bash
+docker compose up -d                                  # 中间件
+make run APP=corekg ENV=test                          # 宿主 corekg :8080
+cd apps/pipeline && python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt -r requirements_analyser.txt
+python doc_worker_main.py   &                         # 消费 ke.prase_pdf_task
+python chunk_worker_main.py &                         # 消费 ke.knowledge_task
+cd ../..
+./scripts/verify/verify-kb.sh --mode local --cleanup
+```
+
+**docker-compose 全容器模式**：
+
+```bash
+docker compose -f docker-compose.pipeline.yml up -d --build   # 中间件 + corekg + pipeline + mock-llm
+./scripts/verify/verify-kb.sh --mode compose --cleanup
+```
+
+### 关键配置与依赖
+
+- **向量化**：chunker 的向量化走 `apps/pipeline/config/chunk_config(.docker).yaml` 的 `Embedding` 节点（代码 `tools/llm_chat.py`），**不读 DB 的 `knowledge/embedding`**。默认已指向真实可达端点
+  `http://embed-qwen3.003.yygu.cn:58080/v1`（模型 `Qwen3-Embedding-0.6B`）。本地无真实模型时可用
+  `scripts/mock_embedding.py`（OpenAI 兼容 `/v1/embeddings`，返回确定性伪向量）。
+- **task 上报主机名**：`.docker.yaml` 的 `Work.API_URl` / `analyser_config.docker.yaml` 的 `api_url`
+  指 corekg 在本网络的暴露名——compose 拉起时是 `corekg`；若 corekg 是手动 `docker run` 的容器（无 `corekg`
+  别名，容器名为 `corekg-app`），需改为 `http://corekg-app:8080/v3`。
+- **文件类型**：解析阶段 analyser 对 `.txt/.md/.log/.csv/.json` 走 `others_process`（无需 MinerU）；
+  PDF 需额外 `analyser_api_url`（MinerU）服务。
+
+### 常见排障
+
+1. `等待解析超时`：pipeline analyser/chunker 是否在跑且能连 corekg？核查 `core_task` 表
+   `SELECT id,task_type,task_status FROM core_task WHERE subject_id=<file_id>;` 任务是否有推进。
+2. `ES 删除失败: Empty value passed for parameter 'index'`：该知识库的 ES 索引未配置（`ke_forest.config_id` 为 0），
+   需建好 `ke_N` 索引并让森林绑定（用 keinit / 面板创建知识库时选择索引）。
+3. 引用为空：确认文件 `knowledge_status=success` 后 chunks 已进 ES 索引 `ke_N`，且 `query_reference_list` 能检索到。
+
 ## 6. 前端 / worker / pipeline 配置同步
 
 - **前端**：`frontend/corekg/.env.development.example`、`.env.production.example`（API 地址指向对应后端应用映射端口）。

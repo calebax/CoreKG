@@ -92,6 +92,32 @@ make run APP=workflow ENV=test   # 或 make run APP=corekg ENV=test（聚合进�
 
 如需改动中间件端口/凭据，直接改 `docker-compose.yml` 与上述 `config.yaml` 里的字面值即可，无需导出环境变量。
 
+## 一键自动化验证（知识库闭环）
+
+`scripts/verify/verify-kb.sh` 可自动跑通**登录 → 新建知识库 → 上传文件 → 等待解析(拆 chunk/向量/入库) → 基于文件问答**的完整闭环。
+
+前提：中间件 + corekg + **pipeline 摄入 worker** 均已在跑（解析依赖 pipeline 的 analyser/chunker）：
+
+```bash
+# 本地宿主模式（corekg 二进制 :8080，pipeline 跑在宿主机 venv）
+cd apps/pipeline && source .venv/bin/activate
+python doc_worker_main.py &   # 消费 ke.prase_pdf_task
+python chunk_worker_main.py & # 消费 ke.knowledge_task（拆 chunk + 向量 + 写 ES）
+cd ../..
+./scripts/verify/verify-kb.sh --mode local --cleanup
+
+# docker-compose 全容器模式
+docker compose -f docker-compose.pipeline.yml up -d --build
+./scripts/verify/verify-kb.sh --mode compose --cleanup
+```
+
+- 样例文件 `testdata/verify_sample.txt`、问题 `testdata/verify_question.txt` 可用 `--file/--question` 覆盖。
+- `--cleanup` 结束自动删除本次创建的知识库；`VERIFY_PARSE_TIMEOUT` 可调解析等待时长（默认 180s）。
+- 关键依赖：向量化走 `apps/pipeline/config/chunk_config(.docker).yaml` 的 `Embedding` 节点（默认指向真实可达的
+  `embed-qwen3.003.yygu.cn`）；无真实模型时可改用 `scripts/mock_embedding.py`。详见 `docs/local-development.md`。
+
+
+
 * **API文档**:
 * Account: http://tapi.ckeyer.com/v2/account.docs/index.html#/
 * AIGC: http://tapi.ckeyer.com/v2/aigc.docs/index.html#/
