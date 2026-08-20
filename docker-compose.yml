@@ -9,14 +9,25 @@
 # 说明：
 #   - 为规避宿主机上可能已占用的默认端口，宿主机端口在容器默认端口基础上统一 +2：
 #       MySQL 3308(:3306)  Redis 6381(:6379)  ES 9202(:9200)/9302(:9300)
-#       MinIO 9002(:9000)/9003(:9001)  NATS 4225(:4222)  corekg 8080(:8080)
+#       MinIO 9002(:9000)/9003(:9001)  NATS 4225(:4222)  Nebula 9669(:9669)  corekg 8080(:8080)
 #   - 所有中间件明文密码统一为 123456（本地开发默认值）。
 #   - 容器之间通过服务名+容器内端口互连；宿主机进程经映射端口访问。
 #   - 首次启动时会通过 scripts/mysql-docker-init.sh 额外创建 opencoze 库。
 #
 # 服务名（容器内端口）：
 #   mysql:3306  elasticsearch:9200  minio:9000  nats:4222  redis:6379
+#   nebula：metad0:9559  storaged0:9779  graphd:9669（单节点 Nebula，3 容器）
 #   corekg:8080  chunker（chunk worker）  analyser（doc worker）
+#
+# ---------- Nebula Graph（图数据库）----------
+#   - 单节点 Nebula 由三个容器组成（vesoft 官方镜像一律一个进程一个镜像，无内置 all-in-one）：
+#       metad0:9559  storaged0:9779  graphd:9669；ws_http 分别 19559/19779/19669。
+#   - corekg 通过 ENABLE_NEBULA_GRAPH=true 启用图功能；DB settings（knowledge/nebula）里的
+#     address 指向 graphd（graphd:9669），由 keinit 的 core_setting.yaml 下发。
+#   - 首次初始化必须激活 storaged（否则 CREATE SPACE 报 Host not enough）：由 nebula-activator
+#     一次性执行 ADD HOSTS "storaged0":9779。
+#   - 知识图谱的 space 由应用按"ke_graph_"+20位随机串自动创建，无需手动预建。
+#   - 宿主进程连图库走 graphd 映射端口 9669。
 #
 # pipeline worker 的 LLM/Embedding/MinerU 地址在以下文件里配置（默认指向占位，请按你的真实环境填写）：
 #   apps/pipeline/config/chunk_config.docker.yaml   # chunker：LLM/VLLM/Embedding/ES/Work
@@ -141,6 +152,136 @@ services:
     ports:
       - "4225:4222"
 
+  # ---------- Nebula Graph（图数据库，单节点 3 容器：metad + storaged + graphd） ----------
+  # 数据卷统一挂到 nebula_data 下，各自子目录 meta/storage；graphd 无本地数据。
+  metad0:
+    image: vesoft/nebula-metad:v3.8.0
+    container_name: corekg-nebula-metad
+    restart: unless-stopped
+    environment:
+      USER: root
+    command:
+      - --meta_server_addrs=metad0:9559
+      - --local_ip=metad0
+      - --ws_ip=metad0
+      - --port=9559
+      - --ws_http_port=19559
+      - --data_path=/data/meta
+      - --logtostderr=true
+      - --redirect_stdout=false
+      - --v=0
+      - --minloglevel=0
+    ports:
+      - "9559:9559"
+    volumes:
+      - nebula_data:/data
+    cap_add:
+      - SYS_PTRACE
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://127.0.0.1:19559/status"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+      start_period: 10s
+
+  storaged0:
+    image: vesoft/nebula-storaged:v3.8.0
+    container_name: corekg-nebula-storaged
+    restart: unless-stopped
+    environment:
+      USER: root
+    command:
+      - --meta_server_addrs=metad0:9559
+      - --local_ip=storaged0
+      - --ws_ip=storaged0
+      - --port=9779
+      - --ws_http_port=19779
+      - --data_path=/data/storage
+      - --logtostderr=true
+      - --redirect_stdout=false
+      - --v=0
+      - --minloglevel=0
+    depends_on:
+      metad0:
+        condition: service_started
+    ports:
+      - "9779:9779"
+    volumes:
+      - nebula_data:/data
+    cap_add:
+      - SYS_PTRACE
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://127.0.0.1:19779/status"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+      start_period: 10s
+
+  graphd:
+    image: vesoft/nebula-graphd:v3.8.0
+    container_name: corekg-nebula-graphd
+    restart: unless-stopped
+    environment:
+      USER: root
+    command:
+      - --meta_server_addrs=metad0:9559
+      - --local_ip=graphd
+      - --ws_ip=graphd
+      - --port=9669
+      - --ws_http_port=19669
+      - --logtostderr=true
+      - --redirect_stdout=false
+      - --v=0
+      - --minloglevel=0
+    depends_on:
+      storaged0:
+        condition: service_started
+    ports:
+      - "9669:9669"       # graphd thrift（宿主 9669，与 keinit core_setting.yaml 的 graphd:9669 对齐）
+    volumes:
+      - nebula_data:/data
+    cap_add:
+      - SYS_PTRACE
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://127.0.0.1:19669/status"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+      start_period: 10s
+
+  # Nebula storaged 激活：单节点首次启动需把 storaged0 加入 hosts，否则 CREATE SPACE 报 Host not enough。
+  # 幂等 ADD HOSTS；带重试循环（storaged 就绪可能需要数次）。复用 graphd 镜像内置的 nebula-console 二进制。
+  nebula-activator:
+    image: vesoft/nebula-graphd:v3.8.0
+    container_name: corekg-nebula-activator
+    depends_on:
+      metad0:
+        condition: service_healthy
+      storaged0:
+        condition: service_healthy
+      graphd:
+        condition: service_healthy
+    entrypoint: ["sh", "-c"]
+    command:
+      - |
+        CLI=/usr/local/nebula/bin/nebula-console
+        for i in $$(seq 1 30); do
+          if $$CLI -addr graphd -port 9669 -u root -p nebula -e 'ADD HOSTS "storaged0":9779' >/dev/null 2>&1; then
+            echo "Nebula storaged activated."
+            exit 0
+          fi
+          out=$$($$CLI -addr graphd -port 9669 -u root -p nebula -e 'ADD HOSTS "storaged0":9779' 2>&1)
+          if echo "$$out" | grep -q Existed; then
+            echo "Nebula storaged already activated."
+            exit 0
+          fi
+          echo "waiting for storaged ready, attempt $$i/30"
+          sleep 5
+        done
+        echo "Failed to activate storaged after 30 attempts."
+        exit 1
+    restart: "no"
+
   # ---------- corekg（聚合服务：kecore + kechat + account + keapi + keparser + kesearch） ----------
   corekg:
     build:
@@ -149,7 +290,7 @@ services:
     image: corekg:latest
     container_name: corekg-app
     environment:
-      ENABLE_NEBULA_GRAPH: "false"
+      ENABLE_NEBULA_GRAPH: "true"
       NATS_URL: nats://nats:4222   # 指向本编排内 nats 服务；必需，否则 initNATS/task 桥接与 SaveTask 派发失败
     command: ["/usr/local/bin/corekg", "-c", "/data/config.yaml"]
     ports:
@@ -168,6 +309,8 @@ services:
         condition: service_healthy
       nats:
         condition: service_started
+      graphd:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "/bin/bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/8080"]
       interval: 10s
@@ -210,5 +353,6 @@ volumes:
   es_plugins:
   redis_data:
   minio_data:
+  nebula_data:
   corekg_data:
   pipeline_logs:

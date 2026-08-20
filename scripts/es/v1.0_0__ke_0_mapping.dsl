@@ -181,6 +181,54 @@ PUT /ke_0
             "type": "keyword"
           }
         }
+      },
+      "chunk_size": {
+        "type": "integer"
+      },
+      "yg_location": {
+        "type": "keyword"
+      },
+      "image_embedding": {
+        "type": "dense_vector",
+        "dims": 1024,
+        "index": true,
+        "similarity": "cosine",
+        "index_options": {
+          "type": "int8_hnsw",
+          "m": 16,
+          "ef_construction": 100
+        }
+      },
+      "file_name": {
+        "type": "text",
+        "analyzer": "ik_smart",
+        "search_analyzer": "ik_smart",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "is_disable": {
+        "type": "boolean",
+        "null_value": false
+      },
+      "source_from": {
+        "type": "keyword"
+      },
+      "enable": {
+        "type": "integer"
+      },
+      "graph_info": {
+        "type": "object",
+        "enabled": false
+      },
+      "graph_status": {
+        "type": "keyword"
+      },
+      "table": {
+        "type": "keyword"
       }
     },
     "dynamic": "strict"

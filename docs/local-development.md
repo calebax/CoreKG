@@ -1,6 +1,6 @@
 # CoreKG 本地基础环境搭建指南
 
-本文档说明如何在本地快速搭建 CoreKG 所需的全部基础中间件（MySQL / Elasticsearch / Redis / MinIO / NATS），并初始化数据。所有服务均通过 Docker Compose 编排，使用 Docker Hub 官方 multi-arch 镜像（amd64 / arm64 均可用）。
+本文档说明如何在本地快速搭建 CoreKG 所需的全部基础中间件（MySQL / Elasticsearch / Redis / MinIO / NATS / Nebula Graph / Coze 可选），并初始化数据。所有服务均通过 Docker Compose 编排，使用 Docker Hub 官方 multi-arch 镜像（amd64 / arm64 均可用）。
 
 ## 1. 总览
 
@@ -12,10 +12,13 @@
 | Redis | redis:7 | 6379 | **6381** | 无密码 |
 | MinIO | minio/minio:latest | 9000 / 9001 | **9002** / **9003** | minioadmin / `minio123456` |
 | NATS | nats:2 | 4222 | **4225** | 无认证 |
+| Nebula Graph（3 容器） | vesoft/nebula-metad / nebula-storaged / nebula-graphd `:v3.8.0` | metad 9559 / storaged 9779 / graphd 9669 | **9559 / 9779 / 9669** | root / `nebula` |
 
 > **端口设计说明**：容器内部保留各服务默认端口（互连时用服务名+内部端口）；宿主机端口统一在默认端口基础上 **+2**，以避免本地可能已安装的 MySQL/Redis/ES/MinIO 占用默认端口导致启动冲突。如某端口仍被占，可自行在 `docker-compose.yml` 中改映射端口，并同步修改对应 `config.yaml`。
 
-> **凭据说明**：所有中间件明文密码统一为 `123456`（本地开发默认值，欢迎直接使用）。生产环境请勿使用本文件与默认密码。
+> **Nebula 端口例外**：Nebula 是 3 容器集群（metad/storaged/graphd），三个进程之间用服务名+内部端口互连，故 **不遵循 +2**，宿主机端口与容器端口一致（9559 / 9779 / 9669）。DB settings（`knowledge/nebula`）里的 `address` 填 `graphd`、`port` 填 `9669`（容器内服务名）；宿主进程连图库走映射端口 `localhost:9669`。
+
+> **凭据说明**：除 Nebula 外，所有中间件明文密码统一为 `123456`（本地开发默认值，欢迎直接使用）。Nebula 使用其内置默认账号 `root` / `nebula`。生产环境请勿使用本文件与默认密码。
 
 ## 2. 快速启动
 
@@ -23,12 +26,13 @@
 # 1) 启动全部基础依赖（本仓库已提供固定默认值的 docker-compose.yml）
 docker compose up -d
 
-# 2) 等待 minio-init 完成 bucket 初始化后确认状态
+# 2) 等待各 init / activator 完成一次性初始化后确认状态
 docker compose ps
 ```
 
 - 首次启动 MySQL 时，`scripts/mysql-docker-init.sh` 会自动额外创建 `opencoze` 数据库（供 kechat / keinit / workflow 使用），并向 `corekg` 用户授权。
 - Minio 启动后 `minio-init` 会自动创建 `corekg-bucket`（幂等，重复执行不报错）。
+- Nebula 首次启动后 `nebula-activator` 会执行 `ADD HOSTS` 激活 storaged（幂等，重复不报错）；日志出现 `Nebula storaged activated.` 即完成。
 
 ### 各服务健康检查
 
@@ -45,12 +49,18 @@ redis-cli -p 6381 ping
 
 # MinIO（Node 端口 9002；Web 控制台 9003，浏览器打开 http://localhost:9003）
 # NATS
+
+# Nebula Graph（确认 metad/storaged/graphd 均 healthy，且 storaged 已激活）
+docker compose ps --filter name=corekg-nebula
+docker compose logs corekg-nebula-activator   # 应看到 "Nebula storaged activated."
+docker exec -it corekg-nebula-graphd /usr/local/nebula/bin/nebula-console \
+  -addr 127.0.0.1 -port 9669 -u root -p nebula -e 'SHOW HOSTS;' | grep -i online
 ```
 
 ## 3. 各服务进程如何连接
 
-- **容器间互连**：各 Docker 服务之间用 `服务名 + 容器内部端口`（如 `minio:9000`、`mysql:3306`）。
-- **宿主机进程访问**：`make run` 启动的 Go 服务（keinit / corekg / keapi / ketask 等）跑在宿主机上，一律通过 **宿主机映射端口** 连接，因此 `config.yaml` 中连接的地址为 `localhost:3308`、`localhost:9202`、`localhost:6381`、`localhost:9002`、`nats://localhost:4225` 等。
+- **容器间互连**：各 Docker 服务之间用 `服务名 + 容器内部端口`（如 `minio:9000`、`mysql:3306`、Nebula 用 `graphd:9669`）。
+- **宿主机进程访问**：`make run` 启动的 Go 服务（keinit / corekg / keapi / ketask 等）跑在宿主机上，一律通过 **宿主机映射端口** 连接，因此 `config.yaml` 中连接的地址为 `localhost:3308`、`localhost:9202`、`localhost:6381`、`localhost:9002`、`nats://localhost:4225` 等。注意：**Nebula 连接不走 `config.yaml`，走 DB 的 `knowledge/nebula` settings**（见下方说明）。
 
 ### 连接字符串速查（写入各 config.yaml）
 
@@ -61,6 +71,14 @@ redis-cli -p 6381 ping
 - **MinIO**：`end_point: http://localhost:9002`，`access_key_id: minioadmin`，`secret_access_key: minio123456`
   > ⚠️ **workflow 的 MinIO 连接是例外**：workflow 用 `minio-go` 客户端，其 `endpoint` 必须是**裸 host:port**（`localhost:9002`，不带 `://`），scheme 由 config 的 `storage.upload_http_scheme`（本地应填 `http`）决定。若写成 `http://localhost:9002` 会报 `Endpoint url cannot have fully qualified paths.`。凭证需与 docker-compose 的 `MINIO_ROOT_USER/MINIO_ROOT_PASSWORD`（`minioadmin` / `minio123456`）一致；`storage.bucket` 不存在时 workflow 会自动创建。
 - **NATS**：`nats://localhost:4225`
+
+### Nebula Graph 连接（图数据库）
+
+- **连接来源**：Nebula 连接参数**不从 `config.yaml` 读取**，而是从 DB 的 `knowledge/nebula` settings（`core_settings` 表）读取，字段为 `address / port / username / password / prefix`，由 keinit 的 `core_setting.yaml` 下发。
+- **本地默认值**（与 compose 一致）：`address: graphd`、`port: 9669`、`username: root`、`password: nebula`。**容器内 corekg** 用服务名 `graphd`；**宿主进程**若直接连图库，把 address 临时改为 `localhost`（映射端口 9669）即可。
+- **图功能开关**：corekg 通过环境变量 `ENABLE_NEBULA_GRAPH` 决定是否初始化图库，值默认为 `true`。注意该开关在 `corekg/cmd/main.go` 是**强制语义**——置 `true` 且图库连不上时，corekg 会 `Fatal` 拒绝启动；关闭（`false`）则跳过初始化。compose 里已配为 `true`。
+- **首次激活**：单节点 Nebula 首次运行后必须激活 storaged（`ADD HOSTS "storaged0":9779`），否则 `CREATE SPACE` 报 `Host not enough`。compose 的 `nebula-activator` 自动完成（幂等）。
+- **space 自动创建**：知识图谱的 space 由应用按 `ke_graph_` + 20 位随机串自动创建，无需手动预建。
 
 ## 4. 初始化一次数据（keinit）
 
@@ -122,3 +140,5 @@ make local APP=keinit ENV=test
 - **端口已被占用 / 容器启动失败**：因本方案已将宿主机端口统一 +2，绝大多数冲突已规避；若仍冲突，改 `docker-compose.yml` 端口映射并同步到对应 `config.yaml`。
 - **MySQL 改了密码/清库后想重置**：删除数据卷后重新 `docker compose up -d`（首次初始化脚本会重建库与 opencoze）。
 - **ES 鉴权失败**：确认使用 `-u elastic:123456`，且 `config.yaml` 中 `username/password` 为 `elastic/123456`。
+- **corekg 启动失败 / 图功能报 `Host not enough`**：多为 Nebula storaged 未激活或未就绪。先确认 `nebula-activator` 日志有 `Nebula storaged activated.`；若失败，手动执行 `docker exec -it corekg-nebula-graphd /usr/local/nebula/bin/nebula-console -addr 127.0.0.1 -port 9669 -u root -p nebula -e 'ADD HOSTS "storaged0":9779'`。另确认 DB `knowledge/nebula` 的 `address` 为 `graphd`、密码为 `nebula`。
+- **Nebula 端口占用**：若宿主机已有 N 台服务占用 9559/9779/9669，需改 compose 映射端口并同步改 `knowledge/nebula` settings 里的 `address`/`port`（容器内仍用服务名，改的是宿主映射）。

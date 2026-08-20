@@ -2,10 +2,10 @@ PUT /ke_chat_history
 {
   "mappings": {
     "properties": {
-      "req_id": {   // 一次请求中的reqid为同一个，内部调用时使用内部的当前的req_id
+      "req_id": {
         "type": "keyword"
       },
-      "agent_step": {   // 这是当前请求的第几步，相同的reqid，step为当前question+1
+      "agent_step": {
         "type": "integer"
       },
       "company_id": {
@@ -29,17 +29,17 @@ PUT /ke_chat_history
       "cache_miss_token": {
         "type": "integer"
       },
-      "is_charged": {   // 是否完成计费，或收费
+      "is_charged": {
         "type": "boolean",
         "null_value": false
       },
-      "base_agent_id": {  // 外部通过api调用存储参数
+      "base_agent_id": {
         "type": "integer"
       },
-      "agent_version": {  // 外部通过api调用存储参数
+      "agent_version": {
         "type": "integer"
       },
-      "model_id": {   // 外部通过api调用存储参数 
+      "model_id": {
         "type": "integer"
       },
       "cost_seconds": {
@@ -97,7 +97,7 @@ PUT /ke_chat_history
           }
         }
       },
-      "image_content": {   // 问答上传图片多模态分析后问答
+      "image_content": {
         "type": "text",
         "analyzer": "ik_smart",
         "search_analyzer": "ik_smart",
@@ -116,12 +116,46 @@ PUT /ke_chat_history
         "type": "object",
         "enabled": false
       },
-       "user_input": {
+      "user_input": {
         "type": "object",
         "enabled": false
       },
       "agent_name": {
         "type": "keyword"
+      },
+      "sub_question": {
+        "type": "keyword"
+      },
+      "graph_reference": {
+        "properties": {
+          "edges": {
+            "type": "object",
+            "enabled": false
+          },
+          "nodes": {
+            "type": "object",
+            "enabled": false
+          }
+        }
+      },
+      "graph_chat_reference": {
+        "properties": {
+          "edges": {
+            "type": "object",
+            "enabled": false
+          },
+          "nodes": {
+            "type": "object",
+            "enabled": false
+          }
+        }
+      },
+      "react_agent_service": {
+        "type": "object",
+        "enabled": false
+      },
+      "extra": {
+        "type": "flattened"
       }
     },
     "dynamic": "strict"

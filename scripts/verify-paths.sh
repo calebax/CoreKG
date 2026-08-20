@@ -54,6 +54,32 @@ post() {  # post <action> <json-body> [token] [expect_code]
   fi
 }
 
+# post_capture <action> <json-body> [token] [expect_code] 与 post() 判定一致，
+# 但状态行输出到 stderr，响应体原样打印到 stdout，便于管道内用 json_val 提取字段做链路串联。
+post_capture() {
+  local action="$1" body="$2" tok="${3:-}" expect="${4:-}"
+  local hdr=()
+  if [ -n "$tok" ]; then hdr=(-H "Authorization: Bearer $tok"); fi
+  local resp code
+  resp="$(curl -s -X POST "$BASE$PREFIX/$action" -H "Content-Type: application/json" "${hdr[@]}" -d "$body")"
+  code="$(printf '%s' "$resp" | python3 -c 'import sys,json;d=json.load(sys.stdin);print(d.get("code",-1))' 2>/dev/null || echo 'parse_err')"
+  if [ "$expect" == "any" ]; then
+    printf "${GREEN}PASS${NC}  %-28s (code=%s, 接口可达)\n" "$action" "$code" >&2
+    PASS=$((PASS+1))
+  elif [ "$code" == "$expect" ]; then
+    printf "${GREEN}PASS${NC}  %-28s (code=%s = 期望 %s)\n" "$action" "$code" "$expect" >&2
+    PASS=$((PASS+1))
+  elif [ "$code" == "500" ]; then
+    printf "${YELLOW}通道OK${NC} %-28s (code=500 业务依赖未就绪，但路由+认证已通过)\n" "$action" >&2
+    PASS=$((PASS+1))
+  else
+    printf "${RED}FAIL${NC}  %-28s (code=%s)\n" "$action" "$code" >&2
+    printf "     body: %s\n" "$(printf '%s' "$resp" | head -c 300)" >&2
+    FAIL=$((FAIL+1))
+  fi
+  printf '%s\n' "$resp"
+}
+
 json_val() {  # 提取 JSON 字段
   python3 -c "import sys,json;d=json.load(sys.stdin);print(d$1)"
 }
@@ -105,6 +131,37 @@ post forest.GetCommonInfo         '{}'                   "$TOKEN" "0"
 echo "--- kechat（对话）---"
 post chat.ListChatSession         '{"request":{"offset":0,"limit":10}}'  "$TOKEN" "0"
 post chat.ListModel               '{"request":{"offset":0,"limit":10}}'  "$TOKEN" "any"
+
+echo "--- kechat（问答链路：建会话 → 提问 → 查聊天记录）---"
+# 取第一个系统模型 id 作为会话模型（resource_type=model 不依赖 ES/知识库/LLM）
+MODEL_ID="$(post_capture chat.ListModel \
+  '{"request":{"offset":0,"limit":10}}' "$TOKEN" "any" \
+  | json_val "['Response']['Data'][0]['id']" 2>/dev/null)"
+if [ -z "$MODEL_ID" ] || [ "$MODEL_ID" == "None" ] || [ "$MODEL_ID" == "0" ]; then
+  echo -e "${INFO_MARK} chat.NewChatSession 跳过：未从 ListModel 取到可用模型 id"
+else
+  # 以模型问答方式建会话（返回 Response.id = 会话 id）
+  SESSION_RESP="$(post_capture chat.NewChatSession \
+    "{\"request\":{\"resource_type\":\"model\",\"resource_id\":$MODEL_ID}}" \
+    "$TOKEN" "0")"
+  SESSION_ID="$(printf '%s' "$SESSION_RESP" | json_val "['Response']['id']" 2>/dev/null)"
+  SESSION_CODE="$(printf '%s' "$SESSION_RESP" | json_val "['code']" 2>/dev/null)"
+  if [ "$SESSION_CODE" == "0" ] && [ -n "$SESSION_ID" ] && [ "$SESSION_ID" != "None" ]; then
+    # 提问（仅创建 pending 问题记录，不触发流式 RAG），返回 question_id
+    QUESTION_RESP="$(post_capture chat.NewChatQuestionStream \
+      "{\"request\":{\"session_id\":$SESSION_ID,\"question\":\"通路验证问题\"}}" \
+      "$TOKEN" "0")"
+    QUESTION_ID="$(printf '%s' "$QUESTION_RESP" | json_val "['Response']['question_id']" 2>/dev/null)"
+    if [ -n "$QUESTION_ID" ] && [ "$QUESTION_ID" != "None" ]; then
+      printf "${GREEN}PASS${NC}  %-28s (question_id=%s 已创建)\n" "chat.NewChatQuestionStream" "$QUESTION_ID"
+      PASS=$((PASS+1))
+    fi
+    # 查会话聊天记录，确认问题已落库
+    post chat.ListSessionChats "{\"request\":{\"id\":$SESSION_ID}}" "$TOKEN" "0"
+  else
+    echo -e "${INFO_MARK} chat.NewChatQuestionStream / ListSessionChats 跳过：会话未创建成功（code=${SESSION_CODE:-未知}）"
+  fi
+fi
 
 echo "--- kesearch（搜索）---"
 post kesearch.GlobalSearchForest  '{"request":{"text":"test","offset":0,"limit":10}}'  "$TOKEN" "any"

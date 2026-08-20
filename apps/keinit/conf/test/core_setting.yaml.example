@@ -88,7 +88,7 @@
   name: 图数据库配置
   describe: Nebula Graph 连接配置
   value_type: yaml
-  value: "address: \"localhost\"\r\nport: 9669\r\nusername: \"root\"\r\npassword: \"123456\"\r\nprefix: \"know\""
+  value: "address: \"graphd\"\r\nport: 9669\r\nusername: \"root\"\r\npassword: \"nebula\"\r\nprefix: \"know\""
 
 - group: knowledge
   key: mysql_excel_instance
