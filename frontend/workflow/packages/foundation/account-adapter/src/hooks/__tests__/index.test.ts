@@ -18,6 +18,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { renderHook } from '@testing-library/react';
 import { useCheckLoginBase } from '@coze-foundation/account-base';
+import {
+  getStoredToken,
+  getStoredUserInfo,
+  isInIframe,
+} from '@coze-foundation/auth-protocol';
 
 import { signPath, signRedirectKey } from '../../utils/constants';
 import { checkLoginImpl } from '../../utils';
@@ -28,7 +33,7 @@ vi.mock('react-router-dom', () => ({
   useNavigate: vi.fn(),
 }));
 
-vi.mock('../../src/utils', () => ({
+vi.mock('../../utils', () => ({
   checkLoginImpl: vi.fn(),
 }));
 
@@ -36,9 +41,19 @@ vi.mock('@coze-foundation/account-base', () => ({
   useCheckLoginBase: vi.fn(),
 }));
 
+vi.mock('@coze-foundation/auth-protocol', () => ({
+  getStoredToken: vi.fn(),
+  getStoredUserInfo: vi.fn(),
+  isInIframe: vi.fn(),
+  requestRelogin: vi.fn(),
+}));
+
 const mockNavigate = vi.fn();
 const mockUseLocation = vi.mocked(useLocation);
 const mockUseNavigate = vi.mocked(useNavigate);
+const mockGetStoredToken = vi.mocked(getStoredToken);
+const mockGetStoredUserInfo = vi.mocked(getStoredUserInfo);
+const mockIsInIframe = vi.mocked(isInIframe);
 
 describe('useCheckLogin', () => {
   const mockLocation = {
@@ -50,6 +65,9 @@ describe('useCheckLogin', () => {
     vi.clearAllMocks();
     mockUseNavigate.mockReturnValue(mockNavigate);
     mockUseLocation.mockReturnValue(mockLocation);
+    mockGetStoredToken.mockReturnValue(null);
+    mockGetStoredUserInfo.mockReturnValue(null);
+    mockIsInIframe.mockReturnValue(false);
   });
 
   it('should call useCheckLoginBase with correct parameters', () => {
@@ -59,6 +77,23 @@ describe('useCheckLogin', () => {
       checkLoginImpl,
       expect.any(Function),
     );
+  });
+
+  it('should reuse the synced session when opened outside the iframe', async () => {
+    const storedUserInfo = {
+      user_id_str: 'user-1',
+      name: 'Test User',
+    };
+    mockGetStoredToken.mockReturnValue('stored-token');
+    mockGetStoredUserInfo.mockReturnValue(storedUserInfo);
+
+    renderHook(() => useCheckLogin({ needLogin: true }));
+
+    const effectiveCheckLogin = vi.mocked(useCheckLoginBase).mock.calls[0][1];
+    await expect(effectiveCheckLogin()).resolves.toEqual({
+      userInfo: storedUserInfo,
+    });
+    expect(checkLoginImpl).not.toHaveBeenCalled();
   });
 
   it('should navigate to default loginFallbackPath when not provided and user is not logged in', () => {

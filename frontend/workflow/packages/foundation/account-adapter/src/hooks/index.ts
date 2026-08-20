@@ -16,12 +16,13 @@
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { useCheckLoginBase } from '@coze-foundation/account-base';
 import {
   isInIframe,
   requestRelogin,
   getStoredToken,
+  getStoredUserInfo,
 } from '@coze-foundation/auth-protocol';
+import { useCheckLoginBase } from '@coze-foundation/account-base';
 
 import { signPath, signRedirectKey } from '../utils/constants';
 import { checkLoginImpl } from '../utils';
@@ -58,14 +59,23 @@ export const useCheckLogin = ({
   loginFallbackPath?: string;
 }) => {
   const goLogin = useGoLogin(loginFallbackPath);
+  const storedToken = getStoredToken();
+  const storedUserInfo = getStoredUserInfo();
+  const useStoredSession =
+    isInIframe() || Boolean(storedToken && storedUserInfo);
 
-  const effectiveCheckLogin = isInIframe()
-    ? async () => {
-        const token = getStoredToken();
-        if (token) {
-          return { userInfo: { user_id_str: 'iframe-user' } };
+  const effectiveCheckLogin = useStoredSession
+    ? () => {
+        if (storedToken) {
+          return Promise.resolve({
+            userInfo: {
+              ...storedUserInfo,
+              user_id_str:
+                String(storedUserInfo?.user_id_str ?? '') || 'iframe-user',
+            },
+          });
         }
-        return { userInfo: undefined };
+        return Promise.resolve({ userInfo: undefined });
       }
     : checkLoginImpl;
 
