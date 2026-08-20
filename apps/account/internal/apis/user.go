@@ -9,7 +9,7 @@ import (
 	"github.com/insmtx/corekg/apps/account/models/employee"
 	"github.com/insmtx/corekg/apps/account/models/user"
 	"github.com/insmtx/corekg/apps/account/services/svcuser"
-	"github.com/insmtx/corekg/apps/admin/models/login_setting"
+	"github.com/insmtx/corekg/pkgs/platform/login_setting"
 	"github.com/insmtx/corekg/pkgs/wx"
 	"github.com/ygpkg/yg-go/apis/errcode"
 	"github.com/ygpkg/yg-go/apis/runtime"

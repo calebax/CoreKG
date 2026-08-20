@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/insmtx/corekg/apps/admin/models/login_setting"
 	"github.com/insmtx/corekg/pkgs/global"
+	"github.com/insmtx/corekg/pkgs/platform/login_setting"
 	"github.com/ygpkg/yg-go/apis/runtime/auth"
 	"github.com/ygpkg/yg-go/dbtools/redispool"
 	"github.com/ygpkg/yg-go/logs"

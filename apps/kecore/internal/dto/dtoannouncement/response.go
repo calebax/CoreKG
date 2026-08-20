@@ -1,7 +1,7 @@
 package dtoannouncement
 
 import (
-	"github.com/insmtx/corekg/apps/admin/models/admin"
+	"github.com/insmtx/corekg/pkgs/platform/announcement"
 	"github.com/ygpkg/yg-go/apis/apiobj"
 )
 

@@ -4,7 +4,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/insmtx/corekg/apps/admin/models/login_setting"
+	"github.com/insmtx/corekg/pkgs/platform/login_setting"
 	"github.com/ygpkg/yg-go/apis/errcode"
 	"github.com/ygpkg/yg-go/logs"
 )

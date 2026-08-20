@@ -8,7 +8,7 @@ import (
 	"github.com/insmtx/corekg/apps/account/models/accounttype"
 	"github.com/insmtx/corekg/apps/account/models/company"
 	"github.com/insmtx/corekg/apps/account/models/employee"
-	"github.com/insmtx/corekg/apps/admin/models/login_setting"
+	"github.com/insmtx/corekg/pkgs/platform/login_setting"
 	"github.com/insmtx/corekg/pkgs/utils/dbutil"
 	"github.com/ygpkg/yg-go/apis/errcode"
 	"github.com/ygpkg/yg-go/logs"

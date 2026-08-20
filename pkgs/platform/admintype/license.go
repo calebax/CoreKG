@@ -8,6 +8,14 @@ import (
 	"gorm.io/gorm"
 )
 
+const (
+	// TableNameLicense 运营端许可证表
+	TableNameLicense = "admin_license"
+
+	// TableNameDailyLog 校验日志表
+	TableNameDailyLog = "core_daily_log"
+)
+
 // DailyLog defines a single daily log entry
 type DailyLog struct {
 	gorm.Model
@@ -23,12 +31,11 @@ type DailyLog struct {
 	Message string `gorm:"column:message;type:text" json:"message"`
 }
 
-const TableNameDailyLog = "core_daily_log"
-
 func (DailyLog) TableName() string {
 	return TableNameDailyLog
 }
 
+// License 运营端许可证
 type License struct {
 	gorm.Model
 	Subject    string          `gorm:"column:subject;type:varchar(255);comment:签发主体" json:"subject"`

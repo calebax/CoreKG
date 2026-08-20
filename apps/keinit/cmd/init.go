@@ -4,9 +4,9 @@ import (
 	"context"
 
 	"github.com/insmtx/corekg/apps/account/models/accounttype"
-	"github.com/insmtx/corekg/apps/admin/models/login_setting"
 	"github.com/insmtx/corekg/apps/kechat/models/chattype"
 	"github.com/insmtx/corekg/apps/kecore/models/foresttype"
+	"github.com/insmtx/corekg/pkgs/platform/login_setting"
 	"github.com/insmtx/corekg/pkgs/task"
 	"github.com/insmtx/corekg/pkgs/utils/dbutil"
 	"github.com/insmtx/corekg/pkgs/wecoms"

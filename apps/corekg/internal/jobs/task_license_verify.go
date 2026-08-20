@@ -7,9 +7,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/insmtx/corekg/apps/admin/models/admintype"
-	license2 "github.com/insmtx/corekg/apps/admin/models/license"
 	"github.com/insmtx/corekg/apps/corekg/models/license"
+	"github.com/insmtx/corekg/pkgs/platform/admintype"
+	license2 "github.com/insmtx/corekg/pkgs/platform/license"
 	"github.com/insmtx/corekg/pkgs/utils/dbutil"
 	"github.com/ygpkg/yg-go/dbtools/redispool"
 	"github.com/ygpkg/yg-go/logs"

@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/insmtx/corekg/apps/admin/models/admintype"
+	"github.com/insmtx/corekg/pkgs/platform/admintype"
 	"github.com/ygpkg/yg-go/apis/apiobj"
 	dbtools "github.com/ygpkg/yg-go/dbtools/v2"
 	_ "github.com/ygpkg/yg-go/dbtools/v2/mysqldrv"

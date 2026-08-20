@@ -1,7 +1,10 @@
 package admintype
 
-import (
-	"gorm.io/gorm"
+import "gorm.io/gorm"
+
+const (
+	// TableNameAdminAnnouncement 系统公告表
+	TableNameAdminAnnouncement = "admin_announcement"
 )
 
 // AdminAnnouncement 系统公告表表结构体

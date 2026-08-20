@@ -2,8 +2,8 @@ package svcannouncement
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/insmtx/corekg/apps/admin/models/admin"
 	"github.com/insmtx/corekg/apps/kecore/internal/dto/dtoannouncement"
+	"github.com/insmtx/corekg/pkgs/platform/announcement"
 	"github.com/ygpkg/yg-go/logs"
 )
 
