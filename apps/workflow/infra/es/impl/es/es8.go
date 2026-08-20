@@ -19,6 +19,8 @@ package es
 import (
 	"context"
 	"fmt"
+	"io"
+	"net/http"
 
 	"github.com/elastic/go-elasticsearch/v8"
 	"github.com/elastic/go-elasticsearch/v8/esutil"
@@ -34,8 +36,8 @@ import (
 	"github.com/insmtx/corekg/apps/workflow/infra/es"
 	"github.com/insmtx/corekg/apps/workflow/pkg/lang/conv"
 	"github.com/insmtx/corekg/apps/workflow/pkg/lang/ptr"
-	"github.com/ygpkg/yg-go/logs"
 	"github.com/insmtx/corekg/apps/workflow/pkg/sonic"
+	"github.com/ygpkg/yg-go/logs"
 )
 
 type es8Client struct {
@@ -228,15 +230,24 @@ func (c *es8Client) Search(ctx context.Context, index string, req *Request) (*Re
 	if err != nil {
 		return nil, err
 	}
+	defer resp.Body.Close()
 
-	respJson, err := sonic.MarshalString(resp)
+	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("read elasticsearch search response: %w", err)
+	}
+
+	if resp.StatusCode < http.StatusOK || resp.StatusCode >= http.StatusMultipleChoices {
+		return nil, fmt.Errorf(
+			"elasticsearch search returned status %d: %s",
+			resp.StatusCode,
+			string(respBody),
+		)
 	}
 
 	var esResp Response
-	if err := sonic.UnmarshalString(respJson, &esResp); err != nil {
-		return nil, err
+	if err := sonic.Unmarshal(respBody, &esResp); err != nil {
+		return nil, fmt.Errorf("decode elasticsearch search response: %w", err)
 	}
 
 	return &esResp, nil
