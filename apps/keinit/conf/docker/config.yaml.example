@@ -1,0 +1,47 @@
+# keinit 服务容器内配置示例（docker-compose 部署模式）。
+# 与 test/ 的差异：所有中间件指向 compose 服务名（容器内部端口），供 keinit 在容器/集群内初始化。
+# 用法：cp config.yaml.example config.yaml；按需修改。
+main:
+  app: keinit
+  env: docker
+  http_addr: :8080
+  database_conns:
+    core: mysql://corekg:123456@mysql:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    account: mysql://corekg:123456@mysql:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    knownow: mysql://corekg:123456@mysql:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    chat: mysql://corekg:123456@mysql:3306/corekg?charset=utf8mb4&parseTime=true&loc=Local
+    coze: mysql://corekg:123456@mysql:3306/opencoze?charset=utf8mb4&parseTime=true&loc=Local
+logger:
+  default:
+    - writer: console
+      level: debug
+    - writer: file
+      level: debug
+      filename: ./logs/default.log
+      maxsize: 10
+      maxage: 15
+      maxbackups: 5
+      localtime: true
+      compress: true
+    - writer: workwx
+      level: error
+      key: change-me
+  gorm:
+    - writer: console
+      level: debug
+  access:
+    - writer: console
+      level: debug
+    - writer: file
+      level: debug
+      filename: ./logs/access.log
+      maxsize: 10
+      maxage: 15
+      maxbackups: 5
+      localtime: true
+      compress: true
+
+redis:
+  addr: redis:6379
+  password: ""
+  db: 1

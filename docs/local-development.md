@@ -82,7 +82,7 @@ docker exec -it corekg-nebula-graphd /usr/local/nebula/bin/nebula-console \
 
 ## 4. 初始化一次数据（keinit）
 
-CoreKG 的数据初始化由 `keinit`（CLI / bootstrap 工具）完成，承担：MySQL 建表、SQL 种子数据、ES 索引、MinIO bucket、系统设置、聊天模型与 API Key。完整流程见上文对 `apps/keinit` 的说明。
+CoreKG 的数据初始化由 `keinit`(CLI / bootstrap 工具)完成,承担:MySQL 建表、SQL 种子数据、ES 索引、MinIO bucket、系统设置、聊天模型与 API Key。完整流程见上文对 `apps/keinit` 的说明。
 
 ```bash
 # 准备 keinit 配置
@@ -93,10 +93,25 @@ cp apps/keinit/conf/test/core_setting.yaml.example apps/keinit/conf/test/core_se
 make local APP=keinit ENV=test
 ./bundles/keinit -c apps/keinit/conf/test/config.yaml \
     --setting-file apps/keinit/conf/test/core_setting.yaml \
-    --env-file apps/keinit/conf/test/kinit.env   # 可选：若需注入 LLM 模型/APIKEY 等变量
+    --env-file apps/keinit/conf/test/kinit.env   # 可选:若需注入 LLM 模型/APIKEY 等变量
 ```
 
-> `kechat` 等应用中的聊天模型（`chat_model`）与 `chat_agent` 种子数据依赖 `scripts/mysql` 的 SQL 脚本；其中 `@yg_*` 变量来自 `scripts/mysql/variable.sqltpl`（由 `--env-file` 或进程环境变量注入）。本地若暂时没有 LLM API Key，可先在 `variable.sqltpl` 对应 `@yg_llm_*` 填占位值并跳过模型连通性验证。
+> `kechat` 等应用中的聊天模型(`chat_model`)与 `chat_agent` 种子数据依赖 `scripts/mysql` 的 SQL 脚本;其中 `@yg_*` 变量来自 `scripts/mysql/variable.sqltpl`(由 `--env-file` 或进程环境变量注入)。本地若暂时没有 LLM API Key,可先在 `variable.sqltpl` 对应 `@yg_llm_*` 填占位值并跳过模型连通性验证。
+
+### 4.1 两种启动模式(宿主机 / docker-compose 容器)
+
+`keinit` 的 `core_setting.yaml`(写入 `core_settings` 表)决定 corekg 运行时的**全部连接地址**,而 corekg 只读 `core_settings`(不下发 fallback 到 config.yaml)。因此**两种部署模式必须使用两套不同连接字段的 `core_setting.yaml`**:
+
+| 部署模式 | corekg 如何运行 | 连接地址形式 | 使用的 `core_setting.yaml` |
+|---|---|---|---|
+| **宿主机模式**(推荐开发) | `make run APP=corekg ENV=test`(`:8080`) | 宿主机访问映射端口 | `apps/keinit/conf/test/core_setting.yaml`(`localhost:3308/6381/9202/9002`;Nebula `localhost:9669`) |
+| **docker-compose 模式** | corekg 作为容器(`corekg-app`,compose bridge 网络 `:8080`) | compose 服务名 + 容器内端口 | `apps/keinit/conf/docker/core_setting.yaml`(`mysql:3306`/`redis:6379`/`elasticsearch:9200`/`minio:9000`;Nebula `graphd:9669`) |
+
+两份模板(`conf/test/` 与 `conf/docker/`)除连接字段外其余内容**逐字一致**(key-set 与 `diff` 均可验证),只是在初始化**各自模式的 corekg 前**分别选用 `--setting-file` 指向对应文件:
+- 在 compose 网络内初始化(fetch `mysql`/`redis` 等**服务名**)需把 `keinit` 以 **Linux 二进制跑在 compose 网络里的容器**中,或在网络内以服务名可达的环境执行;宿主机直接跑宿主版二进制即可。
+- corekg 容器启动读取 `apps/corekg/conf/docker/config.yaml`(服务名 DSN),宿主进程读取 `apps/corekg/conf/test/config.yaml`(本地映射端口 DSN),两者与各自的 `core_settings` 保持一致。
+
+> 镜像内无 `curl`,故 Nebula `metad/storaged/graphd` 的健康检查使用 `bash /dev/tcp` 探测各自 `ws_http_port` 的 `/status`(绑定在容器 IP 而非 127.0.0.1);首次启动需 `nebula-activator`(独立 `vesoft/nebula-console` 镜像)执行 `ADD HOSTS` 激活 `storaged0:9779`,否则 `CREATE SPACE` 报 `Host not enough`。
 
 ## 5. 初始管理员账号
 

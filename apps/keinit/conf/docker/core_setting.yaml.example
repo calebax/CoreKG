@@ -1,14 +1,15 @@
-# core_setting.yaml 样例：CoreKG 系统设置项（core_settings 表）。
+# core_setting.yaml 样例（docker-compose 容器部署模式）：CoreKG 系统设置项（core_settings 表）。
 # 由 keinit 的 update-setting / init-mysql 通过 --setting-file 读取并 upsert 到 core_settings 表。
+# 与 test/ 的差异：所有连接地址指向 compose 服务名（容器内部端口），供 corekg 在容器内连通。
 # 用法：cp core_setting.yaml.example core_setting.yaml；按需修改占位值（change-me）。
 #
 # 本文件按 group（分类）就近放置：core / knowledge / ketask / account / corekg。
 # 模型相关配置统一共用一套 LLM 网关与 api_key（见「模型配置」小节），
 # embedding / rerank 因属向量与重排服务，保留各自端点模型名。
 #
-# 默认连接信息与 docker-compose.yml 的本地默认值一致：
-#   Redis localhost:6381；ES elastic/123456@localhost:9202；MinIO minioadmin/123456@localhost:9002；
-#   Nebula root/123456@localhost:9669；MySQL root/123456@localhost:3308。
+# 容器内连接地址（compose 服务名 + 内部端口）：
+#   Redis redis:6379；ES elastic/123456@elasticsearch:9200；MinIO minioadmin/123456@minio:9000；
+#   Nebula root/123456@graphd:9669；MySQL root/123456@mysql:3306。
 # 密钥类占位值均为本地开发默认值，与 docker-compose.yml 保持一致，请勿用于生产。
 
 # ==================== core ====================
@@ -19,14 +20,14 @@
   name: Redis
   describe: Redis 配置
   value_type: yaml
-  value: "addr: localhost:6381\r\npassword: \"\"\r\ndb: 1"
+  value: "addr: redis:6379\r\npassword: \"\"\r\ndb: 1"
 
 - group: core
   key: loc_redis
   name: Redis（开发环境）
   describe: dev 环境下 account 等服务实际读取的 Redis 连接配置
   value_type: yaml
-  value: "addr: localhost:6381\r\npassword: \"\"\r\ndb: 1"
+  value: "addr: redis:6379\r\npassword: \"\"\r\ndb: 1"
 
 # --- 对象存储（MinIO）---
 - group: core
@@ -34,21 +35,21 @@
   name: 知识存储
   describe: 知识库文件对象存储（MinIO）配置
   value_type: yaml
-  value: "purpose: forest-file\r\npresigned_timeout: \"24h\"\r\ns3:\r\n  end_point: http://localhost:9002\r\n  access_key_id: minioadmin\r\n  secret_access_key: minio123456\r\n  region: minio\r\n  bucket: corekg-bucket\r\n  use_path_style: true\r\n\r\n"
+  value: "purpose: forest-file\r\npresigned_timeout: \"24h\"\r\ns3:\r\n  end_point: http://minio:9000\r\n  access_key_id: minioadmin\r\n  secret_access_key: minio123456\r\n  region: minio\r\n  bucket: corekg-bucket\r\n  use_path_style: true\r\n\r\n"
 
 - group: core
   key: cos-cu-image
   name: 头像存储
   describe: 用户头像对象存储配置
   value_type: yaml
-  value: "purpose: cu-image\r\npresigned_timeout: \"24h\"\r\ns3:\r\n  end_point: http://localhost:9002\r\n  access_key_id: minioadmin\r\n  secret_access_key: minio123456\r\n  region: minio\r\n  bucket: corekg-bucket\r\n  use_path_style: true\r\n\r\n"
+  value: "purpose: cu-image\r\npresigned_timeout: \"24h\"\r\ns3:\r\n  end_point: http://minio:9000\r\n  access_key_id: minioadmin\r\n  secret_access_key: minio123456\r\n  region: minio\r\n  bucket: corekg-bucket\r\n  use_path_style: true\r\n\r\n"
 
 - group: core
   key: cos-yg-chat
   name: 轻应用头像存储
   describe: 轻应用头像对象存储配置
   value_type: yaml
-  value: "purpose: yg-chat\r\npresigned_timeout: \"24h\"\r\ns3:\r\n  end_point: http://localhost:9002\r\n  access_key_id: minioadmin\r\n  secret_access_key: minio123456\r\n  region: minio\r\n  bucket: corekg-bucket\r\n  use_path_style: true\r\n\r\n"
+  value: "purpose: yg-chat\r\npresigned_timeout: \"24h\"\r\ns3:\r\n  end_point: http://minio:9000\r\n  access_key_id: minioadmin\r\n  secret_access_key: minio123456\r\n  region: minio\r\n  bucket: corekg-bucket\r\n  use_path_style: true\r\n\r\n"
 
 # --- 站点信息 ---
 - group: core
@@ -66,14 +67,14 @@
   name: Redis
   describe: 知识库 Redis 配置
   value_type: yaml
-  value: "addr: localhost:6381\r\npassword: \"\"\r\ndb: 4\r\n"
+  value: "addr: redis:6379\r\npassword: \"\"\r\ndb: 4\r\n"
 
 - group: knowledge
   key: loc_redis
   name: Redis（开发环境）
   describe: dev 环境下 kechat/kecore/keapi 实际读取的 Redis 连接配置
   value_type: yaml
-  value: "addr: localhost:6381\r\npassword: \"\"\r\ndb: 4"
+  value: "addr: redis:6379\r\npassword: \"\"\r\ndb: 4"
 
 # --- 索引 / 存储 ---
 - group: knowledge
@@ -81,23 +82,23 @@
   name: ES 配置
   describe: Elasticsearch 连接配置
   value_type: yaml
-  value: "addresses:\r\n  - http://localhost:9202\r\nusername: elastic\r\npassword: 123456\r\nmax_retries: 3\r\nslow_threshold: 3s"
+  value: "addresses:\r\n  - http://elasticsearch:9200\r\nusername: elastic\r\npassword: 123456\r\nmax_retries: 3\r\nslow_threshold: 3s"
 
 - group: knowledge
   key: nebula
   name: 图数据库配置
   describe: Nebula Graph 连接配置
-  # 注意：本文件为宿主机（make run）部署模式，地址填宿主机访问 Nebula 的地址 localhost（映射端口 9669）。
-  # docker 容器部署模式见 conf/docker/core_setting.yaml.example（地址为容器服务名 graphd:9669）。
+  # 本文件为容器部署模式，地址填容器服务名 graphd:9669（compose 内互联）。
+  # 宿主机 make run 模式使用 localhost（映射端口 9669），见 conf/test/core_setting.yaml.example。
   value_type: yaml
-  value: "address: \"localhost\"\r\nport: 9669\r\nusername: \"root\"\r\npassword: \"nebula\"\r\nprefix: \"know\""
+  value: "address: \"graphd\"\r\nport: 9669\r\nusername: \"root\"\r\npassword: \"nebula\"\r\nprefix: \"know\""
 
 - group: knowledge
   key: mysql_excel_instance
   name: Excel 问答 MySQL 实例
   describe: Excel 问答连接的外部 MySQL 实例信息
   value_type: yaml
-  value: "host: localhost\r\nport: 3308\r\nusername: root\r\npassword: 123456\r\ncharset: utf8mb4\r\n"
+  value: "host: mysql\r\nport: 3306\r\nusername: root\r\npassword: 123456\r\ncharset: utf8mb4\r\n"
 
 # --- 模型配置（共用同一网关与 api_key）---
 # 所有 LLM 类模型共用同一接入点与 api_key（model_name 可按用途各保留一个）；
@@ -197,7 +198,7 @@
   name: Redis
   describe: ketask 使用的 Redis 配置
   value_type: yaml
-  value: "addr: localhost:6381\r\npassword: \"\"\r\ndb: 1"
+  value: "addr: redis:6379\r\npassword: \"\"\r\ndb: 1"
 
 # ==================== account ====================
 
@@ -242,14 +243,14 @@
   name: CoreKG 服务地址
   describe: workflow 内部调用 CoreKG 聚合服务的 BaseURL
   value_type: text
-  value: "http://localhost:8080"
+  value: "http://corekg:8080"
 
 - group: corekg
   key: coze_url
   name: Workflow 服务地址
   describe: CoreKG 反向调用 workflow 服务的 BaseURL
   value_type: text
-  value: "http://localhost:8888"
+  value: "http://workflow:8899"
 
 # --- Agent / 运营服务 ---
 - group: corekg

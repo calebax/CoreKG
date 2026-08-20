@@ -35,6 +35,8 @@ cp apps/corekg/conf/test/config.yaml.example apps/corekg/conf/test/config.yaml
 make run APP=corekg ENV=test
 ```
 
+> **两种启动模式**：corekg 既可用宿主机进程跑(上方 `make run`,读 `apps/corekg/conf/test/config.yaml` + `conf/test/core_setting.yaml`),也可以作为 **docker-compose 容器**跑(读 `apps/corekg/conf/docker/config.yaml` + `conf/docker/core_setting.yaml`)。因为 corekg 的运行连接全部来自 DB `core_settings`(由 keinit 初始化写入),两模式的 `core_setting.yaml` 连接字段不同(宿主用 `localhost:PORT`,容器用 compose 服务名)。两种模式的初始化与部署差异见 `docs/local-development.md`「4.1 两种启动模式（宿主机 / docker-compose 容器）」。
+
 ### 构建多架构（amd64 / arm64）镜像
 
 默认单平台（`linux/amd64`）构建，保持向后兼容。需要同时产出两种架构时，通过 `BUILD_PLATFORMS` 指定并用 buildx 构建：

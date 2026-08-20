@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"mime"
+	"os"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	s3config "github.com/aws/aws-sdk-go-v2/config"
@@ -183,6 +184,16 @@ func UploadCozeFile(ctx context.Context, cfg config.StorageConfig) error {
 	st, err := storage.NewStorageWithCfg(cfg)
 	if err != nil {
 		logs.ErrorContextf(ctx, "file storage init error: %v")
+		return err
+	}
+	// 开源仓库不含私有的 coze 种子资源目录 scripts/minio；目录缺失时跳过上传，
+	// 避免 init 在 CreateCozeBucket 阶段反复重试失败。目录存在时才执行上传。
+	if _, err := os.Stat("./scripts/minio"); err != nil {
+		if os.IsNotExist(err) {
+			logs.WarnContextf(ctx, "UploadCozeFile skip: ./scripts/minio not exist in open-source repo")
+			return nil
+		}
+		logs.ErrorContextf(ctx, "UploadCozeFile stat ./scripts/minio error: %v", err)
 		return err
 	}
 	_, err = st.UploadDirectory("./scripts/minio", "")

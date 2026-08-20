@@ -178,7 +178,8 @@ services:
     cap_add:
       - SYS_PTRACE
     healthcheck:
-      test: ["CMD", "curl", "-sf", "http://127.0.0.1:19559/status"]
+      # 镜像内无 curl；HTTP 服务绑定在容器 IP(metad0)而非 127.0.0.1，故用 bash /dev/tcp 探测 ws 状态端点。
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/metad0/19559; printf \"GET /status HTTP/1.1\\r\\nHost: x\\r\\nConnection: close\\r\\n\\r\\n\" >&3; cat <&3' 2>/dev/null | grep -q running"]
       interval: 5s
       timeout: 5s
       retries: 60
@@ -211,7 +212,8 @@ services:
     cap_add:
       - SYS_PTRACE
     healthcheck:
-      test: ["CMD", "curl", "-sf", "http://127.0.0.1:19779/status"]
+      # 镜像内无 curl；storaged HTTP 服务绑定在容器 IP(storaged0)而非 127.0.0.1。
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/storaged0/19779; printf \"GET /status HTTP/1.1\\r\\nHost: x\\r\\nConnection: close\\r\\n\\r\\n\" >&3; cat <&3' 2>/dev/null | grep -q running"]
       interval: 5s
       timeout: 5s
       retries: 60
@@ -243,16 +245,18 @@ services:
     cap_add:
       - SYS_PTRACE
     healthcheck:
-      test: ["CMD", "curl", "-sf", "http://127.0.0.1:19669/status"]
+      # 镜像内无 curl；graphd HTTP 服务绑定在容器 IP(graphd)而非 127.0.0.1。
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/graphd/19669; printf \"GET /status HTTP/1.1\\r\\nHost: x\\r\\nConnection: close\\r\\n\\r\\n\" >&3; cat <&3' 2>/dev/null | grep -q running"]
       interval: 5s
       timeout: 5s
       retries: 60
       start_period: 10s
 
   # Nebula storaged 激活：单节点首次启动需把 storaged0 加入 hosts，否则 CREATE SPACE 报 Host not enough。
-  # 幂等 ADD HOSTS；带重试循环（storaged 就绪可能需要数次）。复用 graphd 镜像内置的 nebula-console 二进制。
+  # 幂等 ADD HOSTS；带重试循环（storaged 就绪可能需要数次）。使用独立的 vesoft/nebula-console 镜像
+  # （nebula server 镜像未内置 console 二进制）。
   nebula-activator:
-    image: vesoft/nebula-graphd:v3.8.0
+    image: vesoft/nebula-console:v3.8.0
     container_name: corekg-nebula-activator
     depends_on:
       metad0:
@@ -264,15 +268,10 @@ services:
     entrypoint: ["sh", "-c"]
     command:
       - |
-        CLI=/usr/local/nebula/bin/nebula-console
+        CLI=/usr/local/bin/nebula-console
         for i in $$(seq 1 30); do
           if $$CLI -addr graphd -port 9669 -u root -p nebula -e 'ADD HOSTS "storaged0":9779' >/dev/null 2>&1; then
             echo "Nebula storaged activated."
-            exit 0
-          fi
-          out=$$($$CLI -addr graphd -port 9669 -u root -p nebula -e 'ADD HOSTS "storaged0":9779' 2>&1)
-          if echo "$$out" | grep -q Existed; then
-            echo "Nebula storaged already activated."
             exit 0
           fi
           echo "waiting for storaged ready, attempt $$i/30"
