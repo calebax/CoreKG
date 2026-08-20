@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { I18n } from '@coze-arch/i18n';
 import {
   AUTH_MESSAGE_TYPES,
   TOKEN_STORAGE_KEY,
@@ -61,6 +62,15 @@ export const useIframeSync = () => {
               USER_INFO_STORAGE_KEY,
               JSON.stringify(payload.userInfo),
             );
+
+            const locale = payload.userInfo.locale;
+            if (locale === 'zh-CN' || locale === 'en-US') {
+              const language = locale === 'en-US' ? 'en' : locale;
+              localStorage.setItem('i18next', language);
+              if (I18n.language !== language) {
+                I18n.setLang(language);
+              }
+            }
           }
 
           setIsReady(true);

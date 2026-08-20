@@ -1,6 +1,7 @@
 import { FC, useEffect, useRef, useCallback } from 'react'
 import { Spin } from 'antd'
 import useLocalStore from '@/stores/local'
+import { useLocaleStore } from '@/stores/locale'
 import { toLogin } from '@/api/request'
 
 const AGENT_HOME_STATUS_KEY = 'agent_resources_is_home'
@@ -14,6 +15,7 @@ const REQUEST_RELOGIN_MESSAGE_TYPE = 'REQUEST_RELOGIN'
 
 const AgentResources: FC = () => {
   const { token, userInfo, uinList } = useLocalStore()
+  const language = useLocaleStore((state) => state.language)
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
   const currentOrg = uinList.find(
@@ -41,6 +43,7 @@ const AgentResources: FC = () => {
           ...userInfo,
           // 适配子应用可能需要的字段映射
           user_id_str: userInfo.id,
+          locale: language === 'en-US' ? 'en-US' : 'zh-CN',
         },
         // 如果子应用需要知道当前组织信息，也可以传过去
         currentOrg: currentOrg,
@@ -49,7 +52,7 @@ const AgentResources: FC = () => {
 
     // 目标源固定为子应用地址，保障安全
     iframeRef.current.contentWindow.postMessage(message, iframeOrigin)
-  }, [iframeOrigin, token, userInfo, currentOrg])
+  }, [iframeOrigin, token, userInfo, currentOrg, language])
 
   const navigateIframeToHome = useCallback(() => {
     if (!iframeRef.current?.contentWindow) return
