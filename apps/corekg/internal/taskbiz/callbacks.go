@@ -97,6 +97,23 @@ func createAndPushNextTask(ctx context.Context, prevTask *task.Task, nextTaskTyp
 		}
 	}
 
+	// doc2pdf 成功推进到 prase_pdf_task 时，上游 doc2pdf 的 payload.FileURL 指向源文件、
+	// UploadPath 指向预览 PDF 路径，不能直接复用；应像 GenerateFileTask 那样改指向 doc2pdf
+	// 生成的预览 PDF 与算法产物目录，否则伪 .docx/.doc(OLE2) 源文件会被直接喂给 MinerU 而 400。
+	if nextTaskType == coretask.PraseTask && payload.FileID > 0 {
+		if fileInfo, err := forest.GetForestFileByID(payload.FileID); err == nil {
+			if previewPath, pErr := fileInfo.GetForestPriviewFilePath(); pErr == nil && previewPath != nil {
+				payload.FileURL = fs.Forest.GetPublicURL(*previewPath, false)
+				payload.UploadPath = fs.FileFileAlgoPath(fileInfo.GetAlgoFilePath(), payload.FileID)
+				logs.InfoContextf(ctx, "[taskbiz] prase_task redirect file_url to preview file: file_id=%d url=%s", payload.FileID, payload.FileURL)
+			} else if pErr != nil {
+				logs.WarnContextf(ctx, "[taskbiz] prase task resolve preview file path failed, keep inherited payload: %v", pErr)
+			}
+		} else {
+			logs.ErrorContextf(ctx, "[taskbiz] createNextTask resolve forest file failed: %v", err)
+		}
+	}
+
 	nextTask := &task.Task{
 		Uin:               prevTask.Uin,
 		CompanyID:         prevTask.CompanyID,
