@@ -74,7 +74,7 @@ docker compose up -d
 
 > 初始化所需补齐的环境变量与占位符清单（对话/视觉/Embedding 模型地址、JWT、PDF 转换服务等），及对应的初始化命令，见 **[docs/local-config-checklist.md](docs/local-config-checklist.md)**。
 
-**全部使用 Docker Hub 官方 multi-arch 镜像**（`mysql`、`elasticsearch`、`redis`、`minio/minio`、`minio/mc`、`nats`），在 `amd64` 与 `arm64` 机器上 `docker compose up` 会自动拉取对应架构，无需维护内网镜像源。可验证：
+**中间件镜像统一使用 yygu 自建镜像**（`registry.cn-beijing.aliyuncs.com/yygu/corekg` 与 `registry.yygu.cn/library`），与私有化 Helm 部署（corekg-chart）同一套镜像：`mysql_8.4.5`、`elasticsearch_8.18.1-2`（内置 IK 分词插件，无需额外 es-init 容器）、`redis_8.2`、`minio_RELEASE.2025-04-22T22-12-26Z`、`nebula-*_v3.8.0`、`nats:2.12.7`；corekg / pipeline / ketask 等业务镜像仍本地构建。可验证：
 
 ```bash
 # 确认官方 minio 同时发布 amd64 与 arm64

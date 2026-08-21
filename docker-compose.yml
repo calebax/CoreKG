@@ -13,12 +13,20 @@
 #   - 所有中间件明文密码统一为 123456（本地开发默认值）。
 #   - 容器之间通过服务名+容器内端口互连；宿主机进程经映射端口访问。
 #   - 首次启动时会通过 scripts/mysql-docker-init.sh 额外创建 opencoze 库。
+#   - 所有中间件镜像统一使用 yygu 自建镜像（registry.cn-beijing.aliyuncs.com/yygu/corekg 与
+#     registry.yygu.cn/library），与私有化 Helm 部署（corekg-chart）同一套镜像；corekg/pipeline/
+#     ketask 等业务镜像仍本地构建。ES 镜像已内置 IK 分词插件，无需额外 es-init 容器。
+#   - keinit 为一次性基础设施初始化服务（建表/ES 索引/MinIO bucket+coze 静态资源/系统设置/模型）。
+#     coze-static-loader 先把 minio-init 镜像内的 coze 静态资源（default_icon 等）落到 coze_static 卷，
+#     供 keinit 上传到 MinIO opencoze bucket（workflow 即 coze）。两者均不会随 up 自动重复执行：
+#       docker compose up keinit   # 依赖就绪后手动触发初始化（跑完退出）
 #
 # 服务名（容器内端口）：
 #   mysql:3306  elasticsearch:9200  minio:9000  nats:4222  redis:6379
 #   nebula：metad0:9559  storaged0:9779  graphd:9669（单节点 Nebula，3 容器）
 #   corekg:8080  chunker（chunk worker）  analyser（doc worker）
 #   doc2pdf（PDF 预览）  description（file_description 摘要 worker）
+#   coze-static-loader  keinit（一次性初始化）
 #
 # ---------- Nebula Graph（图数据库）----------
 #   - 单节点 Nebula 由三个容器组成（vesoft 官方镜像一律一个进程一个镜像，无内置 all-in-one）：
@@ -36,7 +44,7 @@
 
 services:
   mysql:
-    image: mysql:8.4
+    image: registry.cn-beijing.aliyuncs.com/yygu/corekg:mysql_8.4.5
     container_name: corekg-mysql
     restart: unless-stopped
     environment:
@@ -57,12 +65,9 @@ services:
       retries: 20
 
   elasticsearch:
-    image: elasticsearch:8.18.1
+    image: registry.cn-beijing.aliyuncs.com/yygu/corekg:elasticsearch_8.18.1-2
     container_name: corekg-es
     restart: unless-stopped
-    depends_on:
-      es-init:
-        condition: service_completed_successfully
     environment:
       discovery.type: single-node
       ES_JAVA_OPTS: -Xms512m -Xmx512m
@@ -75,30 +80,14 @@ services:
       - "9302:9300"
     volumes:
       - es_data:/usr/share/elasticsearch/data
-      - es_plugins:/usr/share/elasticsearch/plugins
-      # IK 分词词典（main.dic/stopword.dic/I KAnalyzer.cfg.xml 等）固化在仓库 scripts/es-ik-config，
-      # 挂载到 ES 默认配置目录，供 ik_max_word/ik_smart 分词初始化（缺失会触发 _StopWords 空指针）。
-      - ./scripts/es-ik-config:/usr/share/elasticsearch/config/analysis-ik:ro
     healthcheck:
       test: ["CMD-SHELL", "curl -sf -u elastic:123456 http://127.0.0.1:9200/_cluster/health | grep -qE 'yellow|green'"]
       interval: 10s
       timeout: 10s
       retries: 30
 
-  # ES 初始化：在 ES 启动前幂等安装 IK 分词插件（ik_max_word / ik_smart）。
-  # 使用仓库 scripts/init-image/ 构建的统一初始化镜像（corekg-init:latest）。
-  #   构建：docker build -t corekg-init:latest -f scripts/init-image/Dockerfile scripts/init-image
-  # 插件通过 es_plugins 命名卷持久化，重启后 es-init 会检测到已安装而直接成功退出。
-  es-init:
-    image: corekg-init:latest
-    container_name: corekg-es-init
-    command: ["es-init"]
-    volumes:
-      - es_plugins:/usr/share/elasticsearch/plugins
-    restart: "no"
-
   redis:
-    image: redis:7
+    image: registry.cn-beijing.aliyuncs.com/yygu/corekg:redis_8.2
     container_name: corekg-redis
     restart: unless-stopped
     ports:
@@ -112,7 +101,7 @@ services:
       retries: 20
 
   minio:
-    image: minio/minio:latest
+    image: registry.cn-beijing.aliyuncs.com/yygu/corekg:minio_RELEASE.2025-04-22T22-12-26Z
     container_name: corekg-minio
     restart: unless-stopped
     command: server /data --console-address ":9001"
@@ -130,9 +119,10 @@ services:
       timeout: 5s
       retries: 5
 
-  # MinIO 初始化：创建 corekg-bucket（替代原私有 minio-init 镜像）
+  # MinIO 初始化：创建 corekg-bucket（docker 模式 workflow 关闭，bucket 需显式创建）。
+  # 复用 minio 内置的 mc 客户端，避免额外拉取 minio/mc 镜像。
   minio-init:
-    image: minio/mc:latest
+    image: registry.cn-beijing.aliyuncs.com/yygu/corekg:minio_RELEASE.2025-04-22T22-12-26Z
     container_name: corekg-minio-init
     depends_on:
       minio:
@@ -145,8 +135,50 @@ services:
       "
     restart: "no"
 
+  # coze 静态资源装载：把 minio-init 镜像内的 /app/scripts/minio（workflow 即 coze 的默认图标等资源）
+  # 落到 coze_static 命名卷，供 keinit 初始化时上传到 MinIO opencoze bucket。
+  # 一次性执行（restart: no），仅在 coze_static 卷为空时真正拷贝。
+  coze-static-loader:
+    image: registry.yygu.cn/library/minio-init:v0.1.2
+    container_name: corekg-coze-static-loader
+    command: ["sh", "-c", "if [ -z \"$(ls -A /scripts)\" ]; then cp -rf /app/scripts/minio/. /scripts/ && echo 'coze static resources loaded'; else echo 'coze static resources already present, skip'; fi"]
+    volumes:
+      - coze_static:/scripts
+    restart: "no"
+
+  # keinit：一次性基础设施初始化（MySQL 建表 / ES 索引 / MinIO bucket+coze 静态资源 / 系统设置 / 聊天模型 / API Key）。
+  # 依赖就绪后手动触发一次，跑完退出；不会随 docker compose up 自动重复执行。
+  #   docker compose up -d             # 先起依赖（mysql/es/redis/minio/nats/nebula/corekg 等）
+  #   docker compose up keinit         # 初始化并退出
+  keinit:
+    build:
+      context: .
+      dockerfile: apps/keinit/script/Dockerfile
+    image: keinit:latest
+    container_name: corekg-keinit
+    command: ["keinit", "-c", "/app/config/config.yaml", "--setting-file", "/app/config/core_setting.yaml"]
+    env_file:
+      - ./apps/keinit/conf/docker/kinit.env
+    volumes:
+      - ./apps/keinit/conf/docker/config.yaml:/app/config/config.yaml:ro
+      - ./apps/keinit/conf/docker/core_setting.yaml:/app/config/core_setting.yaml:ro
+      - coze_static:/app/scripts/minio:ro
+      - keinit_logs:/app/logs
+    depends_on:
+      mysql:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      coze-static-loader:
+        condition: service_completed_successfully
+    restart: "no"
+
   nats:
-    image: nats:2
+    image: registry.yygu.cn/library/nats:2.12.7
     container_name: corekg-nats
     restart: unless-stopped
     command: ["-js"]   # 用默认入口 + 显式启用 JetStream（workflow 依赖）；避免用镜像 config 触发的 cluster 模式
@@ -156,7 +188,7 @@ services:
   # ---------- Nebula Graph（图数据库，单节点 3 容器：metad + storaged + graphd） ----------
   # 数据卷统一挂到 nebula_data 下，各自子目录 meta/storage；graphd 无本地数据。
   metad0:
-    image: vesoft/nebula-metad:v3.8.0
+    image: registry.yygu.cn/library/nebula-metad:v3.8.0
     container_name: corekg-nebula-metad
     restart: unless-stopped
     environment:
@@ -187,7 +219,7 @@ services:
       start_period: 10s
 
   storaged0:
-    image: vesoft/nebula-storaged:v3.8.0
+    image: registry.cn-beijing.aliyuncs.com/yygu/corekg:nebula-storaged_v3.8.0
     container_name: corekg-nebula-storaged
     restart: unless-stopped
     environment:
@@ -221,7 +253,7 @@ services:
       start_period: 10s
 
   graphd:
-    image: vesoft/nebula-graphd:v3.8.0
+    image: registry.cn-beijing.aliyuncs.com/yygu/corekg:nebula-graphd_v3.8.0
     container_name: corekg-nebula-graphd
     restart: unless-stopped
     environment:
@@ -254,10 +286,10 @@ services:
       start_period: 10s
 
   # Nebula storaged 激活：单节点首次启动需把 storaged0 加入 hosts，否则 CREATE SPACE 报 Host not enough。
-  # 幂等 ADD HOSTS；带重试循环（storaged 就绪可能需要数次）。使用独立的 vesoft/nebula-console 镜像
+  # 幂等 ADD HOSTS；带重试循环（storaged 就绪可能需要数次）。使用独立的 nebula-console 镜像
   # （nebula server 镜像未内置 console 二进制）。
   nebula-activator:
-    image: vesoft/nebula-console:v3.8.0
+    image: registry.cn-beijing.aliyuncs.com/yygu/corekg:nebula-console_v3.8.0
     container_name: corekg-nebula-activator
     depends_on:
       metad0:
@@ -269,7 +301,7 @@ services:
     entrypoint: ["sh", "-c"]
     command:
       - |
-        CLI=/usr/local/bin/nebula-console
+        CLI=nebula-console
         for i in $$(seq 1 30); do
           if $$CLI -addr graphd -port 9669 -u root -p nebula -e 'ADD HOSTS "storaged0":9779' >/dev/null 2>&1; then
             echo "Nebula storaged activated."
@@ -387,9 +419,10 @@ services:
 volumes:
   mysql_data:
   es_data:
-  es_plugins:
   redis_data:
   minio_data:
   nebula_data:
   corekg_data:
+  coze_static:
+  keinit_logs:
   pipeline_logs:
