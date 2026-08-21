@@ -1,9 +1,6 @@
-# Roc 内部运营系统
+# CoreKG —— 知识库 / RAG 对话服务
 
-[![CI](https://github.com/insmtx/corekg/actions/workflows/ci.yml/badge.svg)](https://github.com/insmtx/corekg/actions/workflows/ci.yml)
-[![Release](https://github.com/insmtx/corekg/actions/workflows/release.yml/badge.svg)](https://github.com/insmtx/corekg/actions/workflows/release.yml)
-
-[![项目进度](https://img.shields.io/badge/项目-任务进展-yellowgreen)](https://github.com/insmtx/corekg/projects/1)
+CoreKG 是一个知识平台：以知识库（Forest）承载文档（File），并在其上提供基于知识库的对话（Chat）与检索（Search），以及配套的内部运营服务。服务端为 Go 单体仓库（module `github.com/insmtx/corekg`），摄入解析（拆 chunk / 向量化 / 写索引）由独立 Python pipeline 承担，文档/对话前端见 `frontend/`。知识库异步任务经 NATS JetStream 分发；`keapi` 额外提供 MCP Server 将知识库 API 封装为 MCP Tool。
 
 ## 文档
 
@@ -17,7 +14,13 @@
 * 测试域名 example.com
 * 生产域名（自定）
 
-**获取代码后再仓库目录执行`git config pull.rebase true`**
+## 开始之前
+
+```bash
+git clone <本仓库>
+cd CoreKG-oss
+git config pull.rebase true
+```
 
 ## 本地开发起步（开源）
 
@@ -123,14 +126,6 @@ docker compose -f docker-compose.pipeline.yml up -d --build
 - `--cleanup` 结束自动删除本次创建的知识库；`VERIFY_PARSE_TIMEOUT` 可调解析等待时长（默认 180s）。
 - 关键依赖：向量化走 `apps/pipeline/config/chunk_config(.docker).yaml` 的 `Embedding` 节点（默认指向真实可达的
   `embed-qwen3.003.yygu.cn`）；无真实模型时可改用 `scripts/mock_embedding.py`。详见 `docs/local-development.md`。
-
-
-
-* **API文档**:
-* Account: http://tapi.ckeyer.com/v2/account.docs/index.html#/
-* AIGC: http://tapi.ckeyer.com/v2/aigc.docs/index.html#/
-* Cook: http://tapi.ckeyer.com/v2/cook.docs/index.html#/
-
 
 # KEAPI MCP Server
 
@@ -320,14 +315,6 @@ curl -s -X POST "http://127.0.0.1:8086/v3/keapi/mcp" \
       }
     }
   }'
-```
-
-# 环境
-
-Redis
-
-```
-docker run -d --name=redisgraph -v /data/redisgraph:/data -p 6380:6379 redislabs/redisgraph
 ```
 
 # 数据库迁移脚本规范
