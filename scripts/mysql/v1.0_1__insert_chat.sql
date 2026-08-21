@@ -32,3 +32,49 @@ INSERT INTO `chat_agent_version` (`id`, `created_at`, `updated_at`, `deleted_at`
 
 
 INSERT INTO `chat_model` (`id`, `created_at`, `updated_at`, `deleted_at`, `uin`, `company_id`, `show_name`, `api_key`, `support_function_call`, `model_name`, `model_url`, `public_type`, `model_provider`, `head_url`) VALUES (1, '2025-02-24 12:16:28.000', '2025-02-24 12:16:30.000', NULL, 330, 2, 'deepseek-v3(官方)', @yg_LLM_MODEL_APIKEY, 'supported', 'deepseek/deepseek-v3', 'https://yygu.cn/v3/llm.chat/chat/completions', 'system', NULL, 'https://prod-roc-1251908240.cos.ap-beijing.myqcloud.com/yg/chat/deepseek.jpg');
+
+
+-- ========== sys_agent_user_query_rewrite ==========
+SET NAMES utf8mb4;
+
+-- ---- 简体中文（基础）----
+INSERT INTO `chat_agent` (`uin`, `company_id`, `avatar_url`, `name`, `show_name`, `public_scope`, `version`, `path`, `agent_type`, `created_type`, `publish_status`, `manager_ids`, `external_status`)
+VALUES (0, 0, '/assets/prompt-CEUUcXkn.png', 'sys_agent_user_query_rewrite', '【知识库问答】用户问答语义补充', 'company', 0, '/lesson-plan', 'prompt', 'user', 'published', NULL, 'disabled');
+
+SELECT id INTO @agent_id FROM chat_agent WHERE name='sys_agent_user_query_rewrite' LIMIT 1;
+
+INSERT INTO `chat_agent_version` (`created_at`, `updated_at`, `deleted_at`, `agent_id`, `description`, `chat_model_ids`, `temperature`, `agent_type`, `prompt_template`, `greeting_message`, `params`, `forest_option`)
+VALUES ('2025-09-29 10:02:20.642', '2025-09-29 10:02:20.642', NULL, @agent_id, '补充语义', '[1]', 0.5, 'prompt',
+'你是一个智能改写助手，任务是将用户的问题改写成 更适合向量检索的陈述句或短语。\n  # 规则：\n    1、保持语义不变：不要改变用户问题的核心含义。\n    2、从问句改写为陈述句：去掉疑问语气词，如“什么、为什么、怎么、如何、是否、有哪些”等。\n    3、简洁明了：改写结果应当是一个简洁的短句或名词短语。\n\n  # 适度扩展：\n    1、可以将抽象的问题具体化，例如加上“方法”“原因”“原理”“定义”“应用场景”等。\n    2、如果问题涉及比较或选择，可以改写成“X与Y的区别”“X的优缺点”。\n    3、如果问题涉及时间/历史/发展，可以改写成“X的发展历程”“X的历史背景”。\n    4、仅输出改写后的问题，不要输出任何解释，更不要尝试回答该问题，后面有其他助手会去解答此问题。\n\n  # 示例：\n    输入：什么是深度学习？\n    输出：深度学习的定义。\n\n    输入：人工智能有哪些应用场景？\n    输出：人工智能的应用场景。\n\n    输入：如何提高搜索引擎的准确率？\n    输出：提高搜索引擎准确率的方法。\n\n    输入：请详细介绍小贝无线产品WAP662H的产品技术参数、功能细节、使用方法等材料，并帮我总结它的特色\n    输出：小贝无线产品WAP662H的产品技术参数、功能细节、使用方法、特色。\n\n  # 用户输出{{input1}}',
+'', '[{"input":"input1","name":"用户问题","description":"","is_title":false,"input_type":"text","input_array":[],"is_required":true}]', '{"prompt_template":"","doc_forest_ids":null}');
+
+SELECT id INTO @agent_version_id FROM chat_agent_version WHERE agent_id = @agent_id ORDER BY id DESC LIMIT 1;
+UPDATE `chat_agent` SET `version` = @agent_version_id WHERE id = @agent_id;
+
+-- ---- 繁体中文（zh-Hant）----
+INSERT INTO `chat_agent` (`uin`, `company_id`, `avatar_url`, `name`, `show_name`, `public_scope`, `version`, `path`, `agent_type`, `created_type`, `publish_status`, `manager_ids`, `external_status`)
+VALUES (0, 0, '/assets/prompt-CEUUcXkn.png', 'sys_agent_user_query_rewrite__zh-Hant', '【知识库问答】用户问答语义补充(zh-Hant)', 'company', 0, '/lesson-plan', 'prompt', 'user', 'published', NULL, 'disabled');
+
+SELECT id INTO @agent_id FROM chat_agent WHERE name = 'sys_agent_user_query_rewrite__zh-Hant';
+
+INSERT INTO `chat_agent_version` (`created_at`, `updated_at`, `deleted_at`, `agent_id`, `description`, `chat_model_ids`, `temperature`, `agent_type`, `prompt_template`, `greeting_message`, `params`, `forest_option`)
+VALUES ('2025-09-29 10:02:20.642', '2025-09-29 10:02:20.642', NULL, @agent_id, '補充語義', '[1]', 0.5, 'prompt',
+'你是一個智能改寫助手，任務是將使用者的問題改寫成 更適合向量檢索的陳述句或短語。\n  # 規則：\n    1、保持語義不變：不要改變使用者問題的核心含義。\n    2、從問句改寫為陳述句：去掉疑問語氣詞，如「什麼、為什麼、怎麼、如何、是否、有哪些」等。\n    3、簡潔明瞭：改寫結果應當是一個簡潔的短句或名詞短語。\n\n  # 適度擴展：\n    1、可以將抽象的問題具體化，例如加上「方法」「原因」「原理」「定義」「應用場景」等。\n    2、如果問題涉及比較或選擇，可以改寫成「X與Y的區別」「X的優缺點」。\n    3、如果問題涉及時間/歷史/發展，可以改寫成「X的發展歷程」「X的歷史背景」。\n    4、僅輸出改寫後的問題，不要輸出任何解釋，更不要嘗試回答該問題，後面有其他助手會去解答此問題。\n\n  # 示例：\n    輸入：什麼是深度學習？\n    輸出：深度學習的定義。\n\n    輸入：人工智能有哪些應用場景？\n    輸出：人工智能的應用場景。\n\n    輸入：如何提高搜尋引擎的準確率？\n    輸出：提高搜尋引擎準確率的方法。\n\n    輸入：請詳細介紹小貝無線產品WAP662H的產品技術參數、功能細節、使用方法等材料，並幫我總結它的特色\n    輸出：小貝無線產品WAP662H的產品技術參數、功能細節、使用方法、特色。\n\n  # 使用者輸出{{input1}}',
+'', '[{"input":"input1","name":"使用者問題","description":"","is_title":false,"input_type":"text","input_array":[],"is_required":true}]', '{"prompt_template":"","doc_forest_ids":null}');
+
+SELECT id INTO @agent_version_id FROM chat_agent_version WHERE agent_id = @agent_id ORDER BY id DESC LIMIT 1;
+UPDATE `chat_agent` SET `version` = @agent_version_id WHERE id = @agent_id;
+
+-- ---- 英文（en-US）----
+INSERT INTO `chat_agent` (`uin`, `company_id`, `avatar_url`, `name`, `show_name`, `public_scope`, `version`, `path`, `agent_type`, `created_type`, `publish_status`, `manager_ids`, `external_status`)
+VALUES (0, 0, '/assets/prompt-CEUUcXkn.png', 'sys_agent_user_query_rewrite__en-US', '【知识库问答】用户问答语义补充(en-US)', 'company', 0, '/lesson-plan', 'prompt', 'user', 'published', NULL, 'disabled');
+
+SELECT id INTO @agent_id FROM chat_agent WHERE name = 'sys_agent_user_query_rewrite__en-US';
+
+INSERT INTO `chat_agent_version` (`created_at`, `updated_at`, `deleted_at`, `agent_id`, `description`, `chat_model_ids`, `temperature`, `agent_type`, `prompt_template`, `greeting_message`, `params`, `forest_option`)
+VALUES ('2025-09-29 10:02:20.642', '2025-09-29 10:02:20.642', NULL, @agent_id, 'Semantic Rewriting', '[1]', 0.5, 'prompt',
+'You are an intelligent rewriting assistant. Your task is to rewrite the user''s question into a declarative sentence or phrase that is more suitable for vector retrieval.\n  # Rules:\n    1. Keep the semantics unchanged: Do not alter the core meaning of the user''s question.\n    2. Rewrite questions into statements: Remove interrogative words such as "what", "why", "how", "whether", "which", etc.\n    3. Be concise and clear: The rewritten result should be a concise short sentence or noun phrase.\n\n  # Appropriate expansion:\n    1. You may make abstract questions more specific, e.g., by adding terms like "method", "reason", "principle", "definition", or "application scenario".\n    2. If the question involves comparison or choice, rewrite it as "The difference between X and Y" or "The advantages and disadvantages of X".\n    3. If the question involves time/history/development, rewrite it as "The development process of X" or "The historical background of X".\n    4. Only output the rewritten question. Do not provide any explanations and do not attempt to answer the question. Another assistant will handle answering.\n\n  # Examples:\n    Input: What is deep learning?\n    Output: The definition of deep learning.\n\n    Input: What are the application scenarios of artificial intelligence?\n    Output: Application scenarios of artificial intelligence.\n\n    Input: How to improve the accuracy of search engines?\n    Output: Methods to improve search engine accuracy.\n\n    Input: Please provide detailed information on the product technical specifications, functional details, usage methods, and summarize the features of the Xiaobei Wireless product WAP662H.\n    Output: Technical specifications, functional details, usage methods, and features of the Xiaobei Wireless product WAP662H.\n\n  # User output {{input1}}',
+'', '[{"input":"input1","name":"User Question","description":"","is_title":false,"input_type":"text","input_array":[],"is_required":true}]', '{"prompt_template":"","doc_forest_ids":null}');
+
+SELECT id INTO @agent_version_id FROM chat_agent_version WHERE agent_id = @agent_id ORDER BY id DESC LIMIT 1;
+UPDATE `chat_agent` SET `version` = @agent_version_id WHERE id = @agent_id;

@@ -156,7 +156,7 @@ services:
       dockerfile: apps/keinit/script/Dockerfile
     image: keinit:latest
     container_name: corekg-keinit
-    command: ["keinit", "-c", "/app/config/config.yaml", "--setting-file", "/app/config/core_setting.yaml"]
+    command: ["-c", "/app/config/config.yaml", "--setting-file", "/app/config/core_setting.yaml"]
     env_file:
       - ./apps/keinit/conf/docker/kinit.env
     volumes:
@@ -320,11 +320,11 @@ services:
       context: .
       dockerfile: apps/corekg/script/Dockerfile
     image: corekg:latest
-    container_name: corekg-app
+    container_name: corekg
     environment:
       ENABLE_NEBULA_GRAPH: "true"
       NATS_URL: nats://nats:4222   # 指向本编排内 nats 服务；必需，否则 initNATS/task 桥接与 SaveTask 派发失败
-    command: ["/usr/local/bin/corekg", "-c", "/data/config.yaml"]
+    command: ["-c", "/data/config.yaml"]
     ports:
       - "8080:8080"
     volumes:
@@ -386,7 +386,7 @@ services:
       dockerfile: apps/ketask/script/Dockerfile
     image: corekg-keask:latest
     container_name: corekg-keask-doc2pdf
-    command: ["doc2pdf", "-c", "/data/config.yaml", "-t", "ke.doc_to_pdf_task", "-b", "http://corekg-app:8080/", "-r", "1"]
+    command: ["doc2pdf", "-c", "/data/config.yaml", "-t", "ke.doc_to_pdf_task", "-b", "http://corekg:8080/", "-r", "1"]
     volumes:
       - ./apps/ketask/conf/docker/config.yaml:/data/config.yaml:ro
       - corekg_data:/data
@@ -402,7 +402,7 @@ services:
   description:
     image: corekg-keask:latest
     container_name: corekg-keask-description
-    command: ["description", "-c", "/data/config.yaml", "-t", "ke.description_task", "-b", "http://corekg-app:8080/", "-r", "1"]
+    command: ["description", "-c", "/data/config.yaml", "-t", "ke.description_task", "-b", "http://corekg:8080/", "-r", "1"]
     volumes:
       - ./apps/ketask/conf/docker/config.yaml:/data/config.yaml:ro
       - corekg_data:/data

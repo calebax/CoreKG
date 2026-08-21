@@ -107,7 +107,7 @@ make local APP=keinit ENV=test
 | 部署模式 | corekg 如何运行 | 连接地址形式 | 使用的 `core_setting.yaml` |
 |---|---|---|---|
 | **宿主机模式**(推荐开发) | `make run APP=corekg ENV=test`(`:8080`) | 宿主机访问映射端口 | `apps/keinit/conf/test/core_setting.yaml`(`localhost:3308/6381/9202/9002`;Nebula `localhost:9669`) |
-| **docker-compose 模式** | corekg 作为容器(`corekg-app`,compose bridge 网络 `:8080`) | compose 服务名 + 容器内端口 | `apps/keinit/conf/docker/core_setting.yaml`(`mysql:3306`/`redis:6379`/`elasticsearch:9200`/`minio:9000`;Nebula `graphd:9669`) |
+| **docker-compose 模式** | corekg 作为容器(`corekg`,compose bridge 网络 `:8080`) | compose 服务名 + 容器内端口 | `apps/keinit/conf/docker/core_setting.yaml`(`mysql:3306`/`redis:6379`/`elasticsearch:9200`/`minio:9000`;Nebula `graphd:9669`) |
 
 两份模板(`conf/test/` 与 `conf/docker/`)除连接字段外其余内容**逐字一致**(key-set 与 `diff` 均可验证),只是在初始化**各自模式的 corekg 前**分别选用 `--setting-file` 指向对应文件:
 - 在 compose 网络内初始化(fetch `mysql`/`redis` 等**服务名**)需把 `keinit` 以 **Linux 二进制跑在 compose 网络里的容器**中,或在网络内以服务名可达的环境执行;宿主机直接跑宿主版二进制即可。
