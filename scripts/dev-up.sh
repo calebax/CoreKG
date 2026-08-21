@@ -134,7 +134,7 @@ status() {
   echo "==================== 状态（模式: ${MODE}） ===================="
   echo "中间件（docker compose）:"
   docker compose -f "$COMPOSE_FILE" ps --format '  {{.Name}}\t{{.Status}}' 2>/dev/null \
-    | grep -vE "corekg-app|pipeline|-chunker|-analyser" || echo "  无（未启动）"
+    | grep -vE "corekg|pipeline|-chunker|-analyser" || echo "  无（未启动）"
   echo "宿主进程:"
   _status_line "corekg" "$PID_COREKG" "8080"
   _status_line "analyser" "$PID_ANALYSER" "-"

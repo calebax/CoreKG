@@ -1,9 +1,6 @@
-# Roc 内部运营系统
+# CoreKG —— 知识库 / RAG 对话服务
 
-[![CI](https://github.com/insmtx/corekg/actions/workflows/ci.yml/badge.svg)](https://github.com/insmtx/corekg/actions/workflows/ci.yml)
-[![Release](https://github.com/insmtx/corekg/actions/workflows/release.yml/badge.svg)](https://github.com/insmtx/corekg/actions/workflows/release.yml)
-
-[![项目进度](https://img.shields.io/badge/项目-任务进展-yellowgreen)](https://github.com/insmtx/corekg/projects/1)
+CoreKG 是一个知识平台：以知识库（Forest）承载文档（File），并在其上提供基于知识库的对话（Chat）与检索（Search），以及配套的内部运营服务。服务端为 Go 单体仓库（module `github.com/insmtx/corekg`），摄入解析（拆 chunk / 向量化 / 写索引）由独立 Python pipeline 承担，文档/对话前端见 `frontend/`。知识库异步任务经 NATS JetStream 分发；`keapi` 额外提供 MCP Server 将知识库 API 封装为 MCP Tool。
 
 ## 文档
 
@@ -17,7 +14,13 @@
 * 测试域名 example.com
 * 生产域名（自定）
 
-**获取代码后再仓库目录执行`git config pull.rebase true`**
+## 开始之前
+
+```bash
+git clone <本仓库>
+cd CoreKG-oss
+git config pull.rebase true
+```
 
 ## 本地开发起步（开源）
 
@@ -74,7 +77,7 @@ docker compose up -d
 
 > 初始化所需补齐的环境变量与占位符清单（对话/视觉/Embedding 模型地址、JWT、PDF 转换服务等），及对应的初始化命令，见 **[docs/local-config-checklist.md](docs/local-config-checklist.md)**。
 
-**全部使用 Docker Hub 官方 multi-arch 镜像**（`mysql`、`elasticsearch`、`redis`、`minio/minio`、`minio/mc`、`nats`），在 `amd64` 与 `arm64` 机器上 `docker compose up` 会自动拉取对应架构，无需维护内网镜像源。可验证：
+**中间件镜像统一使用 yygu 自建镜像**（`registry.cn-beijing.aliyuncs.com/yygu/corekg` 与 `registry.yygu.cn/library`），与私有化 Helm 部署（corekg-chart）同一套镜像：`mysql_8.4.5`、`elasticsearch_8.18.1-2`（内置 IK 分词插件，无需额外 es-init 容器）、`redis_8.2`、`minio_RELEASE.2025-04-22T22-12-26Z`、`nebula-*_v3.8.0`、`nats:2.12.7`；corekg / pipeline / ketask 等业务镜像仍本地构建。可验证：
 
 ```bash
 # 确认官方 minio 同时发布 amd64 与 arm64
@@ -123,14 +126,6 @@ docker compose -f docker-compose.pipeline.yml up -d --build
 - `--cleanup` 结束自动删除本次创建的知识库；`VERIFY_PARSE_TIMEOUT` 可调解析等待时长（默认 180s）。
 - 关键依赖：向量化走 `apps/pipeline/config/chunk_config(.docker).yaml` 的 `Embedding` 节点（默认指向真实可达的
   `embed-qwen3.003.yygu.cn`）；无真实模型时可改用 `scripts/mock_embedding.py`。详见 `docs/local-development.md`。
-
-
-
-* **API文档**:
-* Account: http://tapi.ckeyer.com/v2/account.docs/index.html#/
-* AIGC: http://tapi.ckeyer.com/v2/aigc.docs/index.html#/
-* Cook: http://tapi.ckeyer.com/v2/cook.docs/index.html#/
-
 
 # KEAPI MCP Server
 
@@ -320,14 +315,6 @@ curl -s -X POST "http://127.0.0.1:8086/v3/keapi/mcp" \
       }
     }
   }'
-```
-
-# 环境
-
-Redis
-
-```
-docker run -d --name=redisgraph -v /data/redisgraph:/data -p 6380:6379 redislabs/redisgraph
 ```
 
 # 数据库迁移脚本规范

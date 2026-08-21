@@ -1,18 +1,20 @@
 # CoreKG 本地基础环境搭建指南
 
-本文档说明如何在本地快速搭建 CoreKG 所需的全部基础中间件（MySQL / Elasticsearch / Redis / MinIO / NATS / Nebula Graph / Coze 可选），并初始化数据。所有服务均通过 Docker Compose 编排，使用 Docker Hub 官方 multi-arch 镜像（amd64 / arm64 均可用）。
+本文档说明如何在本地快速搭建 CoreKG 所需的全部基础中间件（MySQL / Elasticsearch / Redis / MinIO / NATS / Nebula Graph / Coze 可选），并初始化数据。所有中间件均通过 Docker Compose 编排，镜像统一使用 **yygu 自建镜像**（`registry.cn-beijing.aliyuncs.com/yygu/corekg` 与 `registry.yygu.cn/library`），与私有化 Helm 部署（corekg-chart）同一套。
 
 ## 1. 总览
 
 | 中间件 | 镜像 | 容器内部端口 | 宿主机映射端口 | 账号 / 密码 |
 |---|---|---|---|---|
-| MySQL | mysql:8.4 | 3306 | **3308** | root / `123456`；corekg / `123456` |
+| MySQL | `mysql_8.4.5` | 3306 | **3308** | root / `123456`；corekg / `123456` |
 | MySQL（opencoze 附加库） | - | - | - | 同一 MySQL |
-| Elasticsearch | elasticsearch:8.18.1 | 9200 / 9300 | **9202** / **9302** | elastic / `123456` |
-| Redis | redis:7 | 6379 | **6381** | 无密码 |
-| MinIO | minio/minio:latest | 9000 / 9001 | **9002** / **9003** | minioadmin / `minio123456` |
-| NATS | nats:2 | 4222 | **4225** | 无认证 |
-| Nebula Graph（3 容器） | vesoft/nebula-metad / nebula-storaged / nebula-graphd `:v3.8.0` | metad 9559 / storaged 9779 / graphd 9669 | **9559 / 9779 / 9669** | root / `nebula` |
+| Elasticsearch | `elasticsearch_8.18.1-2`（内置 IK 分词） | 9200 / 9300 | **9202** / **9302** | elastic / `123456` |
+| Redis | `redis_8.2` | 6379 | **6381** | 无密码 |
+| MinIO | `minio_RELEASE.2025-04-22T22-12-26Z` | 9000 / 9001 | **9002** / **9003** | minioadmin / `minio123456` |
+| NATS | `nats:2.12.7` | 4222 | **4225** | 无认证 |
+| Nebula Graph（3 容器） | `nebula-metad` / `nebula-storaged` / `nebula-graphd`（`:v3.8.0`） | metad 9559 / storaged 9779 / graphd 9669 | **9559 / 9779 / 9669** | root / `nebula` |
+
+> **镜像仓库说明**：上表简写镜像位于 `registry.cn-beijing.aliyuncs.com/yygu/corekg:<简写>`（除 `nebula-metad`、`nats` 在 `registry.yygu.cn/library/<镜像>:<tag>`）。完整镜像地址以 `docker-compose.yml` 为准。
 
 > **端口设计说明**：容器内部保留各服务默认端口（互连时用服务名+内部端口）；宿主机端口统一在默认端口基础上 **+2**，以避免本地可能已安装的 MySQL/Redis/ES/MinIO 占用默认端口导致启动冲突。如某端口仍被占，可自行在 `docker-compose.yml` 中改映射端口，并同步修改对应 `config.yaml`。
 
@@ -105,13 +107,29 @@ make local APP=keinit ENV=test
 | 部署模式 | corekg 如何运行 | 连接地址形式 | 使用的 `core_setting.yaml` |
 |---|---|---|---|
 | **宿主机模式**(推荐开发) | `make run APP=corekg ENV=test`(`:8080`) | 宿主机访问映射端口 | `apps/keinit/conf/test/core_setting.yaml`(`localhost:3308/6381/9202/9002`;Nebula `localhost:9669`) |
-| **docker-compose 模式** | corekg 作为容器(`corekg-app`,compose bridge 网络 `:8080`) | compose 服务名 + 容器内端口 | `apps/keinit/conf/docker/core_setting.yaml`(`mysql:3306`/`redis:6379`/`elasticsearch:9200`/`minio:9000`;Nebula `graphd:9669`) |
+| **docker-compose 模式** | corekg 作为容器(`corekg`,compose bridge 网络 `:8080`) | compose 服务名 + 容器内端口 | `apps/keinit/conf/docker/core_setting.yaml`(`mysql:3306`/`redis:6379`/`elasticsearch:9200`/`minio:9000`;Nebula `graphd:9669`) |
 
 两份模板(`conf/test/` 与 `conf/docker/`)除连接字段外其余内容**逐字一致**(key-set 与 `diff` 均可验证),只是在初始化**各自模式的 corekg 前**分别选用 `--setting-file` 指向对应文件:
 - 在 compose 网络内初始化(fetch `mysql`/`redis` 等**服务名**)需把 `keinit` 以 **Linux 二进制跑在 compose 网络里的容器**中,或在网络内以服务名可达的环境执行;宿主机直接跑宿主版二进制即可。
 - corekg 容器启动读取 `apps/corekg/conf/docker/config.yaml`(服务名 DSN),宿主进程读取 `apps/corekg/conf/test/config.yaml`(本地映射端口 DSN),两者与各自的 `core_settings` 保持一致。
 
-> 镜像内无 `curl`,故 Nebula `metad/storaged/graphd` 的健康检查使用 `bash /dev/tcp` 探测各自 `ws_http_port` 的 `/status`(绑定在容器 IP 而非 127.0.0.1);首次启动需 `nebula-activator`(独立 `vesoft/nebula-console` 镜像)执行 `ADD HOSTS` 激活 `storaged0:9779`,否则 `CREATE SPACE` 报 `Host not enough`。
+#### 4.1.1 docker-compose 容器化 keinit（可选）
+
+`docker-compose.yml` 额外提供了 `coze-static-loader` 与 `keinit` 两个一次性服务,把 keinit 也容器化到 compose 网络内,并顺带补齐 workflow(即 coze)所需的默认图标等静态资源:
+
+- `coze-static-loader`:用 `registry.yygu.cn/library/minio-init:v0.1.2` 镜像把其内置的 `/app/scripts/minio`(`default_icon` / `official_plugin_icon`)拷入 `coze_static` 命名卷(幂等,卷非空则跳过)。
+- `keinit`:本地构建(`apps/keinit/script/Dockerfile`),挂载 `coze_static` 卷到 `/app/scripts/minio`,使 `keinit` 的 `UploadCozeFile`(上传到 MinIO `opencoze` bucket)能读取到上述静态资源;并挂载 `conf/docker/` 的 `config.yaml` / `core_setting.yaml` / `kinit.env`。
+
+```bash
+# 依赖(包括 corekg 等)就绪后触发一次初始化,跑完退出:
+docker compose up keinit
+# 查看初始化日志:
+docker compose logs keinit
+```
+
+> 这两个服务 `restart: no`,不会随 `docker compose up -d` 重复执行;手动 `docker compose up keinit` 即可。若需重跑初始化,先 `docker compose rm -sf keinit` 清理一次性容器。
+
+> 镜像内无 `curl`,故 Nebula `metad/storaged/graphd` 的健康检查使用 `bash /dev/tcp` 探测各自 `ws_http_port` 的 `/status`(绑定在容器 IP 而非 127.0.0.1);首次启动需 `nebula-activator`(独立 `nebula-console_v3.8.0` 镜像)执行 `ADD HOSTS` 激活 `storaged0:9779`,否则 `CREATE SPACE` 报 `Host not enough`。
 
 ## 5. 初始管理员账号
 

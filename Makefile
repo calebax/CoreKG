@@ -182,3 +182,17 @@ dev-status:
 # 该进程为前台长驻，Ctrl-C 停止。
 dev-up-fe:
 	$(MAKE) -C frontend/corekg dev
+
+# 两个前端一键并行启动（后台长驻，Ctrl-C 一并停止）：
+#   - frontend/corekg  Vite dev server :3001
+#   - frontend/workflow (Coze Studio)   Rsbuild dev server :8080
+dev-up-fe-corekg:
+	$(MAKE) -C frontend/corekg dev
+
+dev-up-fe-workflow:
+	cd frontend/workflow/apps/coze-studio && npm run dev
+
+dev-up-fe-all:
+	$(MAKE) dev-up-fe-corekg & \
+	$(MAKE) dev-up-fe-workflow & \
+	wait
