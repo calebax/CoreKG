@@ -76,6 +76,7 @@ docker exec -it corekg-nebula-graphd /usr/local/nebula/bin/nebula-console \
 - **MySQL（opencoze）DSN**：`mysql://corekg:123456@localhost:3308/opencoze?charset=utf8mb4&parseTime=true&loc=Local`
 - **Redis**：`addr: localhost:6381`
 - **Elasticsearch**：`addresses: [http://localhost:9202]`，`username: elastic`，`password: 123456`
+- **CoreKG 文件存储（Compose）**：`cos-ke.s3.end_point: http://minio:9000` 用于 CoreKG 容器内部访问，`cos-ke.s3.public_end_point: http://localhost:3001` 用于浏览器预签名 URL；宿主机直接运行 CoreKG 时，`end_point` 应改为宿主机映射地址 `http://localhost:9002`。`public_end_point` 不包含 Bucket，Bucket 由 `cos-ke.s3.bucket` 单独配置；未配置时回退到 `end_point`。
 - **MinIO**：`end_point: http://localhost:9002`，`access_key_id: minioadmin`，`secret_access_key: minio123456`
   > ⚠️ **workflow 的 MinIO 连接是例外**：workflow 用 `minio-go` 客户端，其 `endpoint` 必须是**裸 host:port**（`localhost:9002`，不带 `://`），scheme 由 config 的 `storage.upload_http_scheme`（本地应填 `http`）决定。若写成 `http://localhost:9002` 会报 `Endpoint url cannot have fully qualified paths.`。凭证需与 docker-compose 的 `MINIO_ROOT_USER/MINIO_ROOT_PASSWORD`（`minioadmin` / `minio123456`）一致；`storage.bucket` 不存在时 workflow 会自动创建。
 - **NATS**：`nats://localhost:4225`
@@ -210,7 +211,7 @@ docker compose -f docker-compose.pipeline.yml up -d --build   # 中间件 + core
 
 ## 6. 前端 / worker / pipeline 配置同步
 
-- **前端**：Vite 开发模式使用 `frontend/corekg/.env.development.example`；Docker Compose 生产构建通过 Nginx 同源代理 API 与 MinIO，不需要填写 `VITE_API_URL`，未设置 `VITE_LOGIN_URL` 时使用浏览器当前站点。
+- **前端**：Vite 开发模式使用 `frontend/corekg/.env.development.example`；Docker Compose 生产构建通过 Nginx 同源代理 API 与 MinIO，不需要填写 `VITE_API_URL`，未设置 `VITE_LOGIN_URL` 时使用浏览器当前站点。浏览器文件 URL 由 `cos-ke.s3.public_end_point` 控制，Compose 默认是 `http://localhost:3001`。
 - **TS worker**：`apps/worker/.env.example`。
 - **Python pipeline**：`apps/pipeline/config/*.yaml.example`。
 - **workflow 应用**：其 `config.yaml`（`apps/workflow/conf/test/config.yaml`，以及聚合进 `apps/corekg/conf/test/config.yaml(.example)` 的 workflow 配置块）**不再依赖环境变量**，所有连接信息已收敛为与 `docker-compose.yml` 一致的**字面值**，直接运行即可：

@@ -34,7 +34,7 @@
   name: 知识存储
   describe: 知识库文件对象存储（MinIO）配置
   value_type: yaml
-  value: "purpose: forest-file\r\npresigned_timeout: \"24h\"\r\ns3:\r\n  end_point: http://localhost:9002\r\n  access_key_id: minioadmin\r\n  secret_access_key: minio123456\r\n  region: minio\r\n  bucket: corekg-bucket\r\n  use_path_style: true\r\n\r\n"
+  value: "purpose: forest-file\r\npresigned_timeout: \"24h\"\r\ns3:\r\n  end_point: http://localhost:9002\r\n  public_end_point: http://localhost:9002\r\n  access_key_id: minioadmin\r\n  secret_access_key: minio123456\r\n  region: minio\r\n  bucket: corekg-bucket\r\n  use_path_style: true\r\n\r\n"
 
 - group: core
   key: cos-cu-image
