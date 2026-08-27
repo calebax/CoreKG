@@ -13,6 +13,7 @@
 | MinIO | `minio_RELEASE.2025-04-22T22-12-26Z` | 9000 / 9001 | **9002** / **9003** | minioadmin / `minio123456` |
 | NATS | `nats:2.12.7` | 4222 | **4225** | 无认证 |
 | Nebula Graph（3 容器） | `nebula-metad` / `nebula-storaged` / `nebula-graphd`（`:v3.8.0`） | metad 9559 / storaged 9779 / graphd 9669 | **9559 / 9779 / 9669** | root / `nebula` |
+| CoreKG 前端 | `corekg-frontend:latest` | 80 | **3001** | 使用 CoreKG 登录 |
 
 > **镜像仓库说明**：上表简写镜像位于 `registry.cn-beijing.aliyuncs.com/yygu/corekg:<简写>`（除 `nebula-metad`、`nats` 在 `registry.yygu.cn/library/<镜像>:<tag>`）。完整镜像地址以 `docker-compose.yml` 为准。
 
@@ -25,12 +26,17 @@
 ## 2. 快速启动
 
 ```bash
-# 1) 启动全部基础依赖（本仓库已提供固定默认值的 docker-compose.yml）
-docker compose up -d
+# 1) 首次执行基础设施初始化（完成后 keinit 正常退出）
+docker compose up --build keinit
 
-# 2) 等待各 init / activator 完成一次性初始化后确认状态
+# 2) 启动前端、corekg 及其依赖
+docker compose up -d --build frontend
+
+# 3) 确认状态；前端访问地址为 http://localhost:3001
 docker compose ps
 ```
+
+如需同时启动 pipeline、文档转换等全部服务，执行 `docker compose up -d --build`。前端容器同时代理 `/v2/*`、`/v3/*` 到 `corekg:8080`，以及 `/corekg-bucket/*` 到 `minio:9000`；可通过 `curl -fsS http://localhost:3001/healthz` 检查前端健康状态。本地 Compose 不编排 Coze 工作流前端。
 
 - 首次启动 MySQL 时，`scripts/mysql-docker-init.sh` 会自动额外创建 `opencoze` 数据库（供 kechat / keinit / workflow 使用），并向 `corekg` 用户授权。
 - Minio 启动后 `minio-init` 会自动创建 `corekg-bucket`（幂等，重复执行不报错）。
@@ -204,7 +210,7 @@ docker compose -f docker-compose.pipeline.yml up -d --build   # 中间件 + core
 
 ## 6. 前端 / worker / pipeline 配置同步
 
-- **前端**：`frontend/corekg/.env.development.example`、`.env.production.example`（API 地址指向对应后端应用映射端口）。
+- **前端**：Vite 开发模式使用 `frontend/corekg/.env.development.example`；Docker Compose 生产构建通过 Nginx 同源代理 API 与 MinIO，不需要填写 `VITE_API_URL`，未设置 `VITE_LOGIN_URL` 时使用浏览器当前站点。
 - **TS worker**：`apps/worker/.env.example`。
 - **Python pipeline**：`apps/pipeline/config/*.yaml.example`。
 - **workflow 应用**：其 `config.yaml`（`apps/workflow/conf/test/config.yaml`，以及聚合进 `apps/corekg/conf/test/config.yaml(.example)` 的 workflow 配置块）**不再依赖环境变量**，所有连接信息已收敛为与 `docker-compose.yml` 一致的**字面值**，直接运行即可：
