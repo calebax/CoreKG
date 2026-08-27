@@ -322,6 +322,11 @@ services:
       dockerfile: apps/corekg/script/Dockerfile
     image: corekg:latest
     container_name: corekg
+    logging:
+      driver: json-file
+      options:
+        max-size: "100m"
+        max-file: "3"
     environment:
       ENABLE_NEBULA_GRAPH: "true"
       NATS_URL: nats://nats:4222   # 指向本编排内 nats 服务；必需，否则 initNATS/task 桥接与 SaveTask 派发失败
@@ -394,6 +399,11 @@ services:
   analyser:
     image: corekg-pipeline:latest
     container_name: corekg-pipeline-analyser
+    logging:
+      driver: json-file
+      options:
+        max-size: "100m"
+        max-file: "3"
     command: ["python", "doc_worker_main.py"]
     volumes:
       - ./apps/pipeline/config/analyser_config.docker.yaml:/app/config/analyser_config.yaml:ro
